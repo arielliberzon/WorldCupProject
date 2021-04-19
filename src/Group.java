@@ -5,5 +5,4 @@ import java.util.ArrayList;
  */
 public class Group {
     private ArrayList<Team> teams;
-
 }
