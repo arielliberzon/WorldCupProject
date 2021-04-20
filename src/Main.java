@@ -33,14 +33,16 @@ public class Main extends Application {
 
     public TabPane topping(){
         TabPane n = new TabPane();
-        Tab stage = new Tab("   GroupStage   ",groupStage);
-        Tab out = new Tab("   Knockout   ");
-        Tab in = new Tab("   Qualifier   ");
-        stage.setClosable(false);
-        out.setClosable(false);
-        in.setClosable(false);
-        n.getTabs().addAll(stage,out,in);
+        Tab groupStageTab = new Tab("   GroupStage   ",groupStage);
+        Tab knockoutStageTab = new Tab("   Knockout   ",new KnockoutPane());
+        Tab qualiferStageTab = new Tab("   Qualifier   ");
+        groupStageTab.setClosable(false);
+        knockoutStageTab.setClosable(false);
+        qualiferStageTab.setClosable(false);
+        n.getTabs().addAll(qualiferStageTab,groupStageTab,knockoutStageTab);
         return n;
     }
+
+    
 
 }
