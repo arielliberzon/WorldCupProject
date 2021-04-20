@@ -6,24 +6,24 @@ import java.util.ArrayList;
 public class KnockoutPane extends Pane {
 
     ArrayList<Button> buttonList = new ArrayList<>();
+    
 
     public KnockoutPane(){
         this.createBracket();
     }
 
     private void createBracket(){
-        int x = 25;
-        int y = 25;
-        
-        int yLength = 10;
-        int horizontalLength = 100;
-        int yCordsAtTierZero = 25;
+        int x = 50;
+        int y = 50;
+        int yLength = y/2;
+        int horizontalLength = x*4;
+        int yIncrement = y*2;
+        int yCordsAtTierZero = y;
         int yCordsAtTierOne = yCordsAtTierZero*2;
-        int yIncrement = yCordsAtTierZero*2;
-        int yCordsAtTierTwo = 25;
-        int yCordsAtTierThree = 45;
-        int yCordsAtFinal = 20;
-        int yIncrementIncrease = 20;
+        int yCordsAtTierTwo = yCordsAtTierOne*2;
+        int yCordsAtTierThree = yCordsAtTierTwo*2;
+        int yCordsAtFinal = yCordsAtTierThree*2;
+        int yIncrementIncrease = yIncrement;
 
         for(int i = 1; i < 32; i++){
             Button button = new Button();
@@ -32,13 +32,13 @@ public class KnockoutPane extends Pane {
                 if(i % 2 == 1){
                     button.setLayoutX(x);
                     button.setLayoutY(y);
-                    drawLines(x, y, false, false, yLength);
+                    drawLines(x, y, false, false, yLength, horizontalLength);
                     y += yIncrement;
                 }
                 else{
                     button.setLayoutX(x);
                     button.setLayoutY(y);
-                    drawLines(x, y, false, true, yLength);
+                    drawLines(x, y, false, true, yLength, horizontalLength);
                     y += yIncrement;
                     if(i == 8){
                         x += horizontalLength;
@@ -50,7 +50,7 @@ public class KnockoutPane extends Pane {
                         x += horizontalLength;
                         y = yCordsAtTierTwo;                                //25
                         yLength += yIncrementIncrease/2;
-                        yIncrement += yIncrementIncrease;
+                        yIncrement += yIncrementIncrease*2;
                     }
                     else if(i == 14){
                         x += horizontalLength; 
@@ -62,20 +62,20 @@ public class KnockoutPane extends Pane {
             else if(i == 15){
                 button.setLayoutX(x);
                 button.setLayoutY(y);
-                drawLines(x, y, false, true, yLength);
+                drawLines(x, y, false, true, yLength, horizontalLength);
                 x += horizontalLength;
                 y = yCordsAtFinal;                                         //20
             }
             else if(i == 16){
                 button.setLayoutX(x);
                 button.setLayoutY(y);
-                x +=horizontalLength;
+                x += horizontalLength;
                 y = yCordsAtTierThree;                                         //45
             }
             else if(i == 17){
                 button.setLayoutX(x);
                 button.setLayoutY(y);
-                drawLines(x, y, true, true, yLength);
+                drawLines(x, y, true, true, yLength, horizontalLength);
                 x += horizontalLength;
                 y = yCordsAtTierTwo;                                         //25
                 yLength -= yIncrementIncrease/2;
@@ -84,13 +84,13 @@ public class KnockoutPane extends Pane {
                 if(i % 2 == 1){
                     button.setLayoutX(x);
                     button.setLayoutY(y);
-                    drawLines(x, y, true, true, yLength);
+                    drawLines(x, y, true, true, yLength, horizontalLength);
                     y += yIncrement;
                     if(i == 19){
                         x += horizontalLength;
                         y = yCordsAtTierOne;                                 //10
                         yLength -= yIncrementIncrease/2;
-                        yIncrement -= yIncrementIncrease;
+                        yIncrement -= yIncrementIncrease*2;
                     }
                     else if(i == 23){
                         x += horizontalLength;
@@ -102,7 +102,7 @@ public class KnockoutPane extends Pane {
                 else{
                     button.setLayoutX(x);
                     button.setLayoutY(y);
-                    drawLines(x, y, true, false, yLength);
+                    drawLines(x, y, true, false, yLength, horizontalLength);
                     y += yIncrement;
                 }
             }
@@ -111,11 +111,10 @@ public class KnockoutPane extends Pane {
         }
     }
 
-    private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength){
+    private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength, int horizontalLength){
         Line line1;
         Line line2;
         int x_length;
-        int horizontalLength = 100;
 
         if(isLeft){
             x_length = x - horizontalLength;
