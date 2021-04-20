@@ -1,7 +1,31 @@
 public class HelloWorld {
 
     public static void main(String args[]) {
-        System.out.print("t");
-        System.out.println("Hello World!");
+
+        Team teamOne = new Team(1, "Germany", 1, 2000);
+        Team teamTwo = new Team(2, "Brazil", 2, 1500);
+
+        //Print results for 3 demonstrative games
+        for(int i = 0 ; i < 3; i++) {
+            Game test = new Game(i,teamOne, teamTwo, false);
+            System.out.println("Game number: " + i);
+            test.simulateGame(teamOne, teamTwo);
+            System.out.println("Half time scores:\n" + test.getFirst45ScoreString());
+            System.out.println("Full 90 time scores:\n" +test.getSecond45ScoreString());
+            if(test.wasOverTimeUsed()) {
+                System.out.println("First 15 overtime:\n" + test.getFirst15ScoreString());
+                System.out.println("Second 15 overtime:\n" + test.getSecond15ScoreString());
+                if(test.werePenaltyKicksReached())
+                    System.out.println("Game went to penalty kicks");
+            }
+
+            if(test.wasTiedGame())
+                System.out.println("The game was a tie");
+            else {
+                System.out.println("Winner: " + test.getWinner().getName());
+                System.out.println("Loser: " + test.getLoser().getName());
+            }
+            System.out.println();
+        }
     }
 }
