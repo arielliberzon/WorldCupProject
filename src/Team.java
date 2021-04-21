@@ -3,10 +3,10 @@ public class Team {
     private String name;
     private int fifaRank;
 
-    private int position;
+    private int ranking;
     private String country;
-    private double score;
-    private String countryAbbr;
+    private double totalPoints;
+    private String countryCode;
     private String confederation;
     private String countryFlagID;
 
@@ -17,22 +17,22 @@ public class Team {
         this.fifaRank = fifaRank;
     }
 
-    public Team(int position, String country, double score, String countryAbbr, String confederation,
+    public Team(int ranking, String country, double totalPoints, String countryCode, String confederation,
     String countryFlagID) {
-        this.position = position;
+        this.ranking = ranking;
         this.country = country;
-        this.score = score;
-        this.countryAbbr = countryAbbr;
+        this.totalPoints = totalPoints;
+        this.countryCode = countryCode;
         this.confederation = confederation;
         this.countryFlagID = countryFlagID;
     }
 
-    public int getPosition() {
-        return position;
+    public int getRanking() {
+        return ranking;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 
     public String getCountry() {
@@ -43,20 +43,20 @@ public class Team {
         this.country = country;
     }
 
-    public double getScore() {
-        return score;
+    public double getTotalPoints() {
+        return totalPoints;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setTotalPoints(double totalPoints) {
+        this.totalPoints = totalPoints;
     }
 
-    public String getCountryAbbr() {
-        return countryAbbr;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountryAbbr(String countryAbbr) {
-        this.countryAbbr = countryAbbr;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getConfederation() {
@@ -73,5 +73,12 @@ public class Team {
 
     public void setCountryFlagID(String countryFlagID) {
         this.countryFlagID = countryFlagID;
+    }
+
+    @Override
+    public String toString() {
+        return "Country: " + country + "\nRNK: " + ranking + "\nTotal Points: "
+                + totalPoints + "\nConfederation " + confederation + "\nCountry Code: "
+                + countryCode;
     }
 }

@@ -14,10 +14,10 @@ public class TeamInfo {
     }
     private void loadFromFile() throws IOException{
         String firstLine;
-        int position;
+        int ranking;
         String country;
-        double score;
-        String countryAbbr;
+        double totalPoints;
+        String countryCode;
         String confederation;
         String countryFlagID;
 
@@ -25,20 +25,20 @@ public class TeamInfo {
             BufferedReader br = new BufferedReader(new FileReader("teamInfo.txt"));
 
             while((firstLine = br.readLine()) != null){
-                position = Integer.parseInt(firstLine);
+                ranking = Integer.parseInt(firstLine);
                 country = br.readLine();
-                score = Double.parseDouble(br.readLine());
-                countryAbbr = br.readLine();
+                totalPoints = Double.parseDouble(br.readLine());
+                countryCode = br.readLine();
                 confederation = br.readLine();
-                countryFlagID = countryAbbr.toLowerCase()+".png";
+                countryFlagID = countryCode.toLowerCase()+".png";
 
 
-                Team newTeam = new Team(position, country, score, countryAbbr,
+                Team newTeam = new Team(ranking, country, totalPoints, countryCode,
                         confederation, countryFlagID);
 
                 br.readLine();
 
-                teams.put(newTeam.getCountryAbbr(), newTeam);
+                teams.put(newTeam.getCountryCode(), newTeam);
             }
 
             br.close();
@@ -50,8 +50,8 @@ public class TeamInfo {
 
     }
 
-    public Team getTeam(String countryAbbr){
-        return teams.get(countryAbbr);
+    public Team getTeam(String countryCode){
+        return teams.get(countryCode);
     }
 
 }
