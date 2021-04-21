@@ -1,5 +1,8 @@
-
-
+/** note for Zach (delete later):
+ *   this class will create the pane for the group stage tab,
+ *   Main is composed of this (I'm pretty sure)
+ *      - Justin V
+ */
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 

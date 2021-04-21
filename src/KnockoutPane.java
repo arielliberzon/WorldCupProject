@@ -2,7 +2,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import java.util.ArrayList;
-
+/** note for Zach (delete later):
+ *   this class will create the pane for the knockout tab,
+ *   Main is composed of this (I'm pretty sure)
+ *      - Justin V
+ */
 public class KnockoutPane extends Pane {
 
     ArrayList<Button> buttonList = new ArrayList<>();
