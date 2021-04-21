@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Game {
 
     private int id;
-    private Team t1;
-    private Team t2;
+    private Team teamOne;
+    private Team teamTwo;
     private static AtomicInteger idCounter = new AtomicInteger(); // generates IDs.
 
     //Stores whether the game can be drawn or not
@@ -37,10 +37,13 @@ public class Game {
 
     public Game(int id, Team t1, Team t2, boolean canBeDraw) {
         this.id = id;
-        this.t1 = t1;
-        this.t2 = t2;
+        this.teamOne = t1;
+        this.teamTwo = t2;
         this.score = new int[5][2];
         this.canBeDraw = canBeDraw;
+        simulateGame();
+//        t1.addGame(this);
+//        t2.addGame(this);
         //simGame();
     }
 
@@ -64,14 +67,6 @@ public class Game {
         return game;
     }
 
-    //Just for testing purposes
-    public static void simulateGame(boolean canBeDraw){
-        Team t1 = new Team(0, "TeamA", 1, 1800);
-        Team t2 = new Team(0, "TeamB", 2, 400);
-        Game game = new Game(idCounter.getAndIncrement(), t1, t2, canBeDraw);
-        game.simulateGame(t1, t2);
-    }
-
     /**
      * @author Alexander Tang and Samuel Hernandez
      * This method simulates the game in between two teams. If the game can be drawn the game will always
@@ -85,17 +80,15 @@ public class Game {
      *
      * Method sets various fields so that methods can access information about the result of the game.
      * Sets up the winner, the loser, or if the game was tied set the game as tied. Also where the game ended.
-     * @param teamOne one of the teams
-     * @param teamTwo the rival team
      */
-    public void simulateGame(Team teamOne, Team teamTwo){
+    public void simulateGame(){
         //Calculating chances a team has of scoring against each other
         double sum = teamOne.getPoints() + teamTwo.getPoints();                 //Total amount of points
         double teamOneChance = teamOne.getPoints() * 100/ sum;                  //Chance of team one of scoring per
 
         //Simulate first 90 minutes divided in two halves
-        simulateSection(teamOne, teamTwo, 45,0, teamOneChance);
-        simulateSection(teamOne, teamTwo, 45,1, teamOneChance);
+        simulateSection(45,0, teamOneChance);
+        simulateSection(45,1, teamOneChance);
 
         //If game was not tied
         if(score[1][0] != score[1][1]){
@@ -114,8 +107,8 @@ public class Game {
             //Overtime if the scores are tied after 90 minutes
             if(score[1][0] == score[1][1]) {
                 overTimeUsed = true;
-                simulateSection(teamOne, teamTwo, 15,2, teamOneChance);
-                simulateSection(teamOne, teamTwo, 15,3, teamOneChance);
+                simulateSection(15,2, teamOneChance);
+                simulateSection(15,3, teamOneChance);
 
                 if(score[3][0] == score[3][1]){                                 //If still tied go to penalty kicks
                     simPenaltyKicks(teamOne, teamTwo, teamOneChance);
@@ -130,20 +123,18 @@ public class Game {
 
     /**
      * @author Alexander Tang and Samuel Hernandez
-     * This is a helper method to simulate the time given by {@link #simulateGame(Team, Team)}
+     * This is a helper method to simulate the time given by {@link #simulateGame()}
      * This method will first determine randomly, but taking chances into consideration, if a goal will happen
      * for every minute.
      * If so, it will randomly select a number in between 1 and 100 and depending on the scoring
      * chance of each team (given by the ranking difference) it will determine who scores.
      * It will keep track of scores and add them up to previous section score.
      *
-     * @param teamOne one of the teams
-     * @param teamTwo the rival team
      * @param time the time to simulate
      * @param section the section played (First half = 0, second half = 1, first over time = 2 last over time = 3)
      * @param teamOneChance The chance of team one to win (team two has whatever is remaining)
      */
-    private void simulateSection(Team teamOne, Team teamTwo, int time, int section, double teamOneChance) {
+    private void simulateSection(int time, int section, double teamOneChance) {
         Random randomNum = new Random();
 
         //Keeping track of scores
@@ -205,12 +196,12 @@ public class Game {
      */
     private void declareWinnerAndLoser(int scoreT1, int scoreT2){
         if(scoreT1 > scoreT2){                           //If team one wins
-            winner = t1;
-            loser = t2;
+            winner = teamOne;
+            loser = teamTwo;
         }
         else {                                            //If team two wins
-            winner = t2;
-            loser = t1;
+            winner = teamTwo;
+            loser = teamOne;
         }
     }
 
@@ -220,7 +211,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String getFirst45ScoreString(){
-        return new String(t1.getName()+" "+score[0][0]+ "-" + score[0][1] +" " +t2.getName());
+        return new String(teamOne.getName()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -229,7 +220,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String getSecond45ScoreString(){
-        return new String(t1.getName()+" "+score[1][0]+ "-" + score[1][1] +" " +t2.getName());
+        return new String(teamOne.getName()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -242,7 +233,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(t1.getName()+" "+score[2][0]+ "-" + score[2][1] +" " +t2.getName());
+            return new String(teamOne.getName()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -255,7 +246,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(t1.getName()+" "+score[3][0]+ "-" + score[3][1] +" " +t2.getName());
+            return new String(teamOne.getName()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -291,6 +282,19 @@ public class Game {
             return winner;
         else
             throw new UnsupportedOperationException("Game has no winner. Game was tied");
+    }
+
+    /**
+     * Method returns the final score of the game regardless of the way it happened
+     * @return the final score represented in a string
+     * @author Samuel Hernandez
+     */
+    public String getFinalScoreString(){
+        if(overTimeUsed){
+            return getFirst45ScoreString();
+        }
+        else
+            return getSecond45ScoreString();
     }
 
     /**

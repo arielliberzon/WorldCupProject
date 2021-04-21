@@ -3,13 +3,12 @@ public class HelloWorld {
     public static void main(String args[]) {
 
         Team teamOne = new Team(1, "Germany", 1, 2000);
-        Team teamTwo = new Team(2, "Brazil", 2, 1500);
+        Team teamTwo = new Team(2, "Brazil", 2, 2000);
 
         //Print results for 3 demonstrative games
-        for(int i = 0 ; i < 3; i++) {
+        for(int i = 0 ; i < 100; i++) {
             Game test = new Game(i,teamOne, teamTwo, false);
             System.out.println("Game number: " + i);
-            test.simulateGame(teamOne, teamTwo);
             System.out.println("Half time scores:\n" + test.getFirst45ScoreString());
             System.out.println("Full 90 time scores:\n" +test.getSecond45ScoreString());
             if(test.wasOverTimeUsed()) {
