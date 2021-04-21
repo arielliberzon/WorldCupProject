@@ -11,6 +11,7 @@ public class TeamInfo {
         readFile();
     }
     private void readFile() throws IOException{
+
         String position;
         String country;
         double score;
