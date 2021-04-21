@@ -10,6 +10,11 @@ public class testGroup {
                 new Team("DEN", 1)
         ));
         Group group = new Group('A', teams);
-        System.out.println();
+        Team testTeam = teams.get(0);
+        System.out.println(testTeam + "\n" +
+                "Wins: " + testTeam.groupWins() + "\n" +
+                "Draws: " + testTeam.groupDraws() + "\n" +
+                "Losses: " + testTeam.groupLosses() + "\n" +
+                "Points: " + testTeam.groupPoints());
     }
 }

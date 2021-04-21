@@ -32,4 +32,11 @@ public class Group {
         }
     }
 
+    public Character getName() {
+        return name;
+    }
+
+    public ArrayList<Team> getTeams() {
+        return teams;
+    }
 }

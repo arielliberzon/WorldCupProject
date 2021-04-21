@@ -401,15 +401,11 @@ public class Game {
 
     /**
      * Returns the team that won
-     * @return the team that won, if any.
-     * @throws UnsupportedOperationException if loser is null
+     * @return the team that won, if any, otherwise null.
      * @author Alexander Tang and Samuel Hernandez
      */
     public Team getWinner() {
-        if(winner != null)
-            return winner;
-        else
-            throw new UnsupportedOperationException("Game has no winner. Game was tied");
+        return winner;
     }
 
     /**
