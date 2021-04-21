@@ -37,16 +37,15 @@ public class Game {
 
     private double teamOneChance;
 
-    public Game(int id, Team t1, Team t2, boolean canBeDraw) {
-        this.id = id;
+    public Game(Team t1, Team t2, boolean canBeDraw) {
+        this.id = idCounter.getAndIncrement();
         this.teamOne = t1;
         this.teamTwo = t2;
         this.score = new int[5][2];
         this.canBeDraw = canBeDraw;
         simulateGame();
-//        t1.addGame(this);
-//        t2.addGame(this);
-        //simGame();
+        teamOne.addGame(this);
+        teamTwo.addGame(this);
     }
 
     public FinishType getFinishType() {
@@ -63,9 +62,9 @@ public class Game {
 
     //Just for testing purposes
     public static Game dummyGame(boolean canBeDraw) {
-        Team t1 = new Team(0, "TeamA", 1, 1800);
-        Team t2 = new Team(0, "TeamB", 2, 400);
-        Game game = new Game(idCounter.getAndIncrement(), t1, t2, canBeDraw);
+        Team t1 = new Team("TeamA", 1800);
+        Team t2 = new Team("TeamB",  400);
+        Game game = new Game(t1, t2, canBeDraw);
         return game;
     }
 
@@ -85,8 +84,8 @@ public class Game {
      */
     public void simulateGame(){
         //Calculating chances a team has of scoring against each other
-        double sum = teamOne.getPoints() + teamTwo.getPoints();                 //Total amount of points
-        teamOneChance = teamOne.getPoints() * 100/ sum;                  //Chance of team one of scoring per
+        double sum = teamOne.getFifaRank() + teamTwo.getFifaRank();  //Total amount of points
+        teamOneChance = teamOne.getFifaRank() * 100/ sum;  //Chance of team one of scoring per
 
         //Simulate first 90 minutes divided in two halves
         simulateSection(45,0);
@@ -193,7 +192,8 @@ public class Game {
         int teamSecondInPenalties = 0;
 
         //Calculate modifier to alter chances depending on FIFA scores
-        int penaltyModifier = Math.round(Math.abs(teamOne.getPoints() - teamTwo.getPoints())/100);
+        int penaltyModifier;
+        penaltyModifier = Math.round(Math.abs(teamOne.getFifaRank() - teamTwo.getFifaRank())/100);
 
         //Determine who goes first
         Team first = teamOne;
@@ -204,11 +204,11 @@ public class Game {
         }
 
         //Determine chances for both teams
-        if(first.getPoints() >= second.getPoints()){
+        if(first.getFifaRank() >= second.getFifaRank()){
             firstShootingTeamChance += penaltyModifier;
             secondShootingTeamChance -= penaltyModifier;
         }
-        else if(first.getPoints() < second.getPoints()){
+        else if(first.getFifaRank() < second.getFifaRank()){
             firstShootingTeamChance -= penaltyModifier;
             secondShootingTeamChance += penaltyModifier;
         }
