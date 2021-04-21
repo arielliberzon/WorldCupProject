@@ -35,6 +35,8 @@ public class Game {
     //Has whether or penalty kicks were reached
     private boolean penaltyKicksReached = false;
 
+    private double teamOneChance;
+
     public Game(int id, Team t1, Team t2, boolean canBeDraw) {
         this.id = id;
         this.teamOne = t1;
@@ -84,11 +86,11 @@ public class Game {
     public void simulateGame(){
         //Calculating chances a team has of scoring against each other
         double sum = teamOne.getPoints() + teamTwo.getPoints();                 //Total amount of points
-        double teamOneChance = teamOne.getPoints() * 100/ sum;                  //Chance of team one of scoring per
+        teamOneChance = teamOne.getPoints() * 100/ sum;                  //Chance of team one of scoring per
 
         //Simulate first 90 minutes divided in two halves
-        simulateSection(45,0, teamOneChance);
-        simulateSection(45,1, teamOneChance);
+        simulateSection(45,0);
+        simulateSection(45,1);
 
         //If game was not tied
         if(score[1][0] != score[1][1]){
@@ -107,11 +109,11 @@ public class Game {
             //Overtime if the scores are tied after 90 minutes
             if(score[1][0] == score[1][1]) {
                 overTimeUsed = true;
-                simulateSection(15,2, teamOneChance);
-                simulateSection(15,3, teamOneChance);
+                simulateSection(15,2);
+                simulateSection(15,3);
 
                 if(score[3][0] == score[3][1]){                                 //If still tied go to penalty kicks
-                    simPenaltyKicks(teamOne, teamTwo, teamOneChance);
+                    simPenaltyKicks();
                 }
 
                 else{                                                           //Else: not tied anymore
@@ -132,9 +134,8 @@ public class Game {
      *
      * @param time the time to simulate
      * @param section the section played (First half = 0, second half = 1, first over time = 2 last over time = 3)
-     * @param teamOneChance The chance of team one to win (team two has whatever is remaining)
      */
-    private void simulateSection(int time, int section, double teamOneChance) {
+    private void simulateSection(int time, int section) {
         Random randomNum = new Random();
 
         //Keeping track of scores
@@ -169,11 +170,8 @@ public class Game {
      * @author Alexander Tang and Samuel Hernandez
      * This method will determine who wins the penalty kicks. It will just give a winner but do not report a
      * penalty score. The chances of winning the penalty kicks are still determined by the ranking difference.
-     * @param teamOne the first team
-     * @param teamTwo the rival team
-     * @param teamOneChance the chance of team one of winning (Team two has the remaining chance out of a 100)
      */
-    private void simPenaltyKicks(Team teamOne, Team teamTwo, double teamOneChance){
+    private void simPenaltyKicks(){
         penaltyKicksReached = true;
         Random randomNum = new Random();
         int number = randomNum.nextInt(99) + 1;         //Get random number between 1 to a 100
@@ -185,6 +183,66 @@ public class Game {
             winner = teamTwo;
             loser = teamOne;
         }
+    }
+
+    private void simulatePenaltyKicks(){
+        penaltyKicksReached = true;
+        double teamTwoPenaltyChance = 77;
+        double teamOnePenaltyChance = 77;
+        int teamOneMissedPenalties;
+        int teamTwoMissedPenalties;
+        int teamOneInPenalties;
+        int teamTwoInPenalties;
+
+        double penaltyModifier = Math.abs(teamOne.getPoints() - teamTwo.getPoints())/100;
+        Random randomNum = new Random();
+
+        int chanceOfKickIn = 77;
+        if(teamOne.getPoints() >= teamTwo.getPoints()){
+            teamOnePenaltyChance += penaltyModifier;
+            teamTwoPenaltyChance -= penaltyModifier;
+        }
+        else if(teamOne.getPoints() < teamTwo.getPoints()){
+            teamOnePenaltyChance -= penaltyModifier;
+            teamTwoPenaltyChance += penaltyModifier;
+        }
+
+        if(coinToss()){
+
+        }
+        for(int i = 0; i < 5; i++){
+            int scoreChance = randomNum.nextInt(99) + 1;
+            if(unbeatable()){
+                return;
+            }
+        }
+
+        //boolean turn = teamOne;
+        //While there is not a winner
+
+        //Team one shoots
+        //Team two shoots
+    }
+
+    private void shootPenalty(Team team, int chance){
+        Random randomNum = new Random();
+
+    }
+
+    private boolean coinToss() {
+        Random randomNum = new Random();
+        int number = randomNum.nextInt(1) ;
+        System.out.println("number:"+number);
+        if(number == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private boolean unbeatable() {
+        return false;
     }
 
     /**
