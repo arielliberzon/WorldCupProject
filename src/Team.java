@@ -1,5 +1,5 @@
 public class Team {
-    private int id;
+    private int position;
     private String name;
     private int fifaRank;
 
