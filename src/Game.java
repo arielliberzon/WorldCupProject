@@ -224,9 +224,21 @@ public class Game {
         //Team two shoots
     }
 
-    private void shootPenalty(Team team, int chance){
+    /**
+     * Method simulates penalty kick and returns whether the penalty was scored or not.
+     * Method takes into consideration the chance but is also random (if random <= team chance)
+     * @param team the team shooting the penalty
+     * @param teamChance the chance of scoring (calculated by Fifa score differences)
+     * @return true if goal scored else false
+     * @author Samuel Hernandez
+     */
+    private boolean shootPenalty(Team team, int teamChance) {
         Random randomNum = new Random();
-
+        int randomChance = randomNum.nextInt(99) + 1;        //Score chance will be number from 1 to a 100
+        if (randomChance <= teamChance) {
+            return true;
+        }
+        return false;
     }
 
     private boolean coinToss() {
