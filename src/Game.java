@@ -112,7 +112,7 @@ public class Game {
                 simulateSection(15,3);
 
                 if(score[3][0] == score[3][1]){                                 //If still tied go to penalty kicks
-                    simPenaltyKicks();
+                    simulatePenaltyKicks();
                 }
 
                 else{                                                           //Else: not tied anymore
@@ -166,115 +166,116 @@ public class Game {
     }
 
     /**
-     * @author Alexander Tang and Samuel Hernandez
-     * This method will determine who wins the penalty kicks. It will just give a winner but do not report a
-     * penalty score. The chances of winning the penalty kicks are still determined by the ranking difference.
+     * This method determines who wins in the penalty kicks. The chance of one team winning is random but still
+     * takes into consideration the team difference as follows:
+     * The average success of a penalty kick is 77%
+     * The difference is divided by a 100 and then added to the team with the highest raking and subtracted
+     * from the team with the lowest ranking.
+     * Example: T1 score = 1800. T2 score = 1600. Difference/100 = 2 -> So T1 chance = 79%. T2 chance = 75%
+     * @author Ariel Liberzon and Samuel Hernandez
      */
-    private void simPenaltyKicks(){
-        penaltyKicksReached = true;
-        Random randomNum = new Random();
-        int number = randomNum.nextInt(99) + 1;         //Get random number between 1 to a 100
-        if(number <= teamOneChance){                           //If team one wins
-            winner = teamOne;
-            loser = teamTwo;
-        }
-        else {                                                  //If team two wins
-            winner = teamTwo;
-            loser = teamOne;
-        }
-    }
-
-    private void simulatePenaltyKicks(){
-        penaltyKicksReached = true;
-        int secondShootingTeamChance = 77;
-        int firstShootingTeamChance = 77;
-        int teamFirstInPenalties = 0;
-        int teamSecondInPenalties = 0;
+    private void simulatePenaltyKicks() {
+        penaltyKicksReached = true;                                             //Mark game reached penalty kicks
+        int teamOneScoreChance = 77;                                            //Average real chance of scoring
+        int teamTwoScoreChance = teamOneScoreChance;
+        score[4][0] = 0;                                                        //Beginning scores
+        score[4][1] = 0;
 
         //Calculate modifier to alter chances depending on FIFA scores
-        int penaltyModifier;
-        penaltyModifier = Math.round(Math.abs(teamOne.getFifaRank() - teamTwo.getFifaRank())/100);
+        int penaltyModifier = Math.abs(teamOne.getFifaRank() - teamTwo.getFifaRank()) / 100;
 
-        //Determine who goes first
-        Team first = teamOne;
-        Team second = teamTwo;
-        if(coinToss()){
-            first = teamTwo;
-            second = teamOne;
+        //Determine chances for both teams depending on the score difference
+        if (teamOne.getFifaRank() >= teamTwo.getFifaRank()) {
+            teamOneScoreChance += penaltyModifier;
+            teamTwoScoreChance -= penaltyModifier;
+        } else {
+            teamOneScoreChance -= penaltyModifier;
+            teamTwoScoreChance += penaltyModifier;
         }
 
-        //Determine chances for both teams
-        if(first.getFifaRank() >= second.getFifaRank()){
-            firstShootingTeamChance += penaltyModifier;
-            secondShootingTeamChance -= penaltyModifier;
-        }
-        else if(first.getFifaRank() < second.getFifaRank()){
-            firstShootingTeamChance -= penaltyModifier;
-            secondShootingTeamChance += penaltyModifier;
-        }
+        //Shoot first 5 penalty kicks
+        boolean resolved = shootFirst5PenaltyKicks(teamOneScoreChance, teamTwoScoreChance);
 
-        //For first 5 kicks
-        for(int i = 0; i < 5; i++){
-            boolean t1scored = shootPenalty(first, firstShootingTeamChance);
-            boolean t2Scored = shootPenalty(second, secondShootingTeamChance);
-            if(t1scored)
-                teamFirstInPenalties++;
-            if(t2Scored)
-                teamSecondInPenalties++;
-            if(checkForBreak(teamFirstInPenalties, teamSecondInPenalties, i))
-                i = 6;              //Break loop// TODO: Put in a method and return instead to break loop
-        }
+        if (!resolved)                          //If first 5 kicks were not enough go to sudden death to declare winner
+            suddenDeathKicks(teamOneScoreChance, teamTwoScoreChance);
 
-        //If first 5 kicks did not solve it. //TODO: Add check to see if was not solved and put in separate method
-        boolean notDone = true;
-        while(notDone){
-            boolean t1scored = shootPenalty(first, firstShootingTeamChance);
-            boolean t2Scored = shootPenalty(second, secondShootingTeamChance);
-            if(t1scored)
-                teamFirstInPenalties++;
-            if(t2Scored)
-                teamSecondInPenalties++;
-
-            //If both teams shoots differ (both did not miss or both did not score) exit loop
-            if(t2Scored != t1scored)
-               notDone = false;
-        }
-        saveScoreAndReportWinner(first, teamFirstInPenalties, teamSecondInPenalties);
-
-        //boolean turn = teamOne;
-        //While there is not a winner
-
-        //Team one shoots
-        //Team two shoots
+        //Record penalty kick score and declare a winner
+        declareWinnerAndLoser(score[4][0], score[4][1]);
     }
 
 
     /**
-     * Method reports the winner of the game and saves the score of the penalty kicks
-     * @param first the team that shot the first penalty kick
-     * @param firstTeamPenalties the penalties scored by the first shooting team
-     * @param secondTeamPenalties the penalties scored by the second shooting team
-     * @author Samuel Hernandez
+     * Method shoots the first 5 penalty kicks unless there is an unrecoverable difference in which case it
+     * just stops at that point.
+     * @return true if first 5 kicks solved tie (there is a winner), else false
+     * @param teamOneScoreChance the chance of scoring for team one
+     * @param teamTwoScoreChance the chance of scoring for team two
+     * @author Ariel Liberzon and Samuel Hernandez
      */
-    private void saveScoreAndReportWinner(Team first, int firstTeamPenalties, int secondTeamPenalties) {
-        //If first refers to team one
-        if(first.equals(teamOne)){
-            score[4][0] = firstTeamPenalties;
-            score[4][1] = secondTeamPenalties;
+    private boolean shootFirst5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
+        for(int i = 0; i < 5; i++){
+            boolean t1Scored = shootPenalty(teamOne, teamOneScoreChance);       //Team one shoots
+            boolean t2Scored = shootPenalty(teamTwo, teamTwoScoreChance);       //Team two shoots
+            if(t1Scored)                                                        //Add to score
+                score[4][0]++;
+            if(unrecoverableDifference(i+1, i))                                 //Check if difference is unrecoverable
+                return true;                                                    //If so, there is a winner
+            if(t2Scored)                                                        //Add to score
+                score[4][1]++;
+            if(unrecoverableDifference(i+1, i+1))                               //Check if difference is unrecoverable
+                return true;                                                    //If so, there is a winner
         }
-        //If first refers to team two
-        else{
-            score[4][0] = secondTeamPenalties;
-            score[4][1] = firstTeamPenalties;
-        }
-        declareWinnerAndLoser(score[4][0], score[4][1]);
+        //After the first 5 shots.
+        if(score[4][0] != score[4][1])                                          //If there is a winner
+            return true;
+        else                                                                    //There is no winner yet.
+            return false;
     }
 
-    /*TODO: Given the penalties that have been scored for every team and the current round of penalties
-     * return true if there is no need to keep going. Else return false.
+    /**
+     * Method will keep shooting kicks until one team scores and the other team misses
+     * @param teamOneScoreChance the chance of scoring for team one
+     * @param teamTwoScoreChance the chance of scoring for team two
+     * @author Ariel Liberzon and Samuel Hernandez
      */
-    private boolean checkForBreak(int teamOneInPenalties, int teamTwoInPenalties, int i) {
-        return true;
+    private void suddenDeathKicks(int teamOneScoreChance, int teamTwoScoreChance) {
+        boolean notDone = true;
+        while (notDone) {
+            boolean t1Scored = shootPenalty(teamOne, teamOneScoreChance);       //Team one shoots
+            boolean t2Scored = shootPenalty(teamTwo, teamTwoScoreChance);       //Team two shoots
+            if(t1Scored)                                                        //Add to score
+                score[4][0]++;
+            if(t2Scored)                                                        //Add to score
+                score[4][1]++;
+            if(t1Scored != t2Scored)                                            //If different result
+                return;
+        }
+    }
+
+    /**
+     * This method checks if a team can still recover from the scoring difference
+     * Example: Team 1 scored first 3 shots. Team two misses first 3 shots.
+     * Even if team two scores the remaining 2 shots the difference is unrecoverable.
+     * @param roundT1 rounds already shot by Team One
+     * @param roundT2 rounds already shot by Team Two
+     * @return true if difference is unrecoverable. Else false
+     * @author Ariel Liberzon and Samuel Hernandez
+     */
+    private boolean unrecoverableDifference(int roundT1, int roundT2) {
+        //Check if it is possible for a team to recover
+        int roundsLeftT1 = 5 - roundT1;
+        int roundsLeftT2 = 5 - roundT2;
+        int maxScoreT1 = score[4][0] + roundsLeftT1;          //Current score team1 + rounds left
+        int maxScoreT2 = score[4][1] + roundsLeftT2;          //Current score team2 + rounds left
+
+        //If impossible to recover
+        if(maxScoreT1 < score[4][1])                        //Maximum score < rival current score
+            return true;
+        else if(maxScoreT2 < score[4][0])                   //Maximum score < rival current score
+            return true;
+
+        //If possible to recover
+        return false;
     }
 
     /**
@@ -291,27 +292,6 @@ public class Game {
         if (randomChance <= teamChance) {
             return true;
         }
-        return false;
-    }
-
-    /**
-     * Method simulates a corn toss. So 50% chance of returning true, 50% chance false
-     * @return true or false
-     * @author Ariel Liberzon and Samuel Hernandez
-     */
-    private boolean coinToss() {
-        Random randomNum = new Random();
-        int number = randomNum.nextInt(1) ;
-        System.out.println("number:"+number);
-        if(number == 1){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    private boolean unbeatable() {
         return false;
     }
 
@@ -378,6 +358,19 @@ public class Game {
     }
 
     /**
+     * Method gets the result of the penalty kicks
+     * @return the scores of the penalty kicks
+     * @author Samuel Hernandez
+     */
+    public String getPenaltiesScoreString(){
+        if(!penaltyKicksReached) {
+            return "Penalty kicks were not reached";
+        }
+        else
+            return new String(teamOne.getName()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getName());
+    }
+
+    /**
      * Returns whether or not the game was tied
      * @return true if game ended up in a tie, else false
      * @author Alexander Tang and Samuel Hernandez
@@ -415,7 +408,12 @@ public class Game {
      */
     public String getFinalScoreString(){
         if(overTimeUsed){
-            return getFirst45ScoreString();
+            if(penaltyKicksReached) {
+                return new String(teamOne.getName() + " " + score[3][0] + "(" +
+                       score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+")" + teamTwo.getName());
+            }
+            else
+                return getFirst45ScoreString();
         }
         else
             return getSecond45ScoreString();

@@ -2,7 +2,7 @@ public class HelloWorld {
 
     public static void main(String args[]) {
 
-        Team teamOne = new Team("Germany", 2000);
+        Team teamOne = new Team("Germany", 2300);
         Team teamTwo = new Team("Brazil", 2000);
 
         //Print results for 3 demonstrative games
@@ -14,8 +14,10 @@ public class HelloWorld {
             if(test.wasOverTimeUsed()) {
                 System.out.println("First 15 overtime:\n" + test.getFirst15ScoreString());
                 System.out.println("Second 15 overtime:\n" + test.getSecond15ScoreString());
-                if(test.werePenaltyKicksReached())
-                    System.out.println("Game went to penalty kicks");
+                if(test.werePenaltyKicksReached()) {
+                    System.out.println("Game went to penalty kicks!");
+                    System.out.println(test.getFinalScoreString());
+                }
             }
 
             if(test.wasTiedGame())
