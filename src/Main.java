@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import javafx.stage.Stage;
@@ -11,14 +13,18 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private final StackPane root = new StackPane();
     private final BorderPane r = new BorderPane();
-    private GroupStage groupStage;
+
 
 
     @Override
     public void start(Stage primaryStage) {
 
+        primaryStage.setTitle("World Cup");
+       /**Image img = new Image("sc.jpg");
+        root.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+        BackgroundSize.DEFAULT)));*/
         r.setTop(topping());
-        r.setTranslateY(40);
+        r.setTranslateY(50);
         root.getChildren().add(r);
         Scene scene = new Scene(root);
         primaryStage.setMaximized(true);
@@ -33,7 +39,7 @@ public class Main extends Application {
 
     public TabPane topping(){
         TabPane n = new TabPane();
-        Tab groupStageTab = new Tab("   GroupStage   ",groupStage);
+        Tab groupStageTab = new Tab("   GroupStage   ",new GroupStage());
         Tab knockoutStageTab = new Tab("   Knockout   ",new KnockoutPane());
         Tab qualiferStageTab = new Tab("   Qualifier   ");
         groupStageTab.setClosable(false);
@@ -43,6 +49,7 @@ public class Main extends Application {
         return n;
     }
 
-    
+
+
 
 }
