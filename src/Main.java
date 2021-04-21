@@ -41,11 +41,11 @@ public class Main extends Application {
         TabPane n = new TabPane();
         Tab groupStageTab = new Tab("   GroupStage   ",new GroupStage());
         Tab knockoutStageTab = new Tab("   Knockout   ",new KnockoutPane());
-        Tab qualiferStageTab = new Tab("   Qualifier   ");
+        Tab qualifierStageTab = new Tab("   Qualifier   ");
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
-        qualiferStageTab.setClosable(false);
-        n.getTabs().addAll(qualiferStageTab,groupStageTab,knockoutStageTab);
+        qualifierStageTab.setClosable(false);
+        n.getTabs().addAll(qualifierStageTab,groupStageTab,knockoutStageTab);
         return n;
     }
 

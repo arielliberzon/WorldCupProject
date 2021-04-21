@@ -2,39 +2,43 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class TeamInfo {
-    ArrayList<String> teams;
+    HashMap<String, Team> teams;
 
     public TeamInfo() throws IOException{
-        teams = new ArrayList<>();
-        readFile();
+        teams = new HashMap<>();
+        loadFromFile();
     }
-    private void readFile() throws IOException{
-        String position;
+    private void loadFromFile() throws IOException{
+        String firstLine;
+        int position;
         String country;
         double score;
         String countryAbbr;
         String confederation;
-        String countryFlag;
+        String countryFlagID;
 
         try{
             BufferedReader br = new BufferedReader(new FileReader("teamInfo.txt"));
 
-            while((position = br.readLine()) != null){
+            while((firstLine = br.readLine()) != null){
+                position = Integer.parseInt(firstLine);
                 country = br.readLine();
                 score = Double.parseDouble(br.readLine());
                 countryAbbr = br.readLine();
                 confederation = br.readLine();
-                countryFlag = br.readLine();
+                countryFlagID = countryAbbr.toLowerCase()+".png";
 
 
-                //Team newTeam = new Team(position, country, score, countryAbbr, confederation,
-                       // countryFlag);
+                Team newTeam = new Team(position, country, score, countryAbbr,
+                        confederation, countryFlagID);
 
                 br.readLine();
 
-                teams.add("newTeam");
+                teams.put(newTeam.getCountryAbbr(), newTeam);
             }
 
             br.close();
@@ -44,6 +48,10 @@ public class TeamInfo {
             e.printStackTrace();
         }
 
+    }
+
+    public Team getTeam(String countryAbbr){
+        return teams.get(countryAbbr);
     }
 
 }
