@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Game {
 
     private int id;
-    private Team t1;
-    private Team t2;
+    private Team teamOne;
+    private Team teamTwo;
     private static AtomicInteger idCounter = new AtomicInteger(); // generates IDs.
 
     //Stores whether the game can be drawn or not
@@ -35,12 +35,17 @@ public class Game {
     //Has whether or penalty kicks were reached
     private boolean penaltyKicksReached = false;
 
+    private double teamOneChance;
+
     public Game(int id, Team t1, Team t2, boolean canBeDraw) {
         this.id = id;
-        this.t1 = t1;
-        this.t2 = t2;
+        this.teamOne = t1;
+        this.teamTwo = t2;
         this.score = new int[5][2];
         this.canBeDraw = canBeDraw;
+        simulateGame();
+//        t1.addGame(this);
+//        t2.addGame(this);
         //simGame();
     }
 
@@ -64,14 +69,6 @@ public class Game {
         return game;
     }
 
-    //Just for testing purposes
-    public static void simulateGame(boolean canBeDraw){
-        Team t1 = new Team(0, "TeamA", 1, 1800);
-        Team t2 = new Team(0, "TeamB", 2, 400);
-        Game game = new Game(idCounter.getAndIncrement(), t1, t2, canBeDraw);
-        game.simulateGame(t1, t2);
-    }
-
     /**
      * @author Alexander Tang and Samuel Hernandez
      * This method simulates the game in between two teams. If the game can be drawn the game will always
@@ -85,17 +82,15 @@ public class Game {
      *
      * Method sets various fields so that methods can access information about the result of the game.
      * Sets up the winner, the loser, or if the game was tied set the game as tied. Also where the game ended.
-     * @param teamOne one of the teams
-     * @param teamTwo the rival team
      */
-    public void simulateGame(Team teamOne, Team teamTwo){
+    public void simulateGame(){
         //Calculating chances a team has of scoring against each other
         double sum = teamOne.getPoints() + teamTwo.getPoints();                 //Total amount of points
-        double teamOneChance = teamOne.getPoints() * 100/ sum;                  //Chance of team one of scoring per
+        teamOneChance = teamOne.getPoints() * 100/ sum;                  //Chance of team one of scoring per
 
         //Simulate first 90 minutes divided in two halves
-        simulateSection(teamOne, teamTwo, 45,0, teamOneChance);
-        simulateSection(teamOne, teamTwo, 45,1, teamOneChance);
+        simulateSection(45,0);
+        simulateSection(45,1);
 
         //If game was not tied
         if(score[1][0] != score[1][1]){
@@ -114,11 +109,11 @@ public class Game {
             //Overtime if the scores are tied after 90 minutes
             if(score[1][0] == score[1][1]) {
                 overTimeUsed = true;
-                simulateSection(teamOne, teamTwo, 15,2, teamOneChance);
-                simulateSection(teamOne, teamTwo, 15,3, teamOneChance);
+                simulateSection(15,2);
+                simulateSection(15,3);
 
                 if(score[3][0] == score[3][1]){                                 //If still tied go to penalty kicks
-                    simPenaltyKicks(teamOne, teamTwo, teamOneChance);
+                    simPenaltyKicks();
                 }
 
                 else{                                                           //Else: not tied anymore
@@ -130,20 +125,17 @@ public class Game {
 
     /**
      * @author Alexander Tang and Samuel Hernandez
-     * This is a helper method to simulate the time given by {@link #simulateGame(Team, Team)}
+     * This is a helper method to simulate the time given by {@link #simulateGame()}
      * This method will first determine randomly, but taking chances into consideration, if a goal will happen
      * for every minute.
      * If so, it will randomly select a number in between 1 and 100 and depending on the scoring
      * chance of each team (given by the ranking difference) it will determine who scores.
      * It will keep track of scores and add them up to previous section score.
      *
-     * @param teamOne one of the teams
-     * @param teamTwo the rival team
      * @param time the time to simulate
      * @param section the section played (First half = 0, second half = 1, first over time = 2 last over time = 3)
-     * @param teamOneChance The chance of team one to win (team two has whatever is remaining)
      */
-    private void simulateSection(Team teamOne, Team teamTwo, int time, int section, double teamOneChance) {
+    private void simulateSection(int time, int section) {
         Random randomNum = new Random();
 
         //Keeping track of scores
@@ -178,11 +170,8 @@ public class Game {
      * @author Alexander Tang and Samuel Hernandez
      * This method will determine who wins the penalty kicks. It will just give a winner but do not report a
      * penalty score. The chances of winning the penalty kicks are still determined by the ranking difference.
-     * @param teamOne the first team
-     * @param teamTwo the rival team
-     * @param teamOneChance the chance of team one of winning (Team two has the remaining chance out of a 100)
      */
-    private void simPenaltyKicks(Team teamOne, Team teamTwo, double teamOneChance){
+    private void simPenaltyKicks(){
         penaltyKicksReached = true;
         Random randomNum = new Random();
         int number = randomNum.nextInt(99) + 1;         //Get random number between 1 to a 100
@@ -196,21 +185,151 @@ public class Game {
         }
     }
 
+    private void simulatePenaltyKicks(){
+        penaltyKicksReached = true;
+        int secondShootingTeamChance = 77;
+        int firstShootingTeamChance = 77;
+        int teamFirstInPenalties = 0;
+        int teamSecondInPenalties = 0;
+
+        //Calculate modifier to alter chances depending on FIFA scores
+        int penaltyModifier = Math.round(Math.abs(teamOne.getPoints() - teamTwo.getPoints())/100);
+
+        //Determine who goes first
+        Team first = teamOne;
+        Team second = teamTwo;
+        if(coinToss()){
+            first = teamTwo;
+            second = teamOne;
+        }
+
+        //Determine chances for both teams
+        if(first.getPoints() >= second.getPoints()){
+            firstShootingTeamChance += penaltyModifier;
+            secondShootingTeamChance -= penaltyModifier;
+        }
+        else if(first.getPoints() < second.getPoints()){
+            firstShootingTeamChance -= penaltyModifier;
+            secondShootingTeamChance += penaltyModifier;
+        }
+
+        //For first 5 kicks
+        for(int i = 0; i < 5; i++){
+            boolean t1scored = shootPenalty(first, firstShootingTeamChance);
+            boolean t2Scored = shootPenalty(second, secondShootingTeamChance);
+            if(t1scored)
+                teamFirstInPenalties++;
+            if(t2Scored)
+                teamSecondInPenalties++;
+            if(checkForBreak(teamFirstInPenalties, teamSecondInPenalties, i))
+                i = 6;              //Break loop// TODO: Put in a method and return instead to break loop
+        }
+
+        //If first 5 kicks did not solve it. //TODO: Add check to see if was not solved and put in separate method
+        boolean notDone = true;
+        while(notDone){
+            boolean t1scored = shootPenalty(first, firstShootingTeamChance);
+            boolean t2Scored = shootPenalty(second, secondShootingTeamChance);
+            if(t1scored)
+                teamFirstInPenalties++;
+            if(t2Scored)
+                teamSecondInPenalties++;
+
+            //If both teams shoots differ (both did not miss or both did not score) exit loop
+            if(t2Scored != t1scored)
+               notDone = false;
+        }
+        saveScoreAndReportWinner(first, teamFirstInPenalties, teamSecondInPenalties);
+
+        //boolean turn = teamOne;
+        //While there is not a winner
+
+        //Team one shoots
+        //Team two shoots
+    }
+
+
+    /**
+     * Method reports the winner of the game and saves the score of the penalty kicks
+     * @param first the team that shot the first penalty kick
+     * @param firstTeamPenalties the penalties scored by the first shooting team
+     * @param secondTeamPenalties the penalties scored by the second shooting team
+     * @author Samuel Hernandez
+     */
+    private void saveScoreAndReportWinner(Team first, int firstTeamPenalties, int secondTeamPenalties) {
+        //If first refers to team one
+        if(first.equals(teamOne)){
+            score[4][0] = firstTeamPenalties;
+            score[4][1] = secondTeamPenalties;
+        }
+        //If first refers to team two
+        else{
+            score[4][0] = secondTeamPenalties;
+            score[4][1] = firstTeamPenalties;
+        }
+        declareWinnerAndLoser(score[4][0], score[4][1]);
+    }
+
+    /*TODO: Given the penalties that have been scored for every team and the current round of penalties
+     * return true if there is no need to keep going. Else return false.
+     */
+    private boolean checkForBreak(int teamOneInPenalties, int teamTwoInPenalties, int i) {
+        return true;
+    }
+
+    /**
+     * Method simulates penalty kick and returns whether the penalty was scored or not.
+     * Method takes into consideration the chance but is also random (if random <= team chance)
+     * @param team the team shooting the penalty
+     * @param teamChance the chance of scoring (calculated by Fifa score differences)
+     * @return true if goal scored else false
+     * @author Samuel Hernandez
+     */
+    private boolean shootPenalty(Team team, int teamChance) {
+        Random randomNum = new Random();
+        int randomChance = randomNum.nextInt(99) + 1;        //Score chance will be number from 1 to a 100
+        if (randomChance <= teamChance) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Method simulates a corn toss. So 50% chance of returning true, 50% chance false
+     * @return true or false
+     * @author Ariel Liberzon and Samuel Hernandez
+     */
+    private boolean coinToss() {
+        Random randomNum = new Random();
+        int number = randomNum.nextInt(1) ;
+        System.out.println("number:"+number);
+        if(number == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private boolean unbeatable() {
+        return false;
+    }
+
     /**
      * Helper method to determine the winner and loser
      * Sets the winner and loser depending on the scores passed.
-     * @param scoreT1 score of team 1
-     * @param scoreT2 score of team 2
+     * @param teamOneScore score of team 1
+     * @param teamTwoScore score of team 2
      * @author Samuel Hernandez
      */
-    private void declareWinnerAndLoser(int scoreT1, int scoreT2){
-        if(scoreT1 > scoreT2){                           //If team one wins
-            winner = t1;
-            loser = t2;
+    private void declareWinnerAndLoser(int teamOneScore, int teamTwoScore){
+        if(teamOneScore > teamTwoScore){                           //If team one wins
+            winner = teamOne;
+            loser = teamTwo;
         }
         else {                                            //If team two wins
-            winner = t2;
-            loser = t1;
+            winner = teamTwo;
+            loser = teamOne;
         }
     }
 
@@ -220,7 +339,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String getFirst45ScoreString(){
-        return new String(t1.getName()+" "+score[0][0]+ "-" + score[0][1] +" " +t2.getName());
+        return new String(teamOne.getName()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -229,7 +348,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String getSecond45ScoreString(){
-        return new String(t1.getName()+" "+score[1][0]+ "-" + score[1][1] +" " +t2.getName());
+        return new String(teamOne.getName()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -242,7 +361,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(t1.getName()+" "+score[2][0]+ "-" + score[2][1] +" " +t2.getName());
+            return new String(teamOne.getName()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -255,7 +374,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(t1.getName()+" "+score[3][0]+ "-" + score[3][1] +" " +t2.getName());
+            return new String(teamOne.getName()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getName());
     }
 
     /**
@@ -291,6 +410,19 @@ public class Game {
             return winner;
         else
             throw new UnsupportedOperationException("Game has no winner. Game was tied");
+    }
+
+    /**
+     * Method returns the final score of the game regardless of the way it happened
+     * @return the final score represented in a string
+     * @author Samuel Hernandez
+     */
+    public String getFinalScoreString(){
+        if(overTimeUsed){
+            return getFirst45ScoreString();
+        }
+        else
+            return getSecond45ScoreString();
     }
 
     /**
