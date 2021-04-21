@@ -1,23 +1,26 @@
 
-import javafx.scene.layout.GridPane;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 
 
-public class GroupStage extends GridPane {
+public class GroupStage extends Pane {
+
+    ArrayList<Line> Horizontal= new ArrayList<>();
+    ArrayList<Line> vertical=new ArrayList<>();
+    Pane pane=new Pane();
+
+    public GroupStage(){
+        this.tableMaker();
+    }
 
 
-
-    public Pane tableMaker(){
-
-        ArrayList<Line> Horizontal= new ArrayList<>();
-        ArrayList<Line> vertical=new ArrayList<>();
-        Pane pane=new Pane();
-
-
+    private Pane tableMaker(){
         int countY=100;
+        int countYY=226;
+        int countX=102;
         for (int i = 0; i < 6; i++) {
             Horizontal.add(new Line(0, 0, 700,0));
             Horizontal.get(i).setLayoutX(50);
@@ -26,8 +29,7 @@ public class GroupStage extends GridPane {
             countY +=50;
         }
 
-        int countYY=226;
-        int countX=102;
+
         for (int i = 0; i < 10; i++) {
             vertical.add(new Line(0, 0, 250,0));
             vertical.get(i).setRotate(90);
@@ -45,8 +47,7 @@ public class GroupStage extends GridPane {
             pane.getChildren().add(vertical.get(i));
             countX +=58;
         }
-
-
+        this.getChildren().add(pane);
         return pane;
     }
 }
