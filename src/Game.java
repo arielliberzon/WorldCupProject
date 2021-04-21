@@ -29,10 +29,30 @@ public class Game {
         score = new int[]{2, 0};
     }
 
-    public static Game dummyGame() {
+    /*public static Game dummyGame() {
         Team t1 = new Team(0, "TeamA", 0);
         Team t2 = new Team(0, "TeamB", 0);
         return new Game(idCounter.getAndIncrement(), t1, t2, false);
+    }*/
+
+    public int[] getScore(){
+
+        return score;
+    }
+
+    public Team getTeam1(){
+
+        return t1;
+    }
+
+    public Team getTeam2(){
+
+        return t2;
+    }
+
+    public int getID(){
+
+        return id;
     }
 
     enum FinishType {

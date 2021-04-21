@@ -36,6 +36,18 @@ public class Simulator {
         }
         return games;
     }
+
+    public void Qualifiers(){
+
+        //picks teams from each confederation and assigns them to groups
+    }
+
+    public ArrayList<Game> GroupStage(Group g){
+
+        ArrayList<Game> games = new ArrayList<>();
+        return games;
+    }
+
     public ArrayList<Group> getGroups() {
         return groups;
     }
