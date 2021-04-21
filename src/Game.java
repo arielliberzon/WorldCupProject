@@ -187,41 +187,94 @@ public class Game {
 
     private void simulatePenaltyKicks(){
         penaltyKicksReached = true;
-        double teamTwoPenaltyChance = 77;
-        double teamOnePenaltyChance = 77;
-        int teamOneMissedPenalties;
-        int teamTwoMissedPenalties;
-        int teamOneInPenalties;
-        int teamTwoInPenalties;
+        int secondShootingTeamChance = 77;
+        int firstShootingTeamChance = 77;
+        int teamFirstInPenalties = 0;
+        int teamSecondInPenalties = 0;
 
-        double penaltyModifier = Math.abs(teamOne.getPoints() - teamTwo.getPoints())/100;
-        Random randomNum = new Random();
+        //Calculate modifier to alter chances depending on FIFA scores
+        int penaltyModifier = Math.round(Math.abs(teamOne.getPoints() - teamTwo.getPoints())/100);
 
-        int chanceOfKickIn = 77;
-        if(teamOne.getPoints() >= teamTwo.getPoints()){
-            teamOnePenaltyChance += penaltyModifier;
-            teamTwoPenaltyChance -= penaltyModifier;
-        }
-        else if(teamOne.getPoints() < teamTwo.getPoints()){
-            teamOnePenaltyChance -= penaltyModifier;
-            teamTwoPenaltyChance += penaltyModifier;
-        }
-
+        //Determine who goes first
+        Team first = teamOne;
+        Team second = teamTwo;
         if(coinToss()){
+            first = teamTwo;
+            second = teamOne;
+        }
 
+        //Determine chances for both teams
+        if(first.getPoints() >= second.getPoints()){
+            firstShootingTeamChance += penaltyModifier;
+            secondShootingTeamChance -= penaltyModifier;
         }
+        else if(first.getPoints() < second.getPoints()){
+            firstShootingTeamChance -= penaltyModifier;
+            secondShootingTeamChance += penaltyModifier;
+        }
+
+        //For first 5 kicks
         for(int i = 0; i < 5; i++){
-            int scoreChance = randomNum.nextInt(99) + 1;
-            if(unbeatable()){
-                return;
-            }
+            boolean t1scored = shootPenalty(first, firstShootingTeamChance);
+            boolean t2Scored = shootPenalty(second, secondShootingTeamChance);
+            if(t1scored)
+                teamFirstInPenalties++;
+            if(t2Scored)
+                teamSecondInPenalties++;
+            if(checkForBreak(teamFirstInPenalties, teamSecondInPenalties, i))
+                i = 6;              //Break loop// TODO: Put in a method and return instead to break loop
         }
+
+        //If first 5 kicks did not solve it. //TODO: Add check to see if was not solved and put in separate method
+        boolean notDone = true;
+        while(notDone){
+            boolean t1scored = shootPenalty(first, firstShootingTeamChance);
+            boolean t2Scored = shootPenalty(second, secondShootingTeamChance);
+            if(t1scored)
+                teamFirstInPenalties++;
+            if(t2Scored)
+                teamSecondInPenalties++;
+
+            //If both teams shoots differ (both did not miss or both did not score) exit loop
+            if(t2Scored != t1scored)
+               notDone = false;
+        }
+        saveScoreAndReportWinner(first, teamFirstInPenalties, teamSecondInPenalties);
 
         //boolean turn = teamOne;
         //While there is not a winner
 
         //Team one shoots
         //Team two shoots
+    }
+
+
+    /**
+     * Method reports the winner of the game and saves the score of the penalty kicks
+     * @param first the team that shot the first penalty kick
+     * @param firstTeamPenalties the penalties scored by the first shooting team
+     * @param secondTeamPenalties the penalties scored by the second shooting team
+     * @author Samuel Hernandez
+     */
+    private void saveScoreAndReportWinner(Team first, int firstTeamPenalties, int secondTeamPenalties) {
+        //If first refers to team one
+        if(first.equals(teamOne)){
+            score[4][0] = firstTeamPenalties;
+            score[4][1] = secondTeamPenalties;
+        }
+        //If first refers to team two
+        else{
+            score[4][0] = secondTeamPenalties;
+            score[4][1] = firstTeamPenalties;
+        }
+        declareWinnerAndLoser(score[4][0], score[4][1]);
+    }
+
+    /*TODO: Given the penalties that have been scored for every team and the current round of penalties
+     * return true if there is no need to keep going. Else return false.
+     */
+    private boolean checkForBreak(int teamOneInPenalties, int teamTwoInPenalties, int i) {
+        return true;
     }
 
     /**
@@ -241,6 +294,11 @@ public class Game {
         return false;
     }
 
+    /**
+     * Method simulates a corn toss. So 50% chance of returning true, 50% chance false
+     * @return true or false
+     * @author Ariel Liberzon and Samuel Hernandez
+     */
     private boolean coinToss() {
         Random randomNum = new Random();
         int number = randomNum.nextInt(1) ;
@@ -260,12 +318,12 @@ public class Game {
     /**
      * Helper method to determine the winner and loser
      * Sets the winner and loser depending on the scores passed.
-     * @param scoreT1 score of team 1
-     * @param scoreT2 score of team 2
+     * @param teamOneScore score of team 1
+     * @param teamTwoScore score of team 2
      * @author Samuel Hernandez
      */
-    private void declareWinnerAndLoser(int scoreT1, int scoreT2){
-        if(scoreT1 > scoreT2){                           //If team one wins
+    private void declareWinnerAndLoser(int teamOneScore, int teamTwoScore){
+        if(teamOneScore > teamTwoScore){                           //If team one wins
             winner = teamOne;
             loser = teamTwo;
         }
