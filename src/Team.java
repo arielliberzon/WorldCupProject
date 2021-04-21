@@ -1,11 +1,18 @@
 public class Team {
     private int position;
-    private String name;
-    private int fifaRank;
+    private String country;
+    private double score;
+    private String countryAbbr;
+    private String confederation;
+    private String countryFlag;
 
-    public Team(int id, String name, int fifaRank) {
-        this.id = id;
-        this.name = name;
-        this.fifaRank = fifaRank;
+    public Team(int position, String country, double score, String countryAbbr, String confederation,
+                String countryFlag) {
+        this.position = position;
+        this.country = country;
+        this.score = score;
+        this.countryAbbr = countryAbbr;
+        this.confederation = confederation;
+        this.countryFlag = countryFlag;
     }
 }

@@ -30,8 +30,8 @@ public class Game {
     }
 
     public static Game dummyGame() {
-        Team t1 = new Team(0, "TeamA", 0);
-        Team t2 = new Team(0, "TeamB", 0);
+        Team t1 = new Team(0, "TeamA", 0, "", "", "");
+        Team t2 = new Team(0, "TeamB", 0, "", "", "");
         return new Game(idCounter.getAndIncrement(), t1, t2, false);
     }
 
