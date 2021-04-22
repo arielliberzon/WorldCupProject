@@ -436,4 +436,8 @@ public class Game {
         return penaltyKicksReached;
     }
 
+    public int[][] getScore() {
+        return score;
+    }
+
 }
