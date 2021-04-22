@@ -6,10 +6,10 @@ import java.util.HashMap;
  */
 public class Group {
 
-    private Character name;
+    private char name;
     private ArrayList<Team> teams;
 
-    public Group(Character name, ArrayList<Team> teams) {
+    public Group(char name, ArrayList<Team> teams) {
         this.name = name;
         this.teams = teams;
         simulate();
@@ -32,7 +32,7 @@ public class Group {
         }
     }
 
-    public Character getName() {
+    public char getName() {
         return name;
     }
 

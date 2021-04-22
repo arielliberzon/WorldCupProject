@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Game {
 
+    //TODO: fix the naming of some methods and boolean variables (no integers and shorter)
+
     private int id;
     private Team teamOne;
     private Team teamTwo;

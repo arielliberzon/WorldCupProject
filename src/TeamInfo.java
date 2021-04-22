@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class TeamInfo {
-    HashMap<String, Team> teams;
+    private HashMap<String, Team> teams;
 
     public TeamInfo() throws IOException{
         teams = new HashMap<>();
