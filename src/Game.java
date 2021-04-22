@@ -170,21 +170,21 @@ public class Game {
     /**
      * This method determines who wins in the penalty kicks. The chance of one team winning is random but still
      * takes into consideration the team difference as follows:
-     * The average success of a penalty kick is 77%
+     * The average success of a penalty kick is 70%
      * The difference is divided by a 100 and then added to the team with the highest raking and subtracted
      * from the team with the lowest ranking.
-     * Example: T1 score = 1800. T2 score = 1600. Difference/100 = 2 -> So T1 chance = 79%. T2 chance = 75%
+     * Example: T1 score = 1800. T2 score = 1600. Difference/100 = 2 -> So T1 chance = 72%. T2 chance = 68%
      * @author Ariel Liberzon and Samuel Hernandez
      */
     private void simulatePenaltyKicks() {
         penaltyKicksReached = true;                                             //Mark game reached penalty kicks
-        int teamOneScoreChance = 77;                                            //Average real chance of scoring
+        int teamOneScoreChance = 70;                                            //Average real chance of scoring
         int teamTwoScoreChance = teamOneScoreChance;
         score[4][0] = 0;                                                        //Beginning scores
         score[4][1] = 0;
 
         //Calculate modifier to alter chances depending on FIFA scores
-        int penaltyModifier = Math.abs(teamOne.getFifaRank() - teamTwo.getFifaRank()) / 100;
+        int penaltyModifier = Math.abs(teamOne.getFifaRank() - teamTwo.getFifaRank()) / 70;
 
         //Determine chances for both teams depending on the score difference
         if (teamOne.getFifaRank() >= teamTwo.getFifaRank()) {
