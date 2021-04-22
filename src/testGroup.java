@@ -1,0 +1,20 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class testGroup {
+    public static void main(String[] args) {
+        ArrayList<Team> teams = new ArrayList<>(Arrays.asList(
+                new Team(1, "ARG", 0, "ARG", "SA", "0"),
+                new Team(1, "ARG", 0, "ARG", "SA", "0"),
+                new Team(1, "ARG", 0, "ARG", "SA", "0"),
+                new Team(1, "ARG", 0, "ARG", "SA", "0")
+        ));
+        Group group = new Group('A', teams);
+        Team testTeam = teams.get(0);
+        System.out.println(testTeam + "\n" +
+                "Wins: " + testTeam.groupWins() + "\n" +
+                "Draws: " + testTeam.groupDraws() + "\n" +
+                "Losses: " + testTeam.groupLosses() + "\n" +
+                "Points: " + testTeam.groupPoints());
+    }
+}

@@ -8,7 +8,7 @@ public class Simulator {
         // TODO:
         ArrayList<Game> games = new ArrayList<>();
         for (int i=0; i<16; i++) {
-            games.add(Game.dummyGame());
+            games.add(Game.dummyGame(false));
         }
         return games;
     }
@@ -16,7 +16,7 @@ public class Simulator {
         // TODO:
         ArrayList<Game> games = new ArrayList<>();
         for (int i=0; i<8; i++) {
-            games.add(Game.dummyGame());
+            games.add(Game.dummyGame(false));
         }
         return games;
     }
@@ -24,7 +24,7 @@ public class Simulator {
         // TODO:
         ArrayList<Game> games = new ArrayList<>();
         for (int i=0; i<4; i++) {
-            games.add(Game.dummyGame());
+            games.add(Game.dummyGame(false));
         }
         return games;
     }
@@ -32,7 +32,7 @@ public class Simulator {
         // TODO:
         ArrayList<Game> games = new ArrayList<>();
         for (int i=0; i<2; i++) {
-            games.add(Game.dummyGame());
+            games.add(Game.dummyGame(false));
         }
         return games;
     }
