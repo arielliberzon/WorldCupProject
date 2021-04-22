@@ -2,11 +2,11 @@ public class HelloWorld {
 
     public static void main(String args[]) {
 
-        Team teamOne = new Team(1, "ARG", 0, "ARG", "SA", "0");
-        Team teamTwo = new Team(1, "BRA", 0, "ARG", "SA", "0");
+        Team teamOne = new Team(1, "ARG", 1000, "ARG", "SA", "0");
+        Team teamTwo = new Team(1, "BRA", 800, "ARG", "SA", "0");
 
         //Print results for 3 demonstrative games
-        for(int i = 0 ; i < 100; i++) {
+        for(int i = 0 ; i < 10; i++) {
             Game test = new Game(teamOne, teamTwo, false);
             System.out.println("Game number: " + i);
             System.out.println("Half time scores:\n" + test.getFirst45ScoreString());
@@ -23,8 +23,8 @@ public class HelloWorld {
             if(test.wasTiedGame())
                 System.out.println("The game was a tie");
             else {
-                System.out.println("Winner: " + test.getWinner().getName());
-                System.out.println("Loser: " + test.getLoser().getName());
+                System.out.println("Winner: " + test.getWinner().getCountry());
+                System.out.println("Loser: " + test.getLoser().getCountry());
             }
             System.out.println();
         }

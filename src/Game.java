@@ -86,8 +86,8 @@ public class Game {
      */
     public void simulateGame(){
         //Calculating chances a team has of scoring against each other
-        double sum = teamOne.getFifaRank() + teamTwo.getFifaRank();  //Total amount of points
-        teamOneChance = teamOne.getFifaRank() * 100/ sum;  //Chance of team one of scoring per
+        double sum = teamOne.getTotalPoints() + teamTwo.getTotalPoints();  //Total amount of points
+        teamOneChance = teamOne.getTotalPoints() * 100/ sum;  //Chance of team one of scoring per
 
         //Simulate first 90 minutes divided in two halves
         simulateSection(45,0);
@@ -138,17 +138,16 @@ public class Game {
      */
     private void simulateSection(int time, int section) {
         Random randomNum = new Random();
-
         //Keeping track of scores
         int teamOneScore = 0;
         int teamTwoScore = 0;
 
         for (int i = 0; i < time; i++) {                                    //Simulate time
-            int chanceOfGoal = randomNum.nextInt(99) + 1;          //Chance of being a goal in current minute
+            int chanceOfGoal = randomNum.nextInt(100) + 1;          //Chance of being a goal in current minute
             if (chanceOfGoal <= 3) {                                     //If goal will occur
 
                 //Determine whose goal it will be
-                int chance = randomNum.nextInt(99) + 1;          //Random from 1 to a 100
+                int chance = randomNum.nextInt(100) + 1;          //Random from 1 to a 100
                 if (chance <= teamOneChance)                           //If team one scores
                     teamOneScore++;
                 else                                                  //Else team two scores
@@ -184,10 +183,10 @@ public class Game {
         score[4][1] = 0;
 
         //Calculate modifier to alter chances depending on FIFA scores
-        int penaltyModifier = Math.abs(teamOne.getFifaRank() - teamTwo.getFifaRank()) / 70;
+        double penaltyModifier = Math.abs(teamOne.getTotalPoints() - teamTwo.getTotalPoints()) / 100;
 
         //Determine chances for both teams depending on the score difference
-        if (teamOne.getFifaRank() >= teamTwo.getFifaRank()) {
+        if (teamOne.getTotalPoints() >= teamTwo.getTotalPoints()) {
             teamOneScoreChance += penaltyModifier;
             teamTwoScoreChance -= penaltyModifier;
         } else {
@@ -216,8 +215,8 @@ public class Game {
      */
     private boolean shootFirst5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         for(int i = 0; i < 5; i++){
-            boolean t1Scored = shootPenalty(teamOne, teamOneScoreChance);       //Team one shoots
-            boolean t2Scored = shootPenalty(teamTwo, teamTwoScoreChance);       //Team two shoots
+            boolean t1Scored = shootPenalty(teamOneScoreChance);       //Team one shoots
+            boolean t2Scored = shootPenalty(teamTwoScoreChance);       //Team two shoots
             if(t1Scored)                                                        //Add to score
                 score[4][0]++;
             if(unrecoverableDifference(i+1, i))                                 //Check if difference is unrecoverable
@@ -243,8 +242,8 @@ public class Game {
     private void suddenDeathKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         boolean notDone = true;
         while (notDone) {
-            boolean t1Scored = shootPenalty(teamOne, teamOneScoreChance);       //Team one shoots
-            boolean t2Scored = shootPenalty(teamTwo, teamTwoScoreChance);       //Team two shoots
+            boolean t1Scored = shootPenalty(teamOneScoreChance);       //Team one shoots
+            boolean t2Scored = shootPenalty(teamTwoScoreChance);       //Team two shoots
             if(t1Scored)                                                        //Add to score
                 score[4][0]++;
             if(t2Scored)                                                        //Add to score
@@ -283,14 +282,13 @@ public class Game {
     /**
      * Method simulates penalty kick and returns whether the penalty was scored or not.
      * Method takes into consideration the chance but is also random (if random <= team chance)
-     * @param team the team shooting the penalty
      * @param teamChance the chance of scoring (calculated by Fifa score differences)
      * @return true if goal scored else false
      * @author Samuel Hernandez
      */
-    private boolean shootPenalty(Team team, int teamChance) {
+    private boolean shootPenalty(int teamChance) {
         Random randomNum = new Random();
-        int randomChance = randomNum.nextInt(99) + 1;        //Score chance will be number from 1 to a 100
+        int randomChance = randomNum.nextInt(100) + 1;        //Score chance will be number from 1 to a 100
         if (randomChance <= teamChance) {
             return true;
         }
@@ -321,7 +319,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String getFirst45ScoreString(){
-        return new String(teamOne.getName()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getName());
+        return new String(teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -330,7 +328,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String getSecond45ScoreString(){
-        return new String(teamOne.getName()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getName());
+        return new String(teamOne.getCountry()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -343,7 +341,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(teamOne.getName()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getName());
+            return new String(teamOne.getCountry()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -356,7 +354,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(teamOne.getName()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getName());
+            return new String(teamOne.getCountry()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -369,7 +367,7 @@ public class Game {
             return "Penalty kicks were not reached";
         }
         else
-            return new String(teamOne.getName()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getName());
+            return new String(teamOne.getCountry()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -411,8 +409,8 @@ public class Game {
     public String getFinalScoreString(){
         if(overTimeUsed){
             if(penaltyKicksReached) {
-                return new String(teamOne.getName() + " " + score[3][0] + "(" +
-                       score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+")" + teamTwo.getName());
+                return new String(teamOne.getCountry() + " " + score[3][0] + "(" +
+                       score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+")" + teamTwo.getCountry());
             }
             else
                 return getFirst45ScoreString();
