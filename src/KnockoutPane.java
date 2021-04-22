@@ -10,10 +10,14 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
-
+/** note for Zach (delete later):
+ *   this class will create the pane for the knockout tab,
+ *   Main is composed of this (I'm pretty sure)
+ *      - Justin V
+ */
 public class KnockoutPane extends Pane {
 
-    ArrayList<Button> buttonList = new ArrayList<>();
+    private ArrayList<Button> buttonList = new ArrayList<>();
 
     private Label title = new Label("FIFA WORLD CUP BRACKET");
 
