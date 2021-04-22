@@ -1,20 +1,36 @@
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+
 import java.util.ArrayList;
 
 public class KnockoutPane extends Pane {
 
     ArrayList<Button> buttonList = new ArrayList<>();
-    
+
+    private Label title = new Label("FIFA WORLD CUP BRACKET");
 
     public KnockoutPane(){
+        this.setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        title.setFont(Font.font("Arial Black", 20));
+        title.setLayoutX(650);
+        title.setLayoutY(60);
+        this.getChildren().add(title);
+
         this.createBracket();
     }
 
     private void createBracket(){
         int x = 5;                              //The initial X cord of the top left bracket;
-        int y = 5;                              //The initial y cord of the top left bracket;
+        int y = 50;                              //The initial y cord of the top left bracket;
         int scalingFactor = 50;                 //Scaling factor of the bracket, increase = bigger
         int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
         int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.  **MIGHT GET REMOVED // TWEAKED since the scaling isn't 100% with it.**
@@ -24,12 +40,18 @@ public class KnockoutPane extends Pane {
         int yCordsAtTierTwo = yCordsAtTierOne + scalingFactor*2;                         
         int yCordsAtTierThree = yCordsAtTierTwo + scalingFactor*4;
         int yIncrementIncrease = yIncrement;                    //Since we change the yIncrement, we use incrementIncrease to keep the base value; technically can be removed but eh
-        int buttonSizeX = 1;                                    //Button sizes, more convenient
-        int buttonSizeY = 1;
+        double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
+        double buttonSizeY = scalingFactor / 1.25;
 
         for(int i = 1; i < 32; i++){
             Button button = new Button();
             button.setMinSize(buttonSizeX, buttonSizeY);
+            button.setMaxSize(buttonSizeX, buttonSizeY);
+            button.setText("hey bro");
+            button.setFont(Font.font("Gill Sans MT Condensed",scalingFactor * 4 / 10));
+            button.setTextFill(Color.WHITE);
+            button.setBackground(new Background(new BackgroundFill(Color.SADDLEBROWN, CornerRadii.EMPTY, Insets.EMPTY)));
+
             if(i < 15){
                 if(i % 2 == 1){
                     button.setLayoutX(x);
