@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class KnockoutPane extends Pane {
 
-    ArrayList<Button> buttonList = new ArrayList<>();
+    private ArrayList<Button> buttonList = new ArrayList<>();
     
 
     public KnockoutPane(){
