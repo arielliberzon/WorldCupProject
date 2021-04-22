@@ -22,7 +22,7 @@ public class KnockoutPane extends Pane {
     private Label title = new Label("FIFA WORLD CUP BRACKET");
 
     public KnockoutPane(){
-        this.setBackground(new Background(new BackgroundFill(Color.LIMEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
 
         title.setFont(Font.font("Arial Black", 20));
         title.setLayoutX(650);
@@ -54,7 +54,7 @@ public class KnockoutPane extends Pane {
             button.setText("hey bro");
             button.setFont(Font.font("Gill Sans MT Condensed",scalingFactor * 4 / 10));
             button.setTextFill(Color.WHITE);
-            button.setBackground(new Background(new BackgroundFill(Color.SADDLEBROWN, CornerRadii.EMPTY, Insets.EMPTY)));
+            button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
 
             if(i < 15){
                 if(i % 2 == 1){
