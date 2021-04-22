@@ -48,7 +48,9 @@ public class Main extends Application {
 
     private void showIntroScene(Stage window) {
         GridPane masterpane = new GridPane();
-
+        Image img = new Image("sc.jpg");
+        masterpane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT)));
         masterpane.add(play, 0, 1);
         play.setTranslateX(700);
         play.setTranslateY(500);
