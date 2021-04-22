@@ -1,6 +1,7 @@
 
 import javafx.application.Application;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
@@ -8,11 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     private final StackPane root = new StackPane();
     private final BorderPane r = new BorderPane();
+    private Scene scene = new Scene(root);
+    private Button play = new Button("play");
 
 
 
@@ -20,16 +24,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         primaryStage.setTitle("World Cup");
-       /**Image img = new Image("sc.jpg");
-        root.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-        BackgroundSize.DEFAULT)));*/
-        r.setTop(topping());
-        r.setTranslateY(50);
-        root.getChildren().add(r);
-        Scene scene = new Scene(root);
+        showIntroScene(primaryStage);
         primaryStage.setMaximized(true);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
 
 
     }
@@ -49,7 +46,19 @@ public class Main extends Application {
         return n;
     }
 
+    private void showIntroScene(Stage window) {
+        GridPane masterpane = new GridPane();
 
+        masterpane.add(play, 0, 1);
+        play.setTranslateX(700);
+        play.setTranslateY(500);
+        r.setTop(topping());
+        r.setTranslateY(50);
+        root.getChildren().add(r);
+        play.setOnAction(e -> window.setScene(scene));
+        window.setScene(new Scene(masterpane));
+        window.show();
+    }
 
 
 }
