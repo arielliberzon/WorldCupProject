@@ -15,12 +15,13 @@ public class TableViewTester extends Application {
         // Load all the teams by creating a TeamInfo object
         TeamInfo teamInfo = new TeamInfo();
 
-        // Create a TableView with a list of persons
+        // Create a TableView with a list of teams
         TableView<Team> table = new TableView<>();
         // Add rows to the TableView
-        table.getItems().addAll(TableViewHelper.getTeamList(teamInfo.getTeamMap()));
+        table.getItems().addAll(TableViewHelper.getFullTeamList(teamInfo.getTeamMap()));
         // Add columns to the TableView
-        table.getColumns().addAll(TableViewHelper.getTeamRankingColumn(), TableViewHelper.getCountryNameColumn(),
+        table.getColumns().addAll(TableViewHelper.getFlagColumn(),
+                TableViewHelper.getTeamRankingColumn(), TableViewHelper.getCountryNameColumn(),
                 TableViewHelper.getTotalPointsColumn(), TableViewHelper.getCodeColumn());
 
         // Set the column resize policy to constrained resize policy
@@ -32,13 +33,6 @@ public class TableViewTester extends Application {
         VBox root = new VBox();
         // Add the Table to the VBox
         root.getChildren().add(table);
-        // Set the Padding and Border for the VBox
-        root.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
 
         // Create the Scene
         Scene scene = new Scene(root);

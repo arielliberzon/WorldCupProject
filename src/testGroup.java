@@ -4,10 +4,10 @@ import java.util.Arrays;
 public class testGroup {
     public static void main(String[] args) {
         ArrayList<Team> teams = new ArrayList<>(Arrays.asList(
-                new Team(1, "ARG", 0, "ARG", "SA", "0"),
-                new Team(1, "ARG", 0, "ARG", "SA", "0"),
-                new Team(1, "ARG", 0, "ARG", "SA", "0"),
-                new Team(1, "ARG", 0, "ARG", "SA", "0")
+                new Team(1, "ARG", 0, "ARG", "SA"),
+                new Team(1, "ARG", 0, "ARG", "SA"),
+                new Team(1, "ARG", 0, "ARG", "SA"),
+                new Team(1, "ARG", 0, "ARG", "SA")
         ));
         Group group = new Group('A', teams);
         Team testTeam = teams.get(0);

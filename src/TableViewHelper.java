@@ -3,14 +3,35 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class TableViewHelper {
 
     // Returns an observable list of teams based on the given map
-    public static ObservableList<Team> getTeamList(Map<String, Team> teamMap) {
+    public static ObservableList<Team> getFullTeamList(Map<String, Team> teamMap) {
         ArrayList<Team> teamArrayList = new ArrayList<Team>(teamMap.values());
+        return FXCollections.<Team>observableArrayList(teamArrayList);
+    }
+
+    public static ObservableList<Team> getConfTeamList(Map<String, Team> teamMap, String conf) {
+        ArrayList<Team> teamArrayList = new ArrayList<>();
+        for (Map.Entry<String, Team> entry : teamMap.entrySet()) {
+            Team temp = entry.getValue();
+            if(temp.getConfederation().equals(conf))
+                teamArrayList.add(temp);
+        }
+        return FXCollections.<Team>observableArrayList(teamArrayList);
+    }
+
+    public static ObservableList<Team> getQualifiedTeamList(Map<String, Team> teamMap) {
+        ArrayList<Team> teamArrayList = new ArrayList<>();
+        for (Map.Entry<String, Team> entry : teamMap.entrySet()) {
+            Team temp = entry.getValue();
+            if(temp.isQualified())
+                teamArrayList.add(temp);
+        }
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
@@ -19,8 +40,8 @@ public class TableViewHelper {
         TableColumn<Team, Integer> rankingColumn = new TableColumn<>("Rank");
         PropertyValueFactory<Team, Integer> rankingCellValueFactory = new PropertyValueFactory<>("ranking");
         rankingColumn.setCellValueFactory(rankingCellValueFactory);
-        rankingColumn.setMinWidth(100);
-        rankingColumn.setMaxWidth(100);
+        rankingColumn.setMinWidth(75);
+        rankingColumn.setMaxWidth(75);
         rankingColumn.setSortType(TableColumn.SortType.ASCENDING);
         return rankingColumn;
     }
@@ -54,4 +75,15 @@ public class TableViewHelper {
         codeCol.setMaxWidth(100);
         return codeCol;
     }
+
+    public static TableColumn<Team, ImageView> getFlagColumn() {
+        TableColumn<Team, ImageView> flagCol = new TableColumn<>("Flag");
+        PropertyValueFactory<Team, ImageView> flagCellValueFactory = new PropertyValueFactory<>("flag");
+        flagCol.setCellValueFactory(flagCellValueFactory);
+        flagCol.setMinWidth(50);
+        flagCol.setMaxWidth(50);
+        flagCol.setSortable(false);
+        return flagCol;
+    }
+
 }

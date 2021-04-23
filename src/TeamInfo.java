@@ -30,11 +30,11 @@ public class TeamInfo {
                 totalPoints = Double.parseDouble(br.readLine());
                 countryCode = br.readLine();
                 confederation = br.readLine();
-                countryFlagID = countryCode.toLowerCase()+".png";
+                //countryFlagID = countryCode.toLowerCase()+".png";
 
 
                 Team newTeam = new Team(ranking, country, totalPoints, countryCode,
-                        confederation, countryFlagID);
+                        confederation);
 
                 br.readLine();
 
