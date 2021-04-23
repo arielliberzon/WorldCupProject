@@ -54,4 +54,7 @@ public class TeamInfo {
         return teams.get(countryCode);
     }
 
+    public HashMap<String, Team> getTeams() {
+        return teams;
+    }
 }
