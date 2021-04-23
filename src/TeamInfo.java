@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class TeamInfo {
+
     private HashMap<String, Team> teams;
 
     public TeamInfo() throws IOException{
@@ -48,6 +49,10 @@ public class TeamInfo {
             e.printStackTrace();
         }
 
+    }
+
+    public HashMap<String, Team> getTeams(){
+        return teams;
     }
 
     public Team getTeam(String countryCode){

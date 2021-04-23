@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Team {
+public class Team implements Comparable<Team>{
 
     private String name;
     private int fifaRank;
@@ -131,5 +131,10 @@ public class Team {
                     + totalPoints + "\nConfederation " + confederation + "\nCountry Code: "
                     + countryCode;
         }
+
+    @Override
+    public int compareTo(Team o) {
+        return (int) (o.getTotalPoints() - this.getTotalPoints());
+    }
 }
 
