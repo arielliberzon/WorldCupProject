@@ -31,7 +31,7 @@ public class Main extends Application {
         TabPane n = new TabPane();
         Tab groupStageTab = new Tab("   GroupStage   ",new GroupStage());
         Tab knockoutStageTab = new Tab("   Knockout   ",new KnockoutPane());
-        Tab qualifierStageTab = new Tab("   Qualifier   ", new TeamsPane(info.getTeamMap()));
+        Tab qualifierStageTab = new Tab("   Qualifier   ", new QualifierPane(info.getTeamMap()));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
         qualifierStageTab.setClosable(false);
@@ -40,7 +40,7 @@ public class Main extends Application {
     }
 //all the scene and pane are base on this method add and remove as you like
     private void showIntroScene(Stage window) {
-        Image img = new Image("sc.jpg");
+        Image img = new Image("FlagIcons/sc.jpg");
         masterpane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         play.setStyle("-fx-background-color: BLUE");//just color for now adding image later
         masterpane.add(play, 0, 1);
