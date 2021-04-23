@@ -15,7 +15,7 @@ public class Group {
         this.teams = teams;
         simulate();
         // TODO: Handle tie-breakers when points are equal.
-        teams.sort(Comparator.comparing(Team::groupPoints));
+        teams.sort(Comparator.comparing(Team::groupPoints).reversed());
     }
 
 
