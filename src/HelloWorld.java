@@ -4,8 +4,8 @@ public class HelloWorld {
 
     public static void main(String args[]) throws IOException {
 
-        Team teamOne = new Team(1, "ARG", 1300, "ARG", "SA", "0");
-        Team teamTwo = new Team(1, "BRA", 1000, "ARG", "SA", "0");
+        Team teamOne = new Team(1, "ARG", 1000, "ARG", "SA");
+        Team teamTwo = new Team(1, "BRA", 800, "ARG", "SA");
 
         //Print results for 3 demonstrative games
         for(int i = 0 ; i < 3; i++) {

@@ -65,8 +65,8 @@ public class Game {
 
     //Just for testing purposes
     public static Game dummyGame(boolean canBeDraw) {
-        Team t1 = new Team(1, "ARG", 0, "ARG", "SA", "0");
-        Team t2 = new Team(2, "bra", 0, "ARG", "da", "1");
+        Team t1 = new Team(1, "ARG", 0, "ARG", "SA");
+        Team t2 = new Team(2, "bra", 0, "ARG", "da");
         Game game = new Game(t1, t2, canBeDraw);
         return game;
     }

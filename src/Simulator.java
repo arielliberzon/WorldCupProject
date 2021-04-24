@@ -21,7 +21,7 @@ public class Simulator {
         // This loads an arbitrary selection of 32 teams.
         // TODO: consider a method to select the 32 teams more realistically.
         int i=0;
-        for (Team team : teamInfo.getTeams().values()) {
+        for (Team team : teamInfo.getTeamMap().values()) {
             worldCupTeams.add(team);
             i += 1;
             if (i==32) break;
