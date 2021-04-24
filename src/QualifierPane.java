@@ -1,6 +1,7 @@
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -15,6 +16,7 @@ public class QualifierPane extends BorderPane {
     private Button allButton;
     private Button uefaButton;
     private Button conmebolButton;
+    private Button concacafButton;
     private Button cafButton;
     private Button afcButton;
     private Button ofcButton;
@@ -55,6 +57,13 @@ public class QualifierPane extends BorderPane {
             
         });
 
+        concacafButton = new Button("CONCACAF");
+        concacafButton.setOnAction(mouseEvent -> {
+            table.getItems().clear();
+            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONCACAF"));
+
+        });
+
         cafButton = new Button("CAF");
         cafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
@@ -88,7 +97,7 @@ public class QualifierPane extends BorderPane {
         topbuttonBar.setSpacing(10);
 
         topbuttonBar.getChildren().addAll(allButton, uefaButton, conmebolButton,
-               cafButton, afcButton, ofcButton, qualifiedButton);
+               concacafButton, cafButton, afcButton, ofcButton, qualifiedButton);
 
 
     }
@@ -98,6 +107,7 @@ public class QualifierPane extends BorderPane {
         table = new TableView<>();
         // Add rows to the TableView
         table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
+
         // Add columns to the TableView
         table.getColumns().addAll(TableViewHelper.getFlagColumn(),
                 TableViewHelper.getTeamRankingColumn(), TableViewHelper.getCountryNameColumn(),
@@ -107,5 +117,9 @@ public class QualifierPane extends BorderPane {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Set the Placeholder for an empty table
         table.setPlaceholder(new Label("No visible columns and/or data exist."));
+
+        // TODO: this SHOULD WORK but it doesn't :(
+        ((TableColumn) table.getColumns().get(1)).setSortType(TableColumn.SortType.ASCENDING);
+
     }
 }
