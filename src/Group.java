@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -13,6 +14,8 @@ public class Group {
         this.name = name;
         this.teams = teams;
         simulate();
+        // TODO: Handle tie-breakers when points are equal.
+        teams.sort(Comparator.comparing(Team::groupPoints).reversed());
     }
 
 
@@ -20,7 +23,6 @@ public class Group {
      * Method simulates the games for all members in the group
      *
      */
-    //TODO: Figure out correct id to pass
     private void simulate() {
         //For all teams, play all the others once.
         for (int i = 0; i < teams.size(); i++) {
