@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -413,7 +414,7 @@ public class Game {
                        score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+")" + teamTwo.getCountry());
             }
             else
-                return getFirst45ScoreString();
+                return getSecond15ScoreString();
         }
         else
             return getSecond45ScoreString();
@@ -436,8 +437,21 @@ public class Game {
         return penaltyKicksReached;
     }
 
+    /**
+     * Method retrieves the 2D array containing the scores at all points during the game
+     * @return the array of scores
+     */
     public int[][] getScore() {
         return score;
     }
 
+    /**
+     * Gets the game information as a string
+     * @return string representation of the game
+     * @author Samuel Hernandez
+     */
+    @Override
+    public String toString() {
+        return getFinalScoreString();
+    }
 }

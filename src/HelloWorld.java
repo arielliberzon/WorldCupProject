@@ -1,12 +1,14 @@
+import java.io.IOException;
+
 public class HelloWorld {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
 
         Team teamOne = new Team(1, "ARG", 1000, "ARG", "SA");
         Team teamTwo = new Team(1, "BRA", 800, "ARG", "SA");
 
         //Print results for 3 demonstrative games
-        for(int i = 0 ; i < 10; i++) {
+        for(int i = 0 ; i < 3; i++) {
             Game test = new Game(teamOne, teamTwo, false);
             System.out.println("Game number: " + i);
             System.out.println("Half time scores:\n" + test.getFirst45ScoreString());
@@ -28,5 +30,13 @@ public class HelloWorld {
             }
             System.out.println();
         }
+
+        //Just to show simulator
+        Simulator simulator = new Simulator();
+        simulator.simulateRoundOfSixteen();
+        simulator.simulateQuarters();
+        simulator.simulateSemis();
+        simulator.simulateFinalAndThirdPlace();
+
     }
 }

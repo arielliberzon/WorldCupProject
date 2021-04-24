@@ -41,4 +41,15 @@ public class Group {
     public ArrayList<Team> getTeams() {
         return teams;
     }
+
+    /**
+     * Gets the game information as a string
+     * @return string representation of the group
+     * @author Samuel Hernandez
+     */
+    @Override
+    public String toString() {
+        return "Group: "+name+"\n" +teams.toString()+"\n";
+
+    }
 }
