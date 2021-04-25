@@ -1,17 +1,20 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import java.util.Map;
+import java.util.function.Predicate;
 
 
 public class QualifierPane extends BorderPane {
 
     private Map<String, Team> teamMap;
     private TableView table;
+    private TableView tableo;
     private HBox topbuttonBar;
     private Button allButton;
     private Button uefaButton;
@@ -21,6 +24,9 @@ public class QualifierPane extends BorderPane {
     private Button afcButton;
     private Button ofcButton;
     private Button qualifiedButton;
+    private Button searchButton;
+    private TextField search;
+
 
     public QualifierPane(Map<String, Team> teamMap) {
         // load the teamInfo object
@@ -33,9 +39,7 @@ public class QualifierPane extends BorderPane {
         setTop(topbuttonBar);
     }
 
-    public void setTeamMap(Map<String, Team> teamMap) {
-        this.teamMap = teamMap;
-    }
+
 
     private void createButtonBar() {
         allButton = new Button("All confederations");
@@ -92,12 +96,49 @@ public class QualifierPane extends BorderPane {
             
         });
 
+        search = new TextField();
+        search.setPromptText("Search");
+        FilteredList<Team> filteredData = new FilteredList<>(TableViewHelper.getFullTeamList(teamMap));
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        search.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filteredData.setPredicate(Team -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilterString = newValue.toLowerCase();
+
+                if (Team.getCountry().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    if (Team.getCountryCode().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+                        return true; // Filter matches last name.
+                    }
+                }
+                return false; // Does not match.
+            });
+
+
+        });
+
+        searchButton = new Button("Search");
+        searchButton.setOnAction(mouseEvent -> {
+            table.getItems().clear();
+            table.setItems(filteredData);
+
+        });
+
+
+
         topbuttonBar = new HBox();
         topbuttonBar.setPadding(new Insets(10, 10, 10, 10));
         topbuttonBar.setSpacing(10);
 
         topbuttonBar.getChildren().addAll(allButton, uefaButton, conmebolButton,
-               concacafButton, cafButton, afcButton, ofcButton, qualifiedButton);
+               concacafButton, cafButton, afcButton, ofcButton, qualifiedButton,search,searchButton);
 
 
     }
