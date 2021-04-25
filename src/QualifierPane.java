@@ -14,7 +14,6 @@ public class QualifierPane extends BorderPane {
 
     private Map<String, Team> teamMap;
     private TableView table;
-    private TableView tableo;
     private HBox topbuttonBar;
     private Button allButton;
     private Button uefaButton;

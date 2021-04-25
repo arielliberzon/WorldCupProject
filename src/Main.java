@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main extends Application {
     private final StackPane root = new StackPane();
@@ -28,8 +29,9 @@ public class Main extends Application {
     }
 
     public TabPane topping(){
+
         TabPane n = new TabPane();
-        Tab groupStageTab = new Tab("   GroupStage   ",new GroupStage());
+        Tab groupStageTab = new Tab("   GroupStage   ", new GroupStage());
         Tab knockoutStageTab = new Tab("   Knockout   ",new KnockoutPane());
         Tab qualifierStageTab = new Tab("   Qualifier   ", new QualifierPane(info.getTeamMap()));
         groupStageTab.setClosable(false);
