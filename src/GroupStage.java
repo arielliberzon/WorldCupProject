@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 
 import javax.swing.table.TableColumn;
+import java.nio.file.attribute.GroupPrincipal;
 import java.util.ArrayList;
 
 
@@ -25,18 +26,24 @@ public class GroupStage extends GridPane {
             list.add("boom1");
         }
 
-        GroupTable one=new GroupTable(9, 5, list,"-fx-background-color: green","A");
-        GroupTable two=new GroupTable(9, 5, list,"-fx-background-color: red","B");
+        GroupTable one=new GroupTable(9, 5, list,"-fx-background-color: LIGHTGREY","A");
+        GroupTable two=new GroupTable(9, 5, list,"-fx-background-color: LIGHTSALMON","B");
         GroupTable three=new GroupTable(9, 5, list,"-fx-background-color: white","C");
-        GroupTable four=new GroupTable(9, 5, list,"-fx-background-color: blue","D");
-        GroupTable five=new GroupTable(9, 5, list,"-fx-background-color: orange","E");
-        GroupTable six=new GroupTable(9, 5, list,"-fx-background-color: yellow","F");
-        GroupTable seven=new GroupTable(9, 5, list,"-fx-background-color: green","G");
+        GroupTable four=new GroupTable(9, 5, list,"-fx-background-color: LIGHTPINK","D");
+        GroupTable five=new GroupTable(9, 5, list,"-fx-background-color: LIGHTCORAL","E");
+        GroupTable six=new GroupTable(9, 5, list,"-fx-background-color: LIGHTYELLOW","F");
+        GroupTable seven=new GroupTable(9, 5, list,"-fx-background-color: LIGHTCYAN","G");
+        GroupTable eight=new GroupTable(9, 5, list,"-fx-background-color: LIGHTSKYBLUE","H");
 
         GridPane a = new GridPane();
-        SplitPane s = new SplitPane();
-        s.setOrientation(Orientation.VERTICAL);
-        s.setPrefSize(200, 200);
+        SplitPane center = new SplitPane();
+        SplitPane sone = new SplitPane();
+        SplitPane stwo = new SplitPane();
+        center.setOrientation(Orientation.HORIZONTAL);
+        sone.setOrientation(Orientation.VERTICAL);
+        sone.setPrefSize(200, 200);
+        stwo.setOrientation(Orientation.VERTICAL);
+        stwo.setPrefSize(200, 200);
         VBox one1  = new VBox(one.tablePainting());
         VBox two2  = new VBox(two.tablePainting());
         VBox three3  = new VBox(three.tablePainting());
@@ -44,10 +51,17 @@ public class GroupStage extends GridPane {
         VBox five5  = new VBox(five.tablePainting());
         VBox six6  = new VBox(six.tablePainting());
         VBox seven7  = new VBox(seven.tablePainting());
-        s.getItems().addAll(one1,two2,three3,four4,five5,six6,seven7);
+        VBox eight8  = new VBox(eight.tablePainting());
+        sone.getItems().addAll(one1,two2,three3,four4);
+        stwo.getItems().addAll(five5,six6,seven7,eight8);
          this.setAlignment(Pos.CENTER);
-         VBox n = new VBox(s);
-        this.getChildren().addAll(n);
+         VBox n = new VBox();
+        VBox o = new VBox();
+        n.getChildren().add(sone);
+        o.getChildren().add(stwo);
+        center.getItems().addAll(sone,stwo);
+
+        this.getChildren().addAll(center);
         return a;
     }
 

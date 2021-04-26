@@ -75,7 +75,7 @@ public class GroupTable {
             } else {
                 label.add(new Label(list.get(i)));
             }
-            label.get(i).setTextFill(Color.ALICEBLUE);
+            label.get(i).setTextFill(Color.BLACK);
         }
     }
 
