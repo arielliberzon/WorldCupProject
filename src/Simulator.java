@@ -141,4 +141,8 @@ public class Simulator {
     public ArrayList<Group> getGroups() {
         return groups;
     }
+
+    public ArrayList<Team> getQualifiedTeams() {
+        return worldCupTeams;
+    }
 }
