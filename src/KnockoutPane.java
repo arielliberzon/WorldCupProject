@@ -27,16 +27,17 @@ public class KnockoutPane extends Pane {
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
         try {
             Simulator sim = new Simulator();
-            System.out.println(sim.simulateRoundOfSixteen());
+            //System.out.println(sim.getTeamsInOrderInRoundOfSixteen());
+            this.createBracket(sim);
         } catch (Exception e) {
             //TODO: handle exception
         }
         
 
-        this.createBracket();
+       
     }
 
-    private void createBracket(){
+    private void createBracket(Simulator sim){
         int x = 100;                              //The initial X cord of the top left bracket;
         int y = 50;                              //The initial y cord of the top left bracket;
         int scalingFactor = 50;                 //Scaling factor of the bracket, increase = bigger
@@ -50,6 +51,18 @@ public class KnockoutPane extends Pane {
         int yIncrementIncrease = yIncrement;                    //Since we change the yIncrement, we use incrementIncrease to keep the base value; technically can be removed but eh
         double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
         double buttonSizeY = scalingFactor / 1.25;
+        int counter = 0;
+        int counterOne = 0;
+        ArrayList<Team> sixteenTeams = sim.getTeamsInOrderInRoundOfSixteen();
+        ArrayList<Game> sixteenGames = sim.simulateRoundOfSixteen();
+        ArrayList<Game> quarterGames = sim.simulateQuarters();
+        ArrayList<Game> semiGames = sim.simulateSemis();
+        ArrayList<Game> finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
+        //scaling factor = 40, 650 = 13
+        //scaling factor = 50, 800 = 16
+        int paneHeight = (scalingFactor*14+y*2);
+        this.setMinHeight(paneHeight);
+
         
 
         title.setFont(Font.font("Arial Black", 20));
@@ -64,19 +77,22 @@ public class KnockoutPane extends Pane {
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
             //
-            button.setFont(Font.font("Gill Sans MT Condensed",scalingFactor * 4 / 10));
+            button.setFont(Font.font("Arial Condensed",scalingFactor * 4 / 10));
             button.setTextFill(Color.WHITE);
             button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
 
             if(i < 15){
-                if(i < 8){
-                    button.setText(Integer.toString(i));
+                if(i < 9){
+                    button.setText(sixteenTeams.get(i-1).getCountry());
+                    //System.out.println(placeHolder.get(i).getCountry());
                 }
-                if(i < 13){
-                    button.setText(Integer.toString(i));
+                else if(i < 13){
+                    button.setText(sixteenGames.get(counter).getWinner().getCountry());
+                    counter++;
                 }
-                if(i < 15){
-                    button.setText(Integer.toString(i));
+                else if(i < 15){
+                    button.setText(quarterGames.get(counterOne).getWinner().getCountry());
+                    counterOne++;
                 }
                 
                 if(i % 2 == 1){//odd
@@ -115,7 +131,7 @@ public class KnockoutPane extends Pane {
                 drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                 x += horizontalLength;
                 y = yCordsAtTierThree - yLength;
-                button.setText(Integer.toString(i));                             //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
+                button.setText(semiGames.get(0).getWinner().getCountry());                             //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
             }
             else if(i == 16){
                 button.setLayoutX(buttonX);
@@ -123,7 +139,7 @@ public class KnockoutPane extends Pane {
                 title.setLayoutX(x-(312/2)); //312 is the rough pixel measurement #GimpForLife
                 x += horizontalLength;
                 y = yCordsAtTierThree;
-                button.setText(Integer.toString(i));                                      
+                button.setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());                                      
             }
             else if(i == 17){
                 button.setLayoutX(buttonX);
@@ -132,17 +148,19 @@ public class KnockoutPane extends Pane {
                 x += horizontalLength;
                 y = yCordsAtTierTwo;                                    
                 yLength -= yIncrementIncrease/2;
-                button.setText(Integer.toString(i));
+                button.setText(semiGames.get(1).getWinner().getCountry());
             }
             else if(i > 17){
                 if(i < 20){
-                    button.setText(Integer.toString(i));
+                    button.setText(quarterGames.get(counterOne).getWinner().getCountry());
+                    counterOne++;
                 }
-                if(i < 24){
-                    button.setText(Integer.toString(i));
+                else if(i < 24){
+                    button.setText(sixteenGames.get(counter).getWinner().getCountry());
+                    counter++;
                 }
-                if(i < 32){
-                    button.setText(Integer.toString(i));
+                else if(i < 32){
+                    button.setText(sixteenTeams.get(i-16).getCountry());
                 }
                 if(i % 2 == 1){
                     button.setLayoutX(buttonX);

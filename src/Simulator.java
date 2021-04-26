@@ -147,7 +147,7 @@ public class Simulator {
         semisGames.add(game2);
         System.out.println("\nSemis results");
         semisGames.forEach(game -> System.out.println(game.toString()));
-        return quartersGames;
+        return semisGames;
     }
 
     /**
