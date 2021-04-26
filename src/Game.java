@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -64,8 +65,8 @@ public class Game {
 
     //Just for testing purposes
     public static Game dummyGame(boolean canBeDraw) {
-        Team t1 = new Team(1, "ARG", 0, "ARG", "SA", "0");
-        Team t2 = new Team(2, "bra", 0, "ARG", "da", "1");
+        Team t1 = new Team(1, "ARG", 0, "ARG", "SA");
+        Team t2 = new Team(2, "bra", 0, "ARG", "da");
         Game game = new Game(t1, t2, canBeDraw);
         return game;
     }
@@ -413,7 +414,7 @@ public class Game {
                        score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+")" + teamTwo.getCountry());
             }
             else
-                return getFirst45ScoreString();
+                return getSecond15ScoreString();
         }
         else
             return getSecond45ScoreString();
@@ -436,8 +437,21 @@ public class Game {
         return penaltyKicksReached;
     }
 
+    /**
+     * Method retrieves the 2D array containing the scores at all points during the game
+     * @return the array of scores
+     */
     public int[][] getScore() {
         return score;
     }
 
+    /**
+     * Gets the game information as a string
+     * @return string representation of the game
+     * @author Samuel Hernandez
+     */
+    @Override
+    public String toString() {
+        return getFinalScoreString();
+    }
 }
