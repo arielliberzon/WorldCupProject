@@ -33,7 +33,7 @@ public class KnockoutPane extends Pane {
     }
 
     private void createBracket(){
-        int x = 5;                              //The initial X cord of the top left bracket;
+        int x = 100;                              //The initial X cord of the top left bracket;
         int y = 50;                              //The initial y cord of the top left bracket;
         int scalingFactor = 50;                 //Scaling factor of the bracket, increase = bigger
         int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
@@ -48,6 +48,8 @@ public class KnockoutPane extends Pane {
         double buttonSizeY = scalingFactor / 1.25;
 
         for(int i = 1; i < 32; i++){
+            int buttonX = x - 75;
+            int buttonY = y - 20;
             Button button = new Button();
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
@@ -58,14 +60,14 @@ public class KnockoutPane extends Pane {
 
             if(i < 15){
                 if(i % 2 == 1){
-                    button.setLayoutX(x);
-                    button.setLayoutY(y);
+                    button.setLayoutX(buttonX);
+                    button.setLayoutY(buttonY);
                     drawLines(x, y, false, false, yLength, horizontalLength);
                     y += yIncrement;
                 }
                 else{
-                    button.setLayoutX(x);
-                    button.setLayoutY(y);
+                    button.setLayoutX(buttonX);
+                    button.setLayoutY(buttonY);
                     drawLines(x, y, false, true, yLength, horizontalLength);
                     y += yIncrement;
                     if(i == 8){
@@ -88,21 +90,21 @@ public class KnockoutPane extends Pane {
                 }
             }
             else if(i == 15){
-                button.setLayoutX(x);
-                button.setLayoutY(y);
+                button.setLayoutX(buttonX);
+                button.setLayoutY(buttonY);
                 drawLines(x, y, false, true, yLength, horizontalLength);
                 x += horizontalLength;
                 y = yCordsAtTierThree - yLength;                               //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
             }
             else if(i == 16){
-                button.setLayoutX(x);
-                button.setLayoutY(y);
+                button.setLayoutX(buttonX);
+                button.setLayoutY(buttonY);
                 x += horizontalLength;
                 y = yCordsAtTierThree;                                         
             }
             else if(i == 17){
-                button.setLayoutX(x);
-                button.setLayoutY(y);
+                button.setLayoutX(buttonX);
+                button.setLayoutY(buttonY);
                 drawLines(x, y, true, true, yLength, horizontalLength);
                 x += horizontalLength;
                 y = yCordsAtTierTwo;                                    
@@ -110,8 +112,8 @@ public class KnockoutPane extends Pane {
             }
             else if(i > 17){
                 if(i % 2 == 1){
-                    button.setLayoutX(x);
-                    button.setLayoutY(y);
+                    button.setLayoutX(buttonX);
+                    button.setLayoutY(buttonY);
                     drawLines(x, y, true, true, yLength, horizontalLength);
                     y += yIncrement;
                     if(i == 19){
@@ -128,8 +130,8 @@ public class KnockoutPane extends Pane {
                     }
                 }
                 else{
-                    button.setLayoutX(x);
-                    button.setLayoutY(y);
+                    button.setLayoutX(buttonX);
+                    button.setLayoutY(buttonY);
                     drawLines(x, y, true, false, yLength, horizontalLength);
                     y += yIncrement;
                 }
