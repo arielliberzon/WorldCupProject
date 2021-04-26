@@ -53,6 +53,35 @@ public class Simulator {
         }
     }
 
+
+    /**
+     * Per requested by front end:
+     * Method returns the teams in the order they should appear in the GUI
+     * @return the ordered list of teams that made it into the round of 16
+     * @author Samuel Hernandez
+     */
+    public ArrayList<Team> getTeamsInOrderInRoundOfSixteen(){
+        ArrayList<Team> teamsOnRoundOf16 = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+
+            //Add the team on top  of ranking team in current group
+            Team leader = groups.get(i).getTeams().get(0);
+            System.out.println(leader.getCountry() + " as group leader");
+
+            //Get runner up team from next group for A, C, E, G. OR from previous group for B, D, F, H
+            Team runnerUp;
+            if(i % 2 == 0)
+                runnerUp = groups.get(i+1).getTeams().get(1);
+            else
+                runnerUp = groups.get(i-1).getTeams().get(1);
+
+            System.out.println(runnerUp.getCountry() + " as group runner up");
+            teamsOnRoundOf16.add(leader);
+            teamsOnRoundOf16.add(runnerUp);
+        };
+        return teamsOnRoundOf16;
+    }
+
     /**
      * Sets up the 8 games for round of sixteen.
      * Top team from group A plays against runner-up from group B.
@@ -78,7 +107,7 @@ public class Simulator {
             roundOf16Games.add(new Game(top, runnerUp, false));
         }
 
-        System.out.println("Rounds of sixteen results");
+        System.out.println("\nRounds of sixteen results");
         roundOf16Games.forEach(game -> System.out.println(game.getFinalScoreString()));
         return roundOf16Games;
     }

@@ -7,6 +7,7 @@ public class HelloWorld {
         Team teamOne = new Team(1, "ARG", 1000, "ARG", "SA");
         Team teamTwo = new Team(1, "BRA", 800, "ARG", "SA");
 
+
         //Print results for 3 demonstrative games
         for(int i = 0 ; i < 3; i++) {
             Game test = new Game(teamOne, teamTwo, false);

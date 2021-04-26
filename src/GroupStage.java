@@ -1,60 +1,70 @@
 
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 
+import javax.swing.table.TableColumn;
+import java.nio.file.attribute.GroupPrincipal;
 import java.util.ArrayList;
 
 
 public class GroupStage extends GridPane {
-
-    private ArrayList<Line> horizontal= new ArrayList<>();
-    private ArrayList<Line> vertical=new ArrayList<>();
-    private Pane pane=new Pane();
-
-
-
     public GroupStage(){
         this.stagemain();
     }
     public GridPane stagemain(){
 
-        GridPane g = new GridPane();
-        g.add(tableMaker(),1,0);
-        this.getChildren().add(g);
-        return g;
+
+        ArrayList<String> list=new ArrayList<String>();
+        for (int i = 0; i < 45; i++) {
+            list.add("boom1");
+        }
+
+        GroupTable one=new GroupTable(9, 5, list,"-fx-background-color: LIGHTGREY","A");
+        GroupTable two=new GroupTable(9, 5, list,"-fx-background-color: LIGHTSALMON","B");
+        GroupTable three=new GroupTable(9, 5, list,"-fx-background-color: white","C");
+        GroupTable four=new GroupTable(9, 5, list,"-fx-background-color: LIGHTPINK","D");
+        GroupTable five=new GroupTable(9, 5, list,"-fx-background-color: LIGHTCORAL","E");
+        GroupTable six=new GroupTable(9, 5, list,"-fx-background-color: LIGHTYELLOW","F");
+        GroupTable seven=new GroupTable(9, 5, list,"-fx-background-color: LIGHTCYAN","G");
+        GroupTable eight=new GroupTable(9, 5, list,"-fx-background-color: LIGHTSKYBLUE","H");
+
+        GridPane a = new GridPane();
+        SplitPane center = new SplitPane();
+        SplitPane sone = new SplitPane();
+        SplitPane stwo = new SplitPane();
+        center.setOrientation(Orientation.HORIZONTAL);
+        sone.setOrientation(Orientation.VERTICAL);
+        sone.setPrefSize(200, 200);
+        stwo.setOrientation(Orientation.VERTICAL);
+        stwo.setPrefSize(200, 200);
+        VBox one1  = new VBox(one.tablePainting());
+        VBox two2  = new VBox(two.tablePainting());
+        VBox three3  = new VBox(three.tablePainting());
+        VBox four4  = new VBox(four.tablePainting());
+        VBox five5  = new VBox(five.tablePainting());
+        VBox six6  = new VBox(six.tablePainting());
+        VBox seven7  = new VBox(seven.tablePainting());
+        VBox eight8  = new VBox(eight.tablePainting());
+        sone.getItems().addAll(one1,two2,three3,four4);
+        stwo.getItems().addAll(five5,six6,seven7,eight8);
+        this.setAlignment(Pos.CENTER);
+        VBox n = new VBox();
+        VBox o = new VBox();
+        n.getChildren().add(sone);
+        o.getChildren().add(stwo);
+        center.getItems().addAll(sone,stwo);
+
+        this.getChildren().addAll(center);
+        return a;
     }
 
 
-    public Pane tableMaker(){
-        int countY=100;
-        int countYY=226;
-        int countX=102;
-        for (int i = 0; i < 6; i++) {
-            horizontal.add(new Line(0, 0, 700,0));
-            horizontal.get(i).setLayoutX(50);
-            horizontal.get(i).setLayoutY(countY);
-            pane.getChildren().add(horizontal.get(i));
-            countY +=50;
-        }
 
-
-        for (int i = 0; i < 10; i++) {
-            vertical.add(new Line(0, 0, 250,0));
-            vertical.get(i).setRotate(90);
-            //little conditional
-            if (vertical.size()==1) {
-                vertical.get(i).setLayoutY(countYY);
-                vertical.get(i).setLayoutX(-75);
-            }
-            else {
-                vertical.get(i).setLayoutY(countYY);
-                vertical.get(i).setLayoutX(countX);
-            }
-            pane.getChildren().add(vertical.get(i));
-            countX +=58;
-        }
-        this.getChildren().add(pane);
-        return pane;
-    }
 }
