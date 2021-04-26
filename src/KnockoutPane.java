@@ -20,14 +20,18 @@ public class KnockoutPane extends Pane {
     private ArrayList<Button> buttonList = new ArrayList<>();
 
     private Label title = new Label("FIFA WORLD CUP BRACKET");
+    
+    
 
     public KnockoutPane(){
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        title.setFont(Font.font("Arial Black", 20));
-        title.setLayoutX(650);
-        title.setLayoutY(60);
-        this.getChildren().add(title);
+        try {
+            Simulator sim = new Simulator();
+            System.out.println(sim.simulateRoundOfSixteen());
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        
 
         this.createBracket();
     }
@@ -46,29 +50,45 @@ public class KnockoutPane extends Pane {
         int yIncrementIncrease = yIncrement;                    //Since we change the yIncrement, we use incrementIncrease to keep the base value; technically can be removed but eh
         double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
         double buttonSizeY = scalingFactor / 1.25;
+        
+
+        title.setFont(Font.font("Arial Black", 20));
+        
+        title.setLayoutY(60);
+        this.getChildren().add(title);
 
         for(int i = 1; i < 32; i++){
-            int buttonX = x - 75;
-            int buttonY = y - 20;
+            int buttonX = (int)(x - buttonSizeX/2);
+            int buttonY = (int)(y - buttonSizeY/2);
             Button button = new Button();
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
-            button.setText("hey bro");
+            //
             button.setFont(Font.font("Gill Sans MT Condensed",scalingFactor * 4 / 10));
             button.setTextFill(Color.WHITE);
             button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
 
             if(i < 15){
-                if(i % 2 == 1){
+                if(i < 8){
+                    button.setText(Integer.toString(i));
+                }
+                if(i < 13){
+                    button.setText(Integer.toString(i));
+                }
+                if(i < 15){
+                    button.setText(Integer.toString(i));
+                }
+                
+                if(i % 2 == 1){//odd
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
-                    drawLines(x, y, false, false, yLength, horizontalLength);
+                    drawLines(x, y, false, false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                 }
                 else{
-                    button.setLayoutX(buttonX);
+                    button.setLayoutX(buttonX);//even
                     button.setLayoutY(buttonY);
-                    drawLines(x, y, false, true, yLength, horizontalLength);
+                    drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                     if(i == 8){
                         x += horizontalLength;
@@ -92,29 +112,42 @@ public class KnockoutPane extends Pane {
             else if(i == 15){
                 button.setLayoutX(buttonX);
                 button.setLayoutY(buttonY);
-                drawLines(x, y, false, true, yLength, horizontalLength);
+                drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                 x += horizontalLength;
-                y = yCordsAtTierThree - yLength;                               //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
+                y = yCordsAtTierThree - yLength;
+                button.setText(Integer.toString(i));                             //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
             }
             else if(i == 16){
                 button.setLayoutX(buttonX);
                 button.setLayoutY(buttonY);
+                title.setLayoutX(x-(312/2)); //312 is the rough pixel measurement #GimpForLife
                 x += horizontalLength;
-                y = yCordsAtTierThree;                                         
+                y = yCordsAtTierThree;
+                button.setText(Integer.toString(i));                                      
             }
             else if(i == 17){
                 button.setLayoutX(buttonX);
                 button.setLayoutY(buttonY);
-                drawLines(x, y, true, true, yLength, horizontalLength);
+                drawLines(x, y, true, true,(int)((((yIncrement)/2)-(buttonSizeY))-(buttonSizeY/8)), horizontalLength);
                 x += horizontalLength;
                 y = yCordsAtTierTwo;                                    
                 yLength -= yIncrementIncrease/2;
+                button.setText(Integer.toString(i));
             }
             else if(i > 17){
+                if(i < 20){
+                    button.setText(Integer.toString(i));
+                }
+                if(i < 24){
+                    button.setText(Integer.toString(i));
+                }
+                if(i < 32){
+                    button.setText(Integer.toString(i));
+                }
                 if(i % 2 == 1){
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
-                    drawLines(x, y, true, true, yLength, horizontalLength);
+                    drawLines(x, y, true, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                     if(i == 19){
                         x += horizontalLength;
@@ -132,7 +165,7 @@ public class KnockoutPane extends Pane {
                 else{
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
-                    drawLines(x, y, true, false, yLength, horizontalLength);
+                    drawLines(x, y, true, false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                 }
             }
