@@ -44,18 +44,21 @@ public class QualifierPane extends BorderPane {
         allButton = new Button("All confederations");
         allButton.setOnMouseClicked(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
         });
 
         uefaButton = new Button("UEFA");
         uefaButton.setOnMouseClicked(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "UEFA"));
         });
 
         conmebolButton = new Button("CONMEBOL");
         conmebolButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONMEBOL"));
             
         });
@@ -63,6 +66,7 @@ public class QualifierPane extends BorderPane {
         concacafButton = new Button("CONCACAF");
         concacafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONCACAF"));
 
         });
@@ -70,6 +74,7 @@ public class QualifierPane extends BorderPane {
         cafButton = new Button("CAF");
         cafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CAF"));
             
         });
@@ -77,6 +82,7 @@ public class QualifierPane extends BorderPane {
         afcButton = new Button("AFC");
         afcButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "AFC"));
             
         });
@@ -84,6 +90,7 @@ public class QualifierPane extends BorderPane {
         ofcButton = new Button("OFC");
         ofcButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "OFC"));
             
         });
@@ -91,42 +98,23 @@ public class QualifierPane extends BorderPane {
         qualifiedButton = new Button("Qualified Teams");
         qualifiedButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
+            search.setText("");
             table.getItems().addAll(TableViewHelper.getQualifiedTeamList(teamMap));
             
         });
 
         search = new TextField();
         search.setPromptText("Search");
-        FilteredList<Team> filteredData = new FilteredList<>(TableViewHelper.getFullTeamList(teamMap));
+        //FilteredList<Team> filteredData = new FilteredList<>(TableViewHelper.getFullTeamList(teamMap));
 
         // 2. Set the filter Predicate whenever the filter changes.
-        search.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            filteredData.setPredicate(Team -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilterString = newValue.toLowerCase();
-
-                if (Team.getCountry().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-                    return true; // Filter matches first name.
-                } else {
-                    if (Team.getCountryCode().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-                        return true; // Filter matches last name.
-                    }
-                }
-                return false; // Does not match.
-            });
-
-
-        });
+        /*search.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                });*/
 
         searchButton = new Button("Search");
         searchButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            table.setItems(filteredData);
+            table.getItems().addAll(TableViewHelper.getSearchTeamList(teamMap, search.getText()));
 
         });
 

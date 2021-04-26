@@ -35,6 +35,24 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    public static ObservableList<Team> getSearchTeamList(Map<String, Team> teamMap, String search) {
+        ArrayList<Team> teamArrayList = new ArrayList<>();
+        for (Map.Entry<String, Team> entry : teamMap.entrySet()) {
+            Team temp = entry.getValue();
+            String lowerCaseFilterString = search.toLowerCase();
+
+            if (temp.getCountry().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+                teamArrayList.add(temp); // Filter matches first name.
+            } else {
+                if (temp.getCountryCode().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+                    teamArrayList.add(temp);
+                }
+            }
+
+        }
+        return FXCollections.<Team>observableArrayList(teamArrayList);
+    }
+
     // Returns "Rank" column
     public static TableColumn<Team, Integer> getTeamRankingColumn() {
         TableColumn<Team, Integer> rankingColumn = new TableColumn<>("Rank");

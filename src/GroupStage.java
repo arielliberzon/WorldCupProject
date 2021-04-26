@@ -54,8 +54,8 @@ public class GroupStage extends GridPane {
         VBox eight8  = new VBox(eight.tablePainting());
         sone.getItems().addAll(one1,two2,three3,four4);
         stwo.getItems().addAll(five5,six6,seven7,eight8);
-         this.setAlignment(Pos.CENTER);
-         VBox n = new VBox();
+        this.setAlignment(Pos.CENTER);
+        VBox n = new VBox();
         VBox o = new VBox();
         n.getChildren().add(sone);
         o.getChildren().add(stwo);
