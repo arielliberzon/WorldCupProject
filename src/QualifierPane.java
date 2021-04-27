@@ -148,6 +148,8 @@ public class QualifierPane extends BorderPane {
         // Set the Placeholder for an empty table
         table.setPlaceholder(new Label("No visible columns and/or data exist."));
 
+        table.setEditable(false);
+
         // TODO: this SHOULD WORK but it doesn't :(
         ((TableColumn) table.getColumns().get(1)).setSortType(TableColumn.SortType.ASCENDING);
 

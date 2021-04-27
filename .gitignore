@@ -4,4 +4,5 @@
 .vscode
 .vscode/launch.json
 .vscode/settings.json
-/out.production.WorldCupProject.FlagIcons/
+/src/out/production/WorldCupProject/
+/src/out/production/
