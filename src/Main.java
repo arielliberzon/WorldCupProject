@@ -42,7 +42,7 @@ public class Main extends Application {
 
         TabPane n = new TabPane();
         Tab groupStageTab = new Tab("   Group Stage   ", new GroupStage());
-        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane());
+        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(simulator));
         Tab qualifierStageTab = new Tab("   Teams   ", qualifierPane);
 
 

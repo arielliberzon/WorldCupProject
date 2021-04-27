@@ -23,15 +23,10 @@ public class KnockoutPane extends Pane {
     
     
 
-    public KnockoutPane(){
+    public KnockoutPane(Simulator sim){
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
-        try {
-            Simulator sim = new Simulator();
-            //System.out.println(sim.getTeamsInOrderInRoundOfSixteen());
-            this.createBracket(sim);
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+        this.createBracket(sim);
+        
         
 
        
