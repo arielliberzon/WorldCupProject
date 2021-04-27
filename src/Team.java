@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Team {
+public class Team implements Comparable<Team> {
 
     private int ranking;
     private String country;
@@ -146,6 +146,11 @@ public class Team {
 
     public void setQualified(boolean qualified) {
         this.qualified = qualified;
+    }
+
+    @Override
+    public int compareTo(Team o) {
+        return (int) (o.getTotalPoints() - this.getTotalPoints());
     }
 
     @Override

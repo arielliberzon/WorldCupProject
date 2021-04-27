@@ -8,11 +8,15 @@ import java.util.Locale;
 public class TeamInfo {
     private HashMap<String, Team> teams;
 
-    public TeamInfo() throws IOException{
+    public TeamInfo() {
         teams = new HashMap<>();
-        loadFromFile();
+        try {
+            loadFromFile();
+        } catch (Exception e) {
+            // TODO: catch exception and do something with it
+        }
     }
-    private void loadFromFile() throws IOException{
+    private void loadFromFile() throws IOException {
         String firstLine;
         int ranking;
         String country;

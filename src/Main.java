@@ -17,6 +17,8 @@ public class Main extends Application {
     private Scene scene = new Scene(root);
     private Button play;// spacing it out for now add image later
     private TeamInfo info = new TeamInfo();
+    // TODO: ADD buttons to simulate; currently hardcoded when running
+    private Simulator simulator = new Simulator();
 
     public Main() throws IOException {
     }
@@ -33,10 +35,17 @@ public class Main extends Application {
 
     public TabPane topping(){
 
+        // HARDCODED QUALIFIERS//
+        QualifierPane qualifierPane = new QualifierPane(info.getTeamMap());
+        qualifierPane.updateTeamMap(simulator.getQualifiedTeams(info));
+        // END OF HARDCODED TEST //
+
         TabPane n = new TabPane();
         Tab groupStageTab = new Tab("   Group Stage   ", new GroupStage());
         Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane());
-        Tab qualifierStageTab = new Tab("   Teams   ", new QualifierPane(info.getTeamMap()));
+        Tab qualifierStageTab = new Tab("   Teams   ", qualifierPane);
+
+
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
         qualifierStageTab.setClosable(false);
