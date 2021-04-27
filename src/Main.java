@@ -34,9 +34,9 @@ public class Main extends Application {
     public TabPane topping(){
 
         TabPane n = new TabPane();
-        Tab groupStageTab = new Tab("   GroupStage   ", new GroupStage());
-        Tab knockoutStageTab = new Tab("   Knockout   ",new KnockoutPane());
-        Tab qualifierStageTab = new Tab("   Qualifier   ", new QualifierPane(info.getTeamMap()));
+        Tab groupStageTab = new Tab("   Group Stage   ", new GroupStage());
+        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane());
+        Tab qualifierStageTab = new Tab("   Teams   ", new QualifierPane(info.getTeamMap()));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
         qualifierStageTab.setClosable(false);
