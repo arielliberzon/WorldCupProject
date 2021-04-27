@@ -37,7 +37,7 @@ public class Simulator {
 
     /**
      * TODO: When exception of team is figured out remove exception from constructor
-     * Constructs a simulator, gets the world cup teams, and simulates the group stage
+     * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
      */
     public Simulator() throws IOException {
         teamInfo = new TeamInfo();
@@ -211,4 +211,21 @@ public class Simulator {
     public ArrayList<Team> getQualifiedTeams() {
         return worldCupTeams;
     }
+
+    @Override
+    public String toString() {
+        return "Simulator{" +
+                "groups=" + groups +
+                ", roundOf16Games=" + roundOf16Games +
+                ", quartersGames=" + quartersGames +
+                ", semisGames=" + semisGames +
+                ", finalAndThirdGames=" + finalAndThirdGames +
+                '}';
+    }
+
+    //Equals and setters do not make sense so they are not implemented on purpose
+
+
+
+
 }
