@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,7 +11,11 @@ public class Game {
     //TODO: fix the naming of some methods and boolean variables (no integers and shorter)
 
     private int id;
+
+    //Holds team one
     private Team teamOne;
+
+    //Hold team two
     private Team teamTwo;
     private static AtomicInteger idCounter = new AtomicInteger(); // generates IDs.
 
@@ -38,8 +43,15 @@ public class Game {
     //Has whether or penalty kicks were reached
     private boolean penaltyKicksReached = false;
 
+    //Chance of team one (used to calculate chance of scoring)
     private double teamOneChance;
 
+    /**
+     * Constructs  a game with given parameters
+     * @param t1 team one to play
+     * @param t2 rival team
+     * @param canBeDraw whether or not a game can be drawn
+     */
     public Game(Team t1, Team t2, boolean canBeDraw) {
         this.id = idCounter.getAndIncrement();
         this.teamOne = t1;
@@ -454,4 +466,24 @@ public class Game {
     public String toString() {
         return getFinalScoreString();
     }
+
+    /**
+     * Compares two games to see if they are equal
+     * @param o object to test for equality
+     * @return true if equal, else false.
+     * @author Samuel Hernandez
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Game)) return false;
+        Game game = (Game) o;
+        return id == game.id &&
+                Objects.equals(teamOne, game.teamOne) &&
+                Objects.equals(teamTwo, game.teamTwo) &&
+                Arrays.equals(score, game.score);
+    }
+
+
+
 }

@@ -1,15 +1,44 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Simulator class is designed to simulate the world cup in phases so that they can be simulated by steps by the GUI
+ * Upon simulator being constructed the group stage is simulated. After that, individuals methods should be called to
+ * simulate each round in this order:
+ * {@link #simulateRoundOfSixteen()}
+ * {@link #simulateQuarters()}
+ * {@link #simulateSemis()}
+ * {@link #simulateFinalAndThirdPlace()}
+ * @author Saif Masoud, and Samuel Hernandez
+ * TODO: Delete print statments when done with coding
+ */
 public class Simulator {
-    private ArrayList<Group> groups; // 8 groups with 4 teams each.
-    private ArrayList<Team> worldCupTeams; // The 32 participating teams.
+
+    // 8 groups with 4 teams each.
+    private ArrayList<Group> groups;
+
+    // The 32 participating teams.
+    private ArrayList<Team> worldCupTeams;
+
+    //TeamInfo object to get the teams info
     private TeamInfo teamInfo;
+
+    //List of games played in the round of 16
     private ArrayList<Game> roundOf16Games;
+
+    //List of games played in quarters
     private ArrayList<Game> quartersGames;
+
+    //List of games played in semis
     private ArrayList<Game> semisGames;
+
+    //First element is the final, second element is the game for the third place
     private ArrayList<Game> finalAndThirdGames;
 
+    /**
+     * TODO: When exception of team is figured out remove exception from constructor
+     * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
+     */
     public Simulator() throws IOException {
         teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
@@ -51,35 +80,6 @@ public class Simulator {
             groups.add(group);
             curGroupChar += 1;
         }
-    }
-
-
-    /**
-     * Per requested by front end:
-     * Method returns the teams in the order they should appear in the GUI
-     * @return the ordered list of teams that made it into the round of 16
-     * @author Samuel Hernandez
-     */
-    public ArrayList<Team> getTeamsInOrderInRoundOfSixteen(){
-        ArrayList<Team> teamsOnRoundOf16 = new ArrayList<>();
-        for(int i = 0; i < 8; i++){
-
-            //Add the team on top  of ranking team in current group
-            Team leader = groups.get(i).getTeams().get(0);
-            System.out.println(leader.getCountry() + " as group leader");
-
-            //Get runner up team from next group for A, C, E, G. OR from previous group for B, D, F, H
-            Team runnerUp;
-            if(i % 2 == 0)
-                runnerUp = groups.get(i+1).getTeams().get(1);
-            else
-                runnerUp = groups.get(i-1).getTeams().get(1);
-
-            System.out.println(runnerUp.getCountry() + " as group runner up");
-            teamsOnRoundOf16.add(leader);
-            teamsOnRoundOf16.add(runnerUp);
-        };
-        return teamsOnRoundOf16;
     }
 
     /**
@@ -147,7 +147,7 @@ public class Simulator {
         semisGames.add(game2);
         System.out.println("\nSemis results");
         semisGames.forEach(game -> System.out.println(game.toString()));
-        return quartersGames;
+        return semisGames;
     }
 
     /**
@@ -167,11 +167,65 @@ public class Simulator {
         return finalAndThirdGames;
     }
 
+    /**
+     * Per requested by front end:
+     * Method returns the teams in the order they should appear in the GUI:
+     * Groups from left to right, top to bottom.
+     * @return the ordered list of teams that made it into the round of 16
+     * @author Samuel Hernandez
+     */
+    public ArrayList<Team> getTeamsInOrderInRoundOfSixteen(){
+        ArrayList<Team> teamsOnRoundOf16 = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+
+            //Add the team on top  of ranking team in current group
+            Team leader = groups.get(i).getTeams().get(0);
+            System.out.println(leader.getCountry() + " as group leader");
+
+            //Get runner up team from next group for A, C, E, G. OR from previous group for B, D, F, H
+            Team runnerUp;
+            if(i % 2 == 0)
+                runnerUp = groups.get(i+1).getTeams().get(1);
+            else
+                runnerUp = groups.get(i-1).getTeams().get(1);
+
+            System.out.println(runnerUp.getCountry() + " as group runner up");
+            teamsOnRoundOf16.add(leader);
+            teamsOnRoundOf16.add(runnerUp);
+        };
+        return teamsOnRoundOf16;
+    }
+
+    /**
+     * Gets the array with the 8 groups in the world cup A, B ... H
+     * @return the list of groups
+     */
     public ArrayList<Group> getGroups() {
         return groups;
     }
 
+    /**
+     * Gets the teams that qualified to the world cup
+     * @return the list of qualified teams
+     */
     public ArrayList<Team> getQualifiedTeams() {
         return worldCupTeams;
     }
+
+    @Override
+    public String toString() {
+        return "Simulator{" +
+                "groups=" + groups +
+                ", roundOf16Games=" + roundOf16Games +
+                ", quartersGames=" + quartersGames +
+                ", semisGames=" + semisGames +
+                ", finalAndThirdGames=" + finalAndThirdGames +
+                '}';
+    }
+
+    //Equals and setters do not make sense so they are not implemented on purpose
+
+
+
+
 }
