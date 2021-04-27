@@ -54,7 +54,7 @@ public class Main extends Application {
     }
 //all the scene and pane are base on this method add and remove as you like
     private void showIntroScene(Stage window) {
-        Image img = new Image("FlagIcons/background.jpg");
+        Image img = new Image("Images/background.jpg");
         masterpane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         play = new Button("Start>>");
         play.setStyle("-fx-background-color: LIGHTGREY");
