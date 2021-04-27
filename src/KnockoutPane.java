@@ -7,6 +7,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
@@ -18,10 +19,6 @@ import java.util.ArrayList;
 public class KnockoutPane extends Pane {
 
     private ArrayList<Button> buttonList = new ArrayList<>();
-
-    private Label title = new Label("FIFA WORLD CUP BRACKET");
-    
-    
 
     public KnockoutPane(){
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -63,21 +60,36 @@ public class KnockoutPane extends Pane {
         int paneHeight = (scalingFactor*14+y*2);
         this.setMinHeight(paneHeight);
 
-        
-
+        Label title = new Label("FIFA WORLD CUP BRACKET");
         title.setFont(Font.font("Arial Black", 20));
-        
         title.setLayoutY(60);
-        this.getChildren().add(title);
 
-        for(int i = 1; i < 32; i++){
+        Label winner = new Label("    WORLD\nCUP WINNER");
+        winner.setFont(Font.font("Arial Black", 15));
+        winner.setTextFill(Color.rgb(255,244,32));
+        winner.setLayoutX(845);
+        winner.setLayoutY(155);
+
+        Rectangle rect = new Rectangle(750, 500, 310, 200);
+        rect.setStroke(Color.WHITE);
+        rect.setFill(Color.TRANSPARENT);
+
+        Label thirdPlace = new Label("3rd Place");
+        thirdPlace.setFont(Font.font("Arial Black", 14));
+        thirdPlace.setTextFill(Color.rgb(255,244,32));
+        thirdPlace.setLayoutX(960);
+        thirdPlace.setLayoutY(555);
+
+        this.getChildren().addAll(title, winner, rect, thirdPlace);
+
+        for(int i = 1; i < 35; i++){
             int buttonX = (int)(x - buttonSizeX/2);
             int buttonY = (int)(y - buttonSizeY/2);
             Button button = new Button();
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
             //
-            button.setFont(Font.font("Arial Condensed",scalingFactor * 4 / 10));
+            button.setFont(Font.font("Arial Condensed",scalingFactor * 3 / 10));
             button.setTextFill(Color.WHITE);
             button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -150,7 +162,7 @@ public class KnockoutPane extends Pane {
                 yLength -= yIncrementIncrease/2;
                 button.setText(semiGames.get(1).getWinner().getCountry());
             }
-            else if(i > 17){
+            else if(i > 17 && i < 32){
                 if(i < 20){
                     button.setText(quarterGames.get(counterOne).getWinner().getCountry());
                     counterOne++;
@@ -185,6 +197,34 @@ public class KnockoutPane extends Pane {
                     button.setLayoutY(buttonY);
                     drawLines(x, y, true, false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
+                }
+            }
+            // Third Place Bracket:
+            else{
+                System.out.println(x);
+                if(i == 32){
+                    x = x / 2 - horizontalLength / 15;
+                    y -= yIncrement * 3;
+                    button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    button.setLayoutX(x - buttonSizeX/2);
+                    System.out.println("y = " + y);
+                    button.setLayoutY(y - buttonSizeY/2);
+                    drawLines(x,y,false,false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength /2);
+                    y += yIncrement;
+                }
+                else if(i == 33){
+                    button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                    button.setLayoutX(buttonX);
+                    System.out.println("y = " + y);
+                    button.setLayoutY(buttonY);
+                    drawLines(x,y,false,true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength /2);
+                    x += horizontalLength / 1.5;
+                    y -= yIncrement / 2;
+                }
+                else{
+                    button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    button.setLayoutX(buttonX);
+                    button.setLayoutY(buttonY);
                 }
             }
             buttonList.add(button);
