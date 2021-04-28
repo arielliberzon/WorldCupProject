@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Team implements Comparable<Team> {
 
-    private int ranking;
+    private Integer ranking;
     private String country;
     private double totalPoints;
     private String countryCode;
@@ -28,7 +28,7 @@ public class Team implements Comparable<Team> {
         this.confederation = confederation;
         flag.setFitHeight(30);
         flag.setFitWidth(45);
-        flag.setImage(new Image("FlagIcons/"+countryCode.toLowerCase()+".png"));
+        //flag.setImage(new Image("FlagIcons/"+countryCode.toLowerCase()+".png"));
         games = new ArrayList<>();
         qualified = false;
     }
@@ -76,7 +76,7 @@ public class Team implements Comparable<Team> {
         return 3 * groupWins() + 1 * groupDraws();
     }
 
-    public int getRanking() {
+    public Integer getRanking() {
         return ranking;
     }
 
@@ -150,7 +150,8 @@ public class Team implements Comparable<Team> {
 
     @Override
     public int compareTo(Team o) {
-        return (int) (o.getTotalPoints() - this.getTotalPoints());
+        //return (int) (o.getTotalPoints() - this.getTotalPoints());
+        return (this.getRanking().compareTo(o.getRanking()));
     }
 
     @Override

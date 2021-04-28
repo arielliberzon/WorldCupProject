@@ -38,6 +38,7 @@ public class Main extends Application {
         // HARDCODED QUALIFIERS//
         QualifierPane qualifierPane = new QualifierPane(info.getTeamMap(), height, width);
         qualifierPane.updateTeamMap(simulator.getQualifiedTeams(info));
+        simulator.simulateGroups();
         // END OF HARDCODED TEST //
 
         TabPane n = new TabPane();

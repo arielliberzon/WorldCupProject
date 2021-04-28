@@ -42,10 +42,10 @@ public class Simulator {
      * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
      */
     public Simulator() {
-        teamInfo = new TeamInfo();
+        //teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        loadWorldCupTeams();
-        simulateGroups();
+        //WorldCupTeams();
+        //simulateGroups();
     }
 
     private void loadWorldCupTeams() {
@@ -62,7 +62,7 @@ public class Simulator {
     /**
      * Creates & simulates the 8 groups of the group-stage.
      */
-    private void simulateGroups() {
+    public void simulateGroups() {
         groups = new ArrayList<>();
         int nGroups = 8;
         int nTeams = worldCupTeams.size();
@@ -300,6 +300,7 @@ public class Simulator {
         output.addAll(OFC);
         output.addAll(CAF);
 
+        worldCupTeams = output;
         return output;
     }
 
@@ -315,7 +316,12 @@ public class Simulator {
 
     private ArrayList<Team> getQualified(ArrayList<Team> input, int spots){
         Random random = new Random();
+        Collections.sort(input);
         ArrayList<Team> output = new ArrayList<>();
+
+
+        int indexTop = 0;
+        int indexBottom = input.size() -1;
 
         //Loop that loops until the right amount of teams are selected to move on
         while(spots > 0){
@@ -323,13 +329,11 @@ public class Simulator {
             int sum = 0;
 
             //Select a random team from the input list of teams
-            int indexOfTeam = random.nextInt(input.size());
-            Team teamOne = input.get(indexOfTeam);
+            Team teamOne = input.get(indexTop);
             sum += teamOne.getTotalPoints();
-            indexOfTeam = random.nextInt(input.size());
 
             //Select the second team from the input list of teams
-            Team teamTwo = input.get(indexOfTeam);
+            Team teamTwo = input.get(indexBottom);
             sum += teamTwo.getTotalPoints();
 
             //Generate a number in between the range of 1 and the total number of points between team one and team two
@@ -344,6 +348,7 @@ public class Simulator {
                 output.add(teamTwo);
             }
             spots--;
+
         }
         return output;
     }
