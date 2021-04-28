@@ -144,7 +144,8 @@ public class QualifierPane extends BorderPane {
         // Add columns to the TableView
         table.getColumns().addAll(TableViewHelper.getFlagColumn(),
                 TableViewHelper.getTeamRankingColumn(), TableViewHelper.getCountryNameColumn(),
-                TableViewHelper.getTotalPointsColumn(), TableViewHelper.getCodeColumn());
+                TableViewHelper.getTotalPointsColumn(), TableViewHelper.getCodeColumn(),
+                TableViewHelper.getTeamConfColumn());
 
         // Set the column resize policy to constrained resize policy
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

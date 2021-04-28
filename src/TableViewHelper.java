@@ -104,4 +104,14 @@ public class TableViewHelper {
         return flagCol;
     }
 
+    // Returns "Confederation" column
+    public static TableColumn<Team, String> getTeamConfColumn() {
+        TableColumn<Team, String> confColumn = new TableColumn<>("Confederation");
+        PropertyValueFactory<Team, String> confCellValueFactory = new PropertyValueFactory<>("confederation");
+        confColumn.setCellValueFactory(confCellValueFactory);
+        confColumn.setMinWidth(100);
+        confColumn.setMaxWidth(100);
+        return confColumn;
+    }
+
 }
