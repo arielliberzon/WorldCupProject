@@ -315,42 +315,93 @@ public class Simulator {
      */
 
     private ArrayList<Team> getQualified(ArrayList<Team> input, int spots){
-        Random random = new Random();
         Collections.sort(input);
         ArrayList<Team> output = new ArrayList<>();
+        Team teamOne, teamTwo;
+        int evenSpots = spots;
+        if (evenSpots % 2 == 1)
+            evenSpots++;
 
+        if (input.size() % 2 == 1) {
+            teamOne = input.get(0);
+            teamTwo = input.get(input.size() - 1);
+            input.remove(getQualifierGameLoser(teamOne, teamTwo));
+            Collections.sort(input);
+        }
 
         int indexTop = 0;
         int indexBottom = input.size() -1;
 
-        //Loop that loops until the right amount of teams are selected to move on
-        while(spots > 0){
-            //Determine the range for Random()
-            int sum = 0;
+        getQualifiedTeams(input, evenSpots);
 
-            //Select a random team from the input list of teams
-            Team teamOne = input.get(indexTop);
-            sum += teamOne.getTotalPoints();
+        if (spots % 2 == 1) {
+            teamOne = input.get(0);
+            teamTwo = input.get(input.size() - 1);
+            input.remove(getQualifierGameLoser(teamOne, teamTwo));
+            Collections.sort(input);
+        }
+        return output;
+    }
 
-            //Select the second team from the input list of teams
-            Team teamTwo = input.get(indexBottom);
-            sum += teamTwo.getTotalPoints();
+    /**
+     * ALEX's method
+     * @param tOne
+     * @param tTwo
+     * @return
+     */
+    private Team getQualifierGameLoser(Team tOne, Team tTwo) {
+        Random random = new Random();
+        int tOneWins = 0;
+        int tTwoWins = 0;
 
+        //Determine the range for Random()
+        int sum = 0;
+        sum += tOne.getTotalPoints();
+        sum += tTwo.getTotalPoints();
+
+        //Loop through five games to determine the winner of the qualifier game
+        for(int i = 0; i < 5; i++) {
             //Generate a number in between the range of 1 and the total number of points between team one and team two
             int randomNumber = random.nextInt(sum) + 1;
             //This is similar to the logic in simulateSection() in Game.java
-            if(randomNumber <= teamOne.getTotalPoints()) {
-                input.remove(teamOne);
-                output.add(teamOne);
+            if(randomNumber <= tOne.getTotalPoints()) {
+                tOneWins++;
             }
             else {
-                input.remove(teamTwo);
-                output.add(teamTwo);
+                tTwoWins++;
             }
-            spots--;
-
         }
-        return output;
+        if(tOneWins < tTwoWins)
+            return tOne;
+        else
+            return tTwo;
+    }
+
+    private ArrayList<Team>  getQualifiedTeams(ArrayList<Team> confTeams , int spots){
+        return getQualifiedRec(confTeams,  spots, 0, (confTeams.size()-1));
+    }
+
+    /**
+     * Recursive method gets the qualified teams for a given confederation
+     * Keeps shrinking the list matching the teams in the top vs the ones in the bottom until
+     * the size fits the spots
+     * @param confTeams the teams in the confederation
+     * @param spots the number of spots in the team
+     * @return
+     */
+    private ArrayList<Team> getQualifiedRec(ArrayList<Team> confTeams , int spots, int beginning, int end){
+
+        //Base case: When list fits the spots
+        if(confTeams.size() == spots){
+            return confTeams;
+        }
+
+        //Match the top vs the bottom (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        Team loser = getQualifierGameLoser(confTeams.get(beginning), confTeams.get(end));
+        confTeams.remove(loser);
+        beginning++;
+        end --;
+        return getQualifiedRec(confTeams, spots, beginning, end);
     }
 
 
