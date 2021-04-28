@@ -42,10 +42,10 @@ public class Simulator {
      * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
      */
     public Simulator() {
-        //teamInfo = new TeamInfo();
+        teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        //WorldCupTeams();
-        //simulateGroups();
+        loadWorldCupTeams();
+        simulateGroups();
     }
 
     private void loadWorldCupTeams() {
