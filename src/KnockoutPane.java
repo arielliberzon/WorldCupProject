@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.Random;
 /** note for Zach (delete later):
  *   this class will create the pane for the knockout tab,
  *   Main is composed of this (I'm pretty sure)
@@ -57,6 +58,7 @@ public class KnockoutPane extends Pane {
         ArrayList<Game> finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
         //scaling factor = 40, 650 = 13
         //scaling factor = 50, 800 = 16
+        int randomNumber = 0;
         int paneHeight = (scalingFactor*14+y*2);
         this.setMinHeight(paneHeight);
 
@@ -201,11 +203,20 @@ public class KnockoutPane extends Pane {
             }
             // Third Place Bracket:
             else{
-                System.out.println(x);
+                System.out.println(i);
                 if(i == 32){
+                    Random random = new Random();
+                    randomNumber = random.nextInt(2);
+                    System.out.println("Random number : " + randomNumber);
                     x = x / 2 - horizontalLength / 15;
                     y -= yIncrement * 3;
-                    button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    if(randomNumber == 0){
+                        button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    }
+                    else{
+                        button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                    }
+                    
                     button.setLayoutX(x - buttonSizeX/2);
                     System.out.println("y = " + y);
                     button.setLayoutY(y - buttonSizeY/2);
@@ -213,7 +224,13 @@ public class KnockoutPane extends Pane {
                     y += yIncrement;
                 }
                 else if(i == 33){
-                    button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                    if(randomNumber == 0){
+                        button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                    }
+                    else{
+                        button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                        
+                    }
                     button.setLayoutX(buttonX);
                     System.out.println("y = " + y);
                     button.setLayoutY(buttonY);
