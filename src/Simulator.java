@@ -248,12 +248,13 @@ public class Simulator {
         /* For the confederations that are allocated a different number of teams every year, they are added to a
          * list that 'simulate' games between those teams in order to determine who makes it out of qualifiers
          */
-        ArrayList<Team> extras = new ArrayList<>();
+        ArrayList<Team> NAvAsia = new ArrayList<>();
+        ArrayList<Team> OCvSA = new ArrayList<>();
 
         //Looping through the teams and assigning them to their respective confederation team lists
         for(Team t : teamInfo.getTeamMap().values()){
             //Since England is the host country, they are later added in automatically
-            if(t.getConfederation().equals("UEFA") && !t.getCountry().equals("England")) //12 Spots
+            if(t.getConfederation().equals("UEFA")) //13 Spots
                 UEFA.add(t);
             if(t.getConfederation().equals("CONMEBOL")) //4.5 Spots
                 CONMEBOL.add(t);
@@ -261,7 +262,7 @@ public class Simulator {
                 CONCACAF.add(t);
             if(t.getConfederation().equals("CAF")) //5 Spots
                 CAF.add(t);
-            if(t.getConfederation().equals("AFC")) //4.5 Spots
+            if(t.getConfederation().equals("AFC") && !t.getCountry().equals("Qatar")) //4.5 Spots
                 AFC.add(t);
             if(t.getConfederation().equals("OFC")) //0.5 Spots
                 OFC.add(t);
@@ -284,18 +285,22 @@ public class Simulator {
         OFC = getQualified(OFC, 1);
 
         //Adding the extra teams to the extra list then removing them from their respective lists
-        extras.add(CONMEBOL.get(4));
+        OCvSA.add(CONMEBOL.get(4));
         CONMEBOL.remove(4);
-        extras.add(CONCACAF.get(3));
+        NAvAsia.add(CONCACAF.get(3));
         CONCACAF.remove(3);
-        extras.add(AFC.get(4));
+        NAvAsia.add(AFC.get(4));
         AFC.remove(4);
-        extras.add(OFC.get(0));
+        OCvSA.add(OFC.get(0));
         OFC.remove(OFC.get(0));
 
         //Add all the teams to the output arraylist
-        output.add(teamInfo.getTeam("ENG"));
-        output.addAll(getQualified(extras,2));
+        output.add(teamInfo.getTeam("QAT"));
+
+        OCvSA.remove(getQualifierGameLoser(OCvSA.get(0), OCvSA.get(1)));
+        output.addAll(OCvSA);
+        OCvSA.remove(getQualifierGameLoser(NAvAsia.get(0), NAvAsia.get(1)));
+        output.addAll(NAvAsia);
         output.addAll(UEFA);
         output.addAll(CONMEBOL);
         output.addAll(CONCACAF);
@@ -309,7 +314,7 @@ public class Simulator {
 
     /**
      * @author Alexander and Michael
-     * Helper function to the Qualifiers() method. This returns an arraylist that contains the teams that qualify to
+     * Helper function to the getQualifiedTeams() method. This returns an arraylist that contains the teams that qualify to
      * group stage. Using the Java.util Random(), it will determine which team will qualify to the group stage with the
      * higher seeded team having a greater chance.
      * @param input Confederation team list
