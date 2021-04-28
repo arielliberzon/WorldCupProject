@@ -28,7 +28,7 @@ public class Team implements Comparable<Team> {
         this.confederation = confederation;
         flag.setFitHeight(30);
         flag.setFitWidth(45);
-        //flag.setImage(new Image("FlagIcons/"+countryCode.toLowerCase()+".png"));
+        flag.setImage(new Image("FlagIcons/"+countryCode.toLowerCase()+".png"));
         games = new ArrayList<>();
         qualified = false;
     }
