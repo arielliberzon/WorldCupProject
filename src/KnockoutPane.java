@@ -7,8 +7,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
+import java.util.Random;
 import java.util.ArrayList;
 /** note for Zach (delete later):
  *   this class will create the pane for the knockout tab,
@@ -55,34 +57,51 @@ public class KnockoutPane extends Pane {
         ArrayList<Game> finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
         //scaling factor = 40, 650 = 13
         //scaling factor = 50, 800 = 16
-        int paneHeight = (scalingFactor*14+y*2);
-        this.setMinHeight(paneHeight);
+        int thirdPlaceX = 0;
+        int randomNumber = 0;
 
-        
-
+        Label title = new Label("FIFA WORLD CUP BRACKET");
         title.setFont(Font.font("Arial Black", 20));
         
-        title.setLayoutY(60);
-        this.getChildren().add(title);
 
-        for(int i = 1; i < 32; i++){
+        Label winner = new Label("    WORLD\nCUP WINNER");
+        winner.setFont(Font.font("Arial Black", 15));
+        winner.setTextFill(Color.rgb(255,244,32));
+        
+
+        Rectangle rect = new Rectangle();//
+
+        
+        rect.setHeight(buttonSizeY*5);
+        rect.setWidth((buttonSizeX*2.09));
+        rect.setStroke(Color.WHITE);
+        rect.setFill(Color.TRANSPARENT);
+
+        Label thirdPlace = new Label("3rd Place");
+        thirdPlace.setFont(Font.font("Arial Black", 14));
+        thirdPlace.setTextFill(Color.rgb(255,244,32));
+        
+
+        this.getChildren().addAll(title, winner, rect, thirdPlace);
+
+        for(int i = 1; i < 35; i++){
             int buttonX = (int)(x - buttonSizeX/2);
             int buttonY = (int)(y - buttonSizeY/2);
             Button button = new Button();
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
             //
-            button.setFont(Font.font("Arial Condensed",scalingFactor * 4 / 10));
+            button.setFont(Font.font("Arial Condensed",scalingFactor * 3 / 10));
             button.setTextFill(Color.WHITE);
             button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
 
             if(i < 15){
                 if(i < 9){
                     button.setText(sixteenTeams.get(i-1).getCountry());
-                    //System.out.println(placeHolder.get(i).getCountry());
                 }
                 else if(i < 13){
                     button.setText(sixteenGames.get(counter).getWinner().getCountry());
+                    
                     counter++;
                 }
                 else if(i < 15){
@@ -102,12 +121,14 @@ public class KnockoutPane extends Pane {
                     drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                     if(i == 8){
+                        
                         x += horizontalLength;
                         y = yCordsAtTierOne;                                //sets up the yCords for the **NEXT** tier
                         yLength += yIncrementIncrease/2;
                         yIncrement += yIncrementIncrease;
                     }
                     else if(i == 12){
+                        
                         x += horizontalLength;
                         y = yCordsAtTierTwo;                                
                         yLength += yIncrementIncrease/2;
@@ -115,7 +136,7 @@ public class KnockoutPane extends Pane {
                     }
                     else if(i == 14){
                         x += horizontalLength; 
-                        y = yCordsAtTierThree;                                
+                        y = yCordsAtTierThree;               
                         yLength += yIncrementIncrease/2;
                     }
                 }
@@ -124,6 +145,7 @@ public class KnockoutPane extends Pane {
                 button.setLayoutX(buttonX);
                 button.setLayoutY(buttonY);
                 drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
+                
                 x += horizontalLength;
                 y = yCordsAtTierThree - yLength;
                 button.setText(semiGames.get(0).getWinner().getCountry());                             //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
@@ -132,6 +154,14 @@ public class KnockoutPane extends Pane {
                 button.setLayoutX(buttonX);
                 button.setLayoutY(buttonY);
                 title.setLayoutX(x-(312/2)); //312 is the rough pixel measurement #GimpForLife
+                title.setLayoutY(y-yCordsAtTierTwo);//
+                winner.setLayoutX(x-(108/2));//108 is rough pixel measurement (font isn't scalable for this reason)
+                winner.setLayoutY(y-35-10-buttonSizeY); //5 is the height of the label, and 10 is the "distance" between the label and the button, and buttonSizeY is the height of the button
+                rect.setX(x-(rect.getWidth()/2));//
+                rect.setY(y+(rect.getHeight()*1.23));//
+                thirdPlace.setLayoutX(rect.getX()+((73*((rect.getWidth()/73)-1))-buttonSizeX/16));//
+                thirdPlace.setLayoutY(rect.getY());//12 is the height of the label
+                thirdPlaceX = x;
                 x += horizontalLength;
                 y = yCordsAtTierThree;
                 button.setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());                                      
@@ -145,7 +175,7 @@ public class KnockoutPane extends Pane {
                 yLength -= yIncrementIncrease/2;
                 button.setText(semiGames.get(1).getWinner().getCountry());
             }
-            else if(i > 17){
+            else if(i > 17 && i < 32){
                 if(i < 20){
                     button.setText(quarterGames.get(counterOne).getWinner().getCountry());
                     counterOne++;
@@ -182,8 +212,54 @@ public class KnockoutPane extends Pane {
                     y += yIncrement;
                 }
             }
+            if(i == 31){
+                y = yCordsAtTierThree;
+                x = thirdPlaceX;
+            }
+            // Third Place Bracket:
+            else{
+                
+                if(i == 32){
+                    Random random = new Random();
+                    randomNumber = random.nextInt(2);
+                    x -= (buttonSizeX*.4);
+                    y -= ((buttonSizeY*3)-(buttonSizeY*6));
+                    if(randomNumber == 0){
+                        button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    }
+                    else{
+                        button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                    }
+                    
+                    button.setLayoutX(x - buttonSizeX/2);
+                    button.setLayoutY(y - buttonSizeY/2);
+                    drawLines(x,y,false,false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength /2);
+                    y += yIncrement;
+                }
+                else if(i == 33){
+                    if(randomNumber == 0){
+                        button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                    }
+                    else{
+                        button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                        
+                    }
+                    
+                    button.setLayoutX(buttonX);
+
+                    button.setLayoutY(buttonY);
+                    drawLines(x,y,false,true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength /2);
+                    x += horizontalLength / 1.5;
+                    y -= yIncrement / 2;
+                }
+                else if(i == 34){
+                    button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    button.setLayoutX(buttonX);
+                    button.setLayoutY(buttonY);
+                }
+            }
             buttonList.add(button);
-            this.getChildren().add(button);
+            this.getChildren().addAll(button);
         }
     }
 
