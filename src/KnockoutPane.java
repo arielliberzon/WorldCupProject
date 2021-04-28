@@ -10,8 +10,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.ArrayList;
 /** note for Zach (delete later):
  *   this class will create the pane for the knockout tab,
  *   Main is composed of this (I'm pretty sure)
@@ -21,6 +21,9 @@ public class KnockoutPane extends Pane {
 
     private ArrayList<Button> buttonList = new ArrayList<>();
 
+    private Label title = new Label("FIFA WORLD CUP BRACKET");
+    
+    
 
     public KnockoutPane(Simulator sim){
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -241,7 +244,6 @@ public class KnockoutPane extends Pane {
                         button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
                         
                     }
-                    
                     
                     button.setLayoutX(buttonX);
 
