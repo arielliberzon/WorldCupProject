@@ -270,6 +270,9 @@ public class Simulator {
         //Set each list to the qualified list that is produced from the helper method.
         UEFA = getQualified(UEFA, 13);
         Collections.sort(UEFA);
+        for (int i = 0; i < UEFA.size(); i++) {
+            System.out.println(UEFA.get(i).getCountry());
+        }
         CONMEBOL = getQualified(CONMEBOL, 5);
         Collections.sort(CONMEBOL);
         CONCACAF = getQualified(CONCACAF, 4);
@@ -340,7 +343,7 @@ public class Simulator {
             input.remove(getQualifierGameLoser(teamOne, teamTwo));
             Collections.sort(input);
         }
-        return output;
+        return input;
     }
 
     /**
@@ -360,7 +363,7 @@ public class Simulator {
         sum += tTwo.getTotalPoints();
 
         //Loop through five games to determine the winner of the qualifier game
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 200; i++) {
             //Generate a number in between the range of 1 and the total number of points between team one and team two
             int randomNumber = random.nextInt(sum) + 1;
             //This is similar to the logic in simulateSection() in Game.java
@@ -395,6 +398,12 @@ public class Simulator {
         if(confTeams.size() == spots){
             return confTeams;
         }
+
+        //Base case 2: Begging passes end
+        else if(beginning >= end) {
+            beginning = 0;
+        }
+
 
         //Match the top vs the bottom (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         Team loser = getQualifierGameLoser(confTeams.get(beginning), confTeams.get(end));
