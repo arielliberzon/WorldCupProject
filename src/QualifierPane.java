@@ -6,6 +6,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -146,8 +148,17 @@ public class QualifierPane extends BorderPane {
         // Set the Placeholder for an empty table
         table.setPlaceholder(new Label("No visible columns and/or data exist."));
 
+        table.setEditable(false);
+
         // TODO: this SHOULD WORK but it doesn't :(
         ((TableColumn) table.getColumns().get(1)).setSortType(TableColumn.SortType.ASCENDING);
 
+    }
+
+    public void updateTeamMap(ArrayList<Team> qualifiedTeams) {
+        for (int i = 0; i < qualifiedTeams.size(); i++) {
+            Team temp = qualifiedTeams.get(i);
+            teamMap.get(temp.getCountryCode()).setQualified(true);
+        }
     }
 }
