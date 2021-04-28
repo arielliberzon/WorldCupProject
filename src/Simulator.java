@@ -390,6 +390,7 @@ public class Simulator {
     }
 
     /**
+     * @author Samuel Hernandez
      * Recursive method gets the qualified teams for a given confederation
      * Keeps shrinking the list matching the teams in the top vs the ones in the bottom until
      * the size fits the spots
