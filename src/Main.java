@@ -33,11 +33,12 @@ public class Main extends Application {
         launch(args);
     }
 
-    public TabPane topping(){
+    public TabPane topping(Double height, Double width){
 
         // HARDCODED QUALIFIERS//
-        QualifierPane qualifierPane = new QualifierPane(info.getTeamMap());
+        QualifierPane qualifierPane = new QualifierPane(info.getTeamMap(), height, width);
         qualifierPane.updateTeamMap(simulator.getQualifiedTeams(info));
+        simulator.simulateGroups();
         // END OF HARDCODED TEST //
 
         TabPane n = new TabPane();
@@ -61,12 +62,14 @@ public class Main extends Application {
         masterpane.add(play, 0, 1);
         play.setTranslateX(800);
         play.setTranslateY(500);
-        r.setTop(topping());
-        r.setTranslateY(50);
-        root.getChildren().add(r);
-        play.setOnAction(e -> window.setScene(scene));
         window.setScene(new Scene(masterpane));
         window.setMaximized(true);
         window.show();
+
+        r.setTop(topping(window.getHeight(), window.getWidth()));
+        r.setTranslateY(50);
+        root.getChildren().add(r);
+        play.setOnAction(e -> window.setScene(scene));
+        
     }
 }
