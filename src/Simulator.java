@@ -299,7 +299,7 @@ public class Simulator {
 
         OCvSA.remove(getQualifierGameLoser(OCvSA.get(0), OCvSA.get(1)));
         output.addAll(OCvSA);
-        OCvSA.remove(getQualifierGameLoser(NAvAsia.get(0), NAvAsia.get(1)));
+        NAvAsia.remove(getQualifierGameLoser(NAvAsia.get(0), NAvAsia.get(1)));
         output.addAll(NAvAsia);
         output.addAll(UEFA);
         output.addAll(CONMEBOL);
