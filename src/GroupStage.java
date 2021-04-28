@@ -1,15 +1,16 @@
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 
-import javax.swing.table.TableColumn;
 import java.nio.file.attribute.GroupPrincipal;
 import java.util.ArrayList;
 
@@ -63,6 +64,43 @@ public class GroupStage extends GridPane {
 
         this.getChildren().addAll(center);
         return a;
+    }
+
+    public static TableView groupTable(Group group) {
+        TableView tableView = new TableView<>();
+
+        // Add the columns:
+        TableColumn<Team, String> countryCol = new TableColumn<>("Country");
+        countryCol.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getCountry()));
+
+        TableColumn<Team, String> pointsCol = new TableColumn<>("Points");
+        pointsCol.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
+
+        TableColumn<Team, String> winsCol = new TableColumn<>("Wins");
+        winsCol.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupWins())));
+
+        TableColumn<Team, String> drawsCol = new TableColumn<>("Draws");
+        drawsCol.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupDraws())));
+
+        TableColumn<Team, String> lossesCol = new TableColumn<>("Losses");
+        lossesCol.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupLosses())));
+
+        tableView.getColumns().addAll(
+                countryCol, winsCol, drawsCol, lossesCol
+        );
+
+        // Add the teams
+        for (Team team : group.getTeams())
+            tableView.getItems().add(team);
+
+
+        return tableView;
+
     }
 
 
