@@ -95,10 +95,10 @@ public class KnockoutPane extends Pane {
             if(i < 15){
                 if(i < 9){
                     button.setText(sixteenTeams.get(i-1).getCountry());
-                    //System.out.println(placeHolder.get(i).getCountry());
                 }
                 else if(i < 13){
                     button.setText(sixteenGames.get(counter).getWinner().getCountry());
+                    
                     counter++;
                 }
                 else if(i < 15){
@@ -157,7 +157,6 @@ public class KnockoutPane extends Pane {
                 rect.setX(x-(rect.getWidth()/2));//
                 rect.setY(y+(rect.getHeight()*1.23));//
                 thirdPlace.setLayoutX(rect.getX()+((73*((rect.getWidth()/73)-1))-buttonSizeX/16));//
-                System.out.println("value = " );
                 thirdPlace.setLayoutY(rect.getY());//12 is the height of the label
                 thirdPlaceX = x;
                 x += horizontalLength;
@@ -251,7 +250,7 @@ public class KnockoutPane extends Pane {
                     x += horizontalLength / 1.5;
                     y -= yIncrement / 2;
                 }
-                else{
+                else if(i == 34){
                     button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
