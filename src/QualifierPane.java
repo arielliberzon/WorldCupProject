@@ -29,7 +29,7 @@ public class QualifierPane extends BorderPane {
     private TextField search;
 
 
-    public QualifierPane(Map<String, Team> teamMap) {
+    public QualifierPane(Map<String, Team> teamMap, Double height, Double width) {
         // load the teamInfo object
         this.teamMap = teamMap;
 
@@ -38,6 +38,9 @@ public class QualifierPane extends BorderPane {
 
         createButtonBar();
         setTop(topbuttonBar);
+
+        this.setMinHeight(height);
+        this.setMinWidth(width);
     }
 
 
