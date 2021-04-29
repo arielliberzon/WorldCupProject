@@ -1,71 +1,70 @@
 
+
 import javafx.beans.property.SimpleStringProperty;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
-
-import java.nio.file.attribute.GroupPrincipal;
-import java.util.ArrayList;
 
 
 public class GroupStage extends GridPane {
     public GroupStage(){
         this.stagemain();
+
+
     }
+
+
     public GridPane stagemain(){
 
 
-        ArrayList<String> list=new ArrayList<String>();
-        for (int i = 0; i < 45; i++) {
-            list.add("boom1");
-        }
-
-        GroupTable one=new GroupTable(9, 5, list,"-fx-background-color: LIGHTGREY","A");
-        GroupTable two=new GroupTable(9, 5, list,"-fx-background-color: LIGHTSALMON","B");
-        GroupTable three=new GroupTable(9, 5, list,"-fx-background-color: white","C");
-        GroupTable four=new GroupTable(9, 5, list,"-fx-background-color: LIGHTPINK","D");
-        GroupTable five=new GroupTable(9, 5, list,"-fx-background-color: LIGHTCORAL","E");
-        GroupTable six=new GroupTable(9, 5, list,"-fx-background-color: LIGHTYELLOW","F");
-        GroupTable seven=new GroupTable(9, 5, list,"-fx-background-color: LIGHTCYAN","G");
-        GroupTable eight=new GroupTable(9, 5, list,"-fx-background-color: LIGHTSKYBLUE","H");
+        Simulator simulator = new Simulator();
+        Group group1 = simulator.getGroups().get(0);
+        TableView groupView1 = GroupStage.groupTable(group1 );
+        Group group2 = simulator.getGroups().get(1);
+        TableView groupView2 = GroupStage.groupTable(group2 );
+        Group group3 = simulator.getGroups().get(2);
+        TableView groupView3 = GroupStage.groupTable(group3 );
+        Group group4 = simulator.getGroups().get(3);
+        TableView groupView4 = GroupStage.groupTable(group4 );
+        Group group5 = simulator.getGroups().get(4);
+        TableView groupView5 = GroupStage.groupTable(group5 );
+        Group group6 = simulator.getGroups().get(5);
+        TableView groupView6 = GroupStage.groupTable(group6 );
+        Group group7 = simulator.getGroups().get(6);
+        TableView groupView7 = GroupStage.groupTable(group7 );
+        Group group8 = simulator.getGroups().get(7);
+        TableView groupView8 = GroupStage.groupTable(group8 );
 
         GridPane a = new GridPane();
-        SplitPane center = new SplitPane();
-        SplitPane sone = new SplitPane();
-        SplitPane stwo = new SplitPane();
-        center.setOrientation(Orientation.HORIZONTAL);
-        sone.setOrientation(Orientation.VERTICAL);
-        sone.setPrefSize(200, 200);
-        stwo.setOrientation(Orientation.VERTICAL);
-        stwo.setPrefSize(200, 200);
-        VBox one1  = new VBox(one.tablePainting());
-        VBox two2  = new VBox(two.tablePainting());
-        VBox three3  = new VBox(three.tablePainting());
-        VBox four4  = new VBox(four.tablePainting());
-        VBox five5  = new VBox(five.tablePainting());
-        VBox six6  = new VBox(six.tablePainting());
-        VBox seven7  = new VBox(seven.tablePainting());
-        VBox eight8  = new VBox(eight.tablePainting());
-        sone.getItems().addAll(one1,two2,three3,four4);
-        stwo.getItems().addAll(five5,six6,seven7,eight8);
+        GridPane center = new GridPane();
+
+        VBox one1  = new VBox(groupView1);
+        VBox two2  = new VBox(groupView2);
+        VBox three3  = new VBox(groupView3);
+        VBox four4  = new VBox(groupView4);
+        VBox five5  = new VBox(groupView5);
+        VBox six6  = new VBox(groupView6);
+        VBox seven7  = new VBox(groupView7);
+        VBox eight8  = new VBox(groupView8);
+        center.add(one1,1,0);
+        center.add(two2,2,0);
+        center.add(three3,1,1);
+        center.add(four4,2,1);
+        center.add(five5,1,2);
+        center.add(six6,2,2);
+        center.add(seven7,1,3);
+        center.add(eight8,2,3);
         this.setAlignment(Pos.CENTER);
-        VBox n = new VBox();
-        VBox o = new VBox();
-        n.getChildren().add(sone);
-        o.getChildren().add(stwo);
-        center.getItems().addAll(sone,stwo);
 
         this.getChildren().addAll(center);
         return a;
     }
-
     public static TableView groupTable(Group group) {
         TableView tableView = new TableView<>();
 
@@ -91,8 +90,11 @@ public class GroupStage extends GridPane {
                 new SimpleStringProperty(Integer.toString(data.getValue().groupLosses())));
 
         tableView.getColumns().addAll(
-                countryCol, winsCol, drawsCol, lossesCol
+                countryCol, winsCol, drawsCol, lossesCol,pointsCol
         );
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        tableView.setEditable(false);
 
         // Add the teams
         for (Team team : group.getTeams())
@@ -102,6 +104,7 @@ public class GroupStage extends GridPane {
         return tableView;
 
     }
+
 
 
 
