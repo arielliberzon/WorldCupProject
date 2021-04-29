@@ -67,8 +67,6 @@ public class KnockoutPane extends BorderPane {
         this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
-        this.buttonNamesToNumbers();
-
         simulateSixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
         simulateEightGames.setOnAction(e -> addNamesOfTheEightGames());
         simulateQuaterGames.setOnAction(e -> addNamesToQuaterGames());
