@@ -1,7 +1,3 @@
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -9,14 +5,13 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.function.Predicate;
 
 
 public class QualifierPane extends BorderPane {
 
     private Map<String, Team> teamMap;
     private TableView table;
-    private HBox topbuttonBar;
+    private HBox topButtonBar;
     private Button allButton;
     private Button uefaButton;
     private Button conmebolButton;
@@ -26,18 +21,19 @@ public class QualifierPane extends BorderPane {
     private Button ofcButton;
     private Button qualifiedButton;
     private Button searchButton;
-    private TextField search;
+    private TextField searchField;
 
 
     public QualifierPane(Map<String, Team> teamMap, Double height, Double width) {
-        // load the teamInfo object
         this.teamMap = teamMap;
 
         createTable();
+        //table.setMaxSize(width- 50, height);
         setCenter(table);
 
+
         createButtonBar();
-        setTop(topbuttonBar);
+        setTop(topButtonBar);
 
         this.setMinHeight(height);
         this.setMinWidth(width);
@@ -49,21 +45,21 @@ public class QualifierPane extends BorderPane {
         allButton = new Button("All confederations");
         allButton.setOnMouseClicked(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
         });
 
         uefaButton = new Button("UEFA");
         uefaButton.setOnMouseClicked(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "UEFA"));
         });
 
         conmebolButton = new Button("CONMEBOL");
         conmebolButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONMEBOL"));
             
         });
@@ -71,7 +67,7 @@ public class QualifierPane extends BorderPane {
         concacafButton = new Button("CONCACAF");
         concacafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONCACAF"));
 
         });
@@ -79,7 +75,7 @@ public class QualifierPane extends BorderPane {
         cafButton = new Button("CAF");
         cafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CAF"));
             
         });
@@ -87,7 +83,7 @@ public class QualifierPane extends BorderPane {
         afcButton = new Button("AFC");
         afcButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "AFC"));
             
         });
@@ -95,7 +91,7 @@ public class QualifierPane extends BorderPane {
         ofcButton = new Button("OFC");
         ofcButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "OFC"));
             
         });
@@ -103,34 +99,26 @@ public class QualifierPane extends BorderPane {
         qualifiedButton = new Button("Qualified Teams");
         qualifiedButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            search.setText("");
+            searchField.setText("");
             table.getItems().addAll(TableViewHelper.getQualifiedTeamList(teamMap));
             
         });
 
-        search = new TextField();
-        search.setPromptText("Search");
-        //FilteredList<Team> filteredData = new FilteredList<>(TableViewHelper.getFullTeamList(teamMap));
-
-        // 2. Set the filter Predicate whenever the filter changes.
-        /*search.textProperty().addListener((observableValue, oldValue, newValue) -> {
-                });*/
-
+        searchField = new TextField();
+        searchField.setPromptText("Search");
         searchButton = new Button("Search");
         searchButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
-            table.getItems().addAll(TableViewHelper.getSearchTeamList(teamMap, search.getText()));
+            table.getItems().addAll(TableViewHelper.getSearchTeamList(teamMap, searchField.getText()));
 
         });
 
+        topButtonBar = new HBox();
+        topButtonBar.setPadding(new Insets(10, 10, 10, 10));
+        topButtonBar.setSpacing(10);
 
-
-        topbuttonBar = new HBox();
-        topbuttonBar.setPadding(new Insets(10, 10, 10, 10));
-        topbuttonBar.setSpacing(10);
-
-        topbuttonBar.getChildren().addAll(allButton, uefaButton, conmebolButton,
-               concacafButton, cafButton, afcButton, ofcButton, qualifiedButton,search,searchButton);
+        topButtonBar.getChildren().addAll(allButton, uefaButton, conmebolButton,
+               concacafButton, cafButton, afcButton, ofcButton, qualifiedButton, searchField,searchButton);
 
 
     }
@@ -138,6 +126,8 @@ public class QualifierPane extends BorderPane {
     private void createTable() {
         // Create a TableView with a list of teams
         table = new TableView<>();
+        //table.setPadding(new Insets(0, 0, 50, 0));
+
         // Add rows to the TableView
         table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
 
@@ -159,9 +149,9 @@ public class QualifierPane extends BorderPane {
 
     }
 
-    public void updateTeamMap(ArrayList<Team> qualifiedTeams) {
-        for (int i = 0; i < qualifiedTeams.size(); i++) {
-            Team temp = qualifiedTeams.get(i);
+    public void updateTeamMap(ArrayList<Team> updatedTeamMap) {
+        for (int i = 0; i < updatedTeamMap.size(); i++) {
+            Team temp = updatedTeamMap.get(i);
             teamMap.get(temp.getCountryCode()).setQualified(true);
         }
     }
