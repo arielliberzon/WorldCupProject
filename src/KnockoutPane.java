@@ -70,9 +70,13 @@ public class KnockoutPane extends BorderPane {
     }
 
     private GridPane createBracket(){
-        int x = 0;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
-        int y = 0;                              //The initial y cord of the top left bracket;
         int scalingFactor = 40;      // Z.L. (modified value in "scalingFactor" from 50 to 40.)   //Scaling factor of the bracket, increase = bigger
+        double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
+        double buttonSizeY = scalingFactor / 1.25;
+        int thirdPlaceX = 0;
+        int x = (int) buttonSizeX/2;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
+        int y = 0;                    
+       
         int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
         int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.  **MIGHT GET REMOVED // TWEAKED since the scaling isn't 100% with it.**
         int yIncrement = scalingFactor*2;       //How much will the next tier bracket be moved down. 
@@ -81,9 +85,7 @@ public class KnockoutPane extends BorderPane {
         int yCordsAtTierTwo = yCordsAtTierOne + scalingFactor*2;                         
         int yCordsAtTierThree = yCordsAtTierTwo + scalingFactor*4;
         int yIncrementIncrease = yIncrement;                    //Since we change the yIncrement, we use incrementIncrease to keep the base value; technically can be removed but eh
-        double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
-        double buttonSizeY = scalingFactor / 1.25;
-        int thirdPlaceX = 0;
+                  //The initial y cord of the top left bracket;
 
         Label title = new Label("FIFA WORLD CUP BRACKET");
         title.setFont(Font.font("Arial Black", 20));
