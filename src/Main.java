@@ -36,13 +36,13 @@ public class Main extends Application {
     public TabPane topping(Double height, Double width){
 
         // HARDCODED QUALIFIERS//
-        QualifierPane qualifierPane = new QualifierPane(info.getTeamMap(), height, width);
-        qualifierPane.updateTeamMap(simulator.getQualifiedTeams(info));
+        QualifierPane qualifierPane = new QualifierPane(simulator.getTeamMap(), height, width);
+        qualifierPane.updateTeamMap(simulator.getQualifiedTeams());
         simulator.simulateGroups();
         // END OF HARDCODED TEST //
 
         TabPane n = new TabPane();
-        Tab groupStageTab = new Tab("   Group Stage   ", new GroupStage(height, width));
+        Tab groupStageTab = new Tab("   Group Stage   ", new GroupStage(height, width, simulator));
         Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(simulator));
         Tab qualifierStageTab = new Tab("   Teams   ", qualifierPane);
 

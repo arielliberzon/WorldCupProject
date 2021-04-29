@@ -13,7 +13,9 @@ import javafx.scene.layout.*;
 
 
 public class GroupStage extends GridPane {
-    public GroupStage(Double height, Double width){
+    private Simulator simulator;
+    public GroupStage(Double height, Double width, Simulator simulator){
+        this.simulator = simulator;
         this.stagemain();
         this.setMaxHeight(height);
         this.setMaxWidth(width);
@@ -22,8 +24,6 @@ public class GroupStage extends GridPane {
 
     public GridPane stagemain(){
 
-
-        Simulator simulator = new Simulator();
         Group group1 = simulator.getGroups().get(0);
         TableView groupView1 = GroupStage.groupTable(group1 );
         Group group2 = simulator.getGroups().get(1);
