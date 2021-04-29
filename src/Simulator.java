@@ -45,19 +45,8 @@ public class Simulator {
     public Simulator() {
         teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        loadWorldCupTeams();
+        getQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
         simulateGroups();
-    }
-
-    private void loadWorldCupTeams() {
-        // This loads an arbitrary selection of 32 teams.
-        // TODO: consider a method to select the 32 teams more realistically.
-        int i=0;
-        for (Team team : teamInfo.getTeamMap().values()) {
-            worldCupTeams.add(team);
-            i += 1;
-            if (i==32) break;
-        }
     }
 
     /**
