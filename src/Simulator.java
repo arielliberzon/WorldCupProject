@@ -41,7 +41,7 @@ public class Simulator {
     public Simulator() {
         teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        getQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
+        setQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
         simulateGroups();
     }
 
@@ -256,7 +256,7 @@ public class Simulator {
      * stage slots. Each arraylist is filled up by the method getQualified().
      * @return An ArrayList<Team> that contains 32 teams that will move on to the group stage.
      */
-    public ArrayList<Team> getQualifiedTeams(TeamInfo teamInfo) {
+    public void setQualifiedTeams(TeamInfo teamInfo) {
 
         ArrayList<Team> output = new ArrayList<>();
 
@@ -329,12 +329,11 @@ public class Simulator {
         output.addAll(CAF);
 
         worldCupTeams = output;
-        return output;
     }
 
     /**
      * @author Alexander and Michael
-     * Helper function to the getQualifiedTeams() method. This returns an arraylist that contains the teams that qualify to
+     * Helper function to the setQualifiedTeams() method. This returns an arraylist that contains the teams that qualify to
      * group stage. Using the Java.util Random(), it will determine which team will qualify to the group stage with the
      * higher seeded team having a greater chance.
      * @param input Confederation team list
@@ -360,7 +359,7 @@ public class Simulator {
         int indexTop = 0;
         int indexBottom = input.size() -1;
 
-        getQualifiedTeams(input, evenSpots);
+        setQualifiedTeams(input, evenSpots);
 
         if (spots % 2 == 1) {
             teamOne = input.get(0);
@@ -405,7 +404,7 @@ public class Simulator {
             return tTwo;
     }
 
-    private ArrayList<Team>  getQualifiedTeams(ArrayList<Team> confTeams , int spots){
+    private ArrayList<Team>  setQualifiedTeams(ArrayList<Team> confTeams , int spots){
         return getQualifiedRec(confTeams,  spots, 0, (confTeams.size()-1));
     }
 

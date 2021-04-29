@@ -59,7 +59,7 @@ public class Main extends Application {
 
         TabPane tabPane = new TabPane();
 
-        QualifierPane teamsPane = new QualifierPane(simulator.getTeamMap(), height, width);
+        QualifierPane teamsPane = new QualifierPane(simulator, height, width);
         GroupStage groupPane = new GroupStage(height, width, simulator);
         KnockoutPane knockoutPane = new KnockoutPane(simulator);
 

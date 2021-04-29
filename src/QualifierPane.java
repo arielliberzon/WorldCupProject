@@ -10,6 +10,7 @@ import java.util.Map;
 public class QualifierPane extends BorderPane {
 
     private Map<String, Team> teamMap;
+    private Simulator simulator;
     private TableView table;
     private HBox topButtonBar;
     private Button allButton;
@@ -24,13 +25,14 @@ public class QualifierPane extends BorderPane {
     private TextField searchField;
 
 
-    public QualifierPane(Map<String, Team> teamMap, Double height, Double width) {
-        this.teamMap = teamMap;
+    public QualifierPane(Simulator simulator, Double height, Double width) {
+        this.simulator = simulator;
+        teamMap = simulator.getTeamMap();
+        updateTeamMap(simulator.getQualifiedTeams());
 
         createTable();
         //table.setMaxSize(width- 50, height);
         setCenter(table);
-
 
         createButtonBar();
         setTop(topButtonBar);
