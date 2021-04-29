@@ -67,6 +67,8 @@ public class KnockoutPane extends BorderPane {
         this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
+        this.buttonNamesToNumbers();
+
         simulateSixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
         simulateEightGames.setOnAction(e -> addNamesOfTheEightGames());
         simulateQuaterGames.setOnAction(e -> addNamesToQuaterGames());
@@ -282,24 +284,25 @@ public class KnockoutPane extends BorderPane {
     }
 
     private void addNamesOfSixteenTeams(){
-        for(int i = 0; i < 8; i++){
-            buttonList.get(i).setText(sixteenTeams.get(i).getCountry());
-        }
-        for(int i = 23; i < 31; i++){
-            buttonList.get(i).setText(sixteenTeams.get(i-15).getCountry());
+        int counter = 0;
+        for(int i = 0; i < 16; i +=4){
+            buttonList.get(counter).setText(sixteenTeams.get(i).getCountry());        
+            buttonList.get(counter+1).setText(sixteenTeams.get(i+1).getCountry());    
+            buttonList.get(counter+23).setText(sixteenTeams.get(i+2).getCountry());   
+            buttonList.get(counter+23+1).setText(sixteenTeams.get(i+3).getCountry()); 
+            counter +=2;
         }
         sixteenTeamsDisplayed = true;
     }
     private void addNamesOfTheEightGames(){
         if(sixteenTeamsDisplayed == true){
             int counter = 0;
-            for(int i = 8; i < 12; i++){
-                buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry());
-                counter++;
-            }
-            for(int i = 19; i < 23; i++){
-                buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry());
-                counter++;
+            for(int i = 8; i < 11; i += 2){
+                buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry());        
+                buttonList.get(i+11).setText(eightGames.get(counter+1).getWinner().getCountry());   
+                buttonList.get(i+1).setText(eightGames.get(counter+2).getWinner().getCountry());    
+                buttonList.get(i+12).setText(eightGames.get(counter+3).getWinner().getCountry());   
+                counter =+ 4;
             }
         }
         eightGamesDisplayed = true;
@@ -309,11 +312,8 @@ public class KnockoutPane extends BorderPane {
             int counter = 0;
             for(int i = 12; i < 14; i++){
                 buttonList.get(i).setText(quarterGames.get(counter).getWinner().getCountry());
-                counter++;
-            }
-            for(int i = 17; i < 19; i++){
-                buttonList.get(i).setText(quarterGames.get(counter).getWinner().getCountry());
-                counter++;
+                buttonList.get(i+5).setText(quarterGames.get(counter+1).getWinner().getCountry());
+                counter =+2;
             }
         }
         quaterGamesDisplayed = true;
