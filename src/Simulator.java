@@ -81,21 +81,21 @@ public class Simulator {
      * @author Samuel Hernandez
      */
     private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups){
-        Collections.sort(worldCupTeams);                    //Make sure world cup teams are sorted by rankings
-        ArrayList<Team> orderedList = new ArrayList<>();    //This array list will have the ordered list
-        ArrayList<ArrayList<Team>> bowls = new ArrayList(); //Holds all the bowls
+        Collections.sort(worldCupTeams);                            //Make sure world cup teams are sorted by rankings
+        ArrayList<Team> orderedList = new ArrayList<>();            //This array list will have the ordered list
+        ArrayList<ArrayList<Team>> bowls = new ArrayList();         //Holds all the bowls
 
         //Create the right amount of bowls: : For 32 teams and 8 groups = 4 bowls
         int numBowls = nTeams/nGroups;
         for(int i = 0; i < numBowls; i++)
             bowls.add(new ArrayList<>());
 
+        //Divide all the teams into bowls according to their ranking
         int currentBowl = 0;
-        //Divide all the teams into bowls
         for(int i = 0; i < nTeams; i++){
             Team team = worldCupTeams.get(i);
             bowls.get(currentBowl).add(team);
-            if((i+1) % nGroups == 0)                             //Change bowl when it is complete
+            if((i+1) % nGroups == 0)                                //Change bowl when it is complete
                 currentBowl++;
         }
 
