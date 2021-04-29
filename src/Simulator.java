@@ -146,20 +146,15 @@ public class Simulator {
      */
     public ArrayList<Game> simulateQuarters() {
         quartersGames = new ArrayList<>();
-        int first = 0;
-        int second = 2;
+        int index = 0;
         for (int i = 0; i < 4; i++) {
-            Team a = roundOf16Games.get(first).getWinner();
-            Team b = roundOf16Games.get(second).getWinner();
+            Team a = roundOf16Games.get(index).getWinner();
+            Team b = roundOf16Games.get(index + 2).getWinner();
             quartersGames.add(new Game(a, b, false));
-            if(first == 1)
-                first = 4;
+            if(index == 1)
+                index = 4;
             else
-                first++;
-            if(second == 3)
-                second = 6;
-            else
-                second++;
+                index++;
         }
         return quartersGames;
     }
