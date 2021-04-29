@@ -102,9 +102,10 @@ public class Simulator {
         //Now all bowls have ranked teams. Randomly select one and add it to ordered list
         Random rand = new Random();
         for(int i = 0; i < nGroups; i++) {                          //Pick teams for each group
-            int randomNum = rand.nextInt(bowls.get(0).size());
-            for(int j = 0; j < bowls.size(); j++)                   //Pick a team from each bowl
+            for(int j = 0; j < bowls.size(); j++) {                 //Pick a team from each bowl
+                int randomNum = rand.nextInt(bowls.get(j).size());
                 orderedList.add(bowls.get(j).remove(randomNum));
+            }
         }
         return orderedList;
     }
