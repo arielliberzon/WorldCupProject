@@ -23,7 +23,6 @@ import java.util.ArrayList;
  *      - Justin V
  */
 public class KnockoutPane extends BorderPane {
-
     private ArrayList<Button> buttonList = new ArrayList<>();
     private GridPane masterKnockoutPane = new GridPane();
     private Pane knockoutPane = new Pane();
@@ -36,7 +35,6 @@ public class KnockoutPane extends BorderPane {
     private boolean eightGamesDisplayed = false;
     private boolean quaterGamesDisplayed = false;
     private boolean semisGamesAndThirdPlacementsDisplayed = false;
-    //private boolean finalsAndThirdWinnerDisplayed = false;
 
     private Button simulateSixteenTeams = new Button("Simulate 16");
     private Button simulateEightGames = new Button("Simulate 8");
@@ -45,10 +43,6 @@ public class KnockoutPane extends BorderPane {
     private Button simulateFinalAndThird = new Button("Simulate Final and Third");
     private Button simulateAll = new Button("Simulate All Rounds");
 
-
-    //private Label title = new Label("FIFA WORLD CUP BRACKET");
-    
-    
 
     public KnockoutPane(Simulator sim){
         //this.sim = sim;
@@ -73,8 +67,6 @@ public class KnockoutPane extends BorderPane {
         simulateSemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         simulateFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
         simulateAll.setOnAction(e -> simulateAll());
-
-       
     }
 
     private GridPane createBracket(){
