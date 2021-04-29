@@ -102,6 +102,9 @@ public class Game {
         double sum = teamOne.getTotalPoints() + teamTwo.getTotalPoints();  //Total amount of points
         teamOneChance = teamOne.getTotalPoints() * 100/ sum;  //Chance of team one of scoring per
 
+        //Update chance to show more realistic scores
+        teamOneChance += teamOne.getTotalPoints() > teamTwo.getTotalPoints()? 20 : -20;
+
         //Simulate first 90 minutes divided in two halves
         simulateSection(45,0);
         simulateSection(45,1);
@@ -109,30 +112,25 @@ public class Game {
         //If game was not tied
         if(score[1][0] != score[1][1]){
             declareWinnerAndLoser(score[1][0], score[1][1]);        //Declare winner
-            return;                                         //No need to go any further
+            return;                                                 //No need to go any further
         }
 
         //Method will reach here only if game was tied
-        if(canBeDraw){                                      //If the game can be tied declare a tie
+        if(canBeDraw){                                          //If the game can be tied declare a tie
             tiedGame = true;
-            return;                                         //No need to go any further
+            return;                                             //No need to go any further
         }
 
         //If the game cannot be tied go to over time
         if(!canBeDraw){
-            //Overtime if the scores are tied after 90 minutes
-            if(score[1][0] == score[1][1]) {
+            if(score[1][0] == score[1][1]) {                    //Overtime if the scores are tied after 90 minutes
                 overTimeUsed = true;
                 simulateSection(15,2);
                 simulateSection(15,3);
-
-                if(score[3][0] == score[3][1]){                                 //If still tied go to penalty kicks
+                if(score[3][0] == score[3][1])                                 //If still tied go to penalty kicks
                     simulatePenaltyKicks();
-                }
-
-                else{                                                           //Else: not tied anymore
+                else                                                                   //Else: not tied anymore
                     declareWinnerAndLoser(score[3][0], score[3][1]);                    //Declare winner and loser
-                }
             }
         }
     }
