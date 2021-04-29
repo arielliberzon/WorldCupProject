@@ -4,14 +4,19 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import java.io.IOException;
+
+/**
+ * This is the main class which starts the application. It has a starterPane
+ * that displays an image and has a "Start" button. It also creates a rootPane
+ * which that contains tabs for each aspect of the World Cup (all national teams,
+ * the tournament group stage, and the tournaments knock out stage). TODO: finish
+ */
 
 public class Main extends Application {
 
     private BorderPane rootPane = new BorderPane();
     private GridPane starterPane = new GridPane();
     private Scene scene = new Scene(rootPane);
-    private Button startButton;
     private Simulator simulator = new Simulator();
 
     @Override
@@ -21,12 +26,16 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
     }
 
-    //all the scene and pane are base on this method add and remove as you like
+    /**
+     * TODO: Add description
+     * @author Harjit Sighn
+     * @param window
+     */
     private void showIntroScene(Stage window) {
         Image img = new Image("Images/background.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        startButton = new Button("Start");
+        Button startButton = new Button("Start");
         startButton.setStyle("-fx-background-color: LIGHTGREY");
         starterPane.add(startButton, 0, 1);
         startButton.setTranslateX(800);
@@ -40,6 +49,12 @@ public class Main extends Application {
 
     }
 
+    /**
+     * TODO: description
+     * @param height
+     * @param width
+     * @return
+     */
     private TabPane createTopping(Double height, Double width){
 
         TabPane tabPane = new TabPane();
