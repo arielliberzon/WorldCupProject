@@ -9,6 +9,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -42,6 +43,7 @@ public class KnockoutPane extends BorderPane {
     private Button simulateQuaterGames = new Button("Simulate Quaters");
     private Button simulateSemisGames = new Button("Simulate Semis");
     private Button simulateFinalAndThird = new Button("Simulate Final and Third");
+    private Button simulateAll = new Button("Simulate All Rounds");
 
 
     //private Label title = new Label("FIFA WORLD CUP BRACKET");
@@ -59,14 +61,18 @@ public class KnockoutPane extends BorderPane {
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.getChildren().addAll(simulateSixteenTeams,simulateEightGames,simulateQuaterGames,simulateSemisGames,simulateFinalAndThird);
-        this.setTop(buttonBox);
+        VBox verticalButtonBox = new VBox();
+        verticalButtonBox.setAlignment(Pos.CENTER);
+        verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
+        this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
-        simulateSixteenTeams.setOnAction(e -> addTheNamesOfSixteenTeams());
-        simulateEightGames.setOnAction(e -> addTheNamesOfTheEightGames());
+        simulateSixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
+        simulateEightGames.setOnAction(e -> addNamesOfTheEightGames());
         simulateQuaterGames.setOnAction(e -> addNamesToQuaterGames());
         simulateSemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         simulateFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
+        simulateAll.setOnAction(e -> simulateAll());
 
        
     }
@@ -275,7 +281,7 @@ public class KnockoutPane extends BorderPane {
         }
     }
 
-    private void addTheNamesOfSixteenTeams(){
+    private void addNamesOfSixteenTeams(){
         for(int i = 0; i < 8; i++){
             buttonList.get(i).setText(sixteenTeams.get(i).getCountry());
         }
@@ -284,7 +290,7 @@ public class KnockoutPane extends BorderPane {
         }
         sixteenTeamsDisplayed = true;
     }
-    private void addTheNamesOfTheEightGames(){
+    private void addNamesOfTheEightGames(){
         if(sixteenTeamsDisplayed == true){
             int counter = 0;
             for(int i = 8; i < 12; i++){
@@ -339,5 +345,13 @@ public class KnockoutPane extends BorderPane {
             buttonList.get(15).setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());
             buttonList.get(33).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
         }
+    }
+    
+    private void simulateAll(){
+        this.addNamesOfSixteenTeams();
+        this.addNamesOfTheEightGames();
+        this.addNamesToQuaterGames();
+        this.addNamesToSemisGamesAndThirdPlacePlacements();
+        this.addNamesToFinalsAndThirdPlace();
     }
 }
