@@ -1,10 +1,15 @@
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -17,26 +22,56 @@ import java.util.ArrayList;
  *   Main is composed of this (I'm pretty sure)
  *      - Justin V
  */
-public class KnockoutPane extends Pane {
-
+public class KnockoutPane extends BorderPane {
     private ArrayList<Button> buttonList = new ArrayList<>();
+    private GridPane masterKnockoutPane = new GridPane();
+    private Pane knockoutPane = new Pane();
+    private ArrayList<Team> sixteenTeams;
+    private ArrayList<Game> eightGames;
+    private ArrayList<Game> quarterGames;
+    private ArrayList<Game> semiGames;
+    private ArrayList<Game> finalAndThirdPlaceGame;
+    private boolean sixteenTeamsDisplayed = false;
+    private boolean eightGamesDisplayed = false;
+    private boolean quaterGamesDisplayed = false;
+    private boolean semisGamesAndThirdPlacementsDisplayed = false;
 
-    private Label title = new Label("FIFA WORLD CUP BRACKET");
-    
-    
+    private Button simulateSixteenTeams = new Button("Simulate 16");
+    private Button simulateEightGames = new Button("Simulate 8");
+    private Button simulateQuaterGames = new Button("Simulate Quaters");
+    private Button simulateSemisGames = new Button("Simulate Semis");
+    private Button simulateFinalAndThird = new Button("Simulate Final and Third");
+    private Button simulateAll = new Button("Simulate All Rounds");
+
 
     public KnockoutPane(Simulator sim){
+        //this.sim = sim;
+        sixteenTeams = sim.getTeamsInOrderInRoundOfSixteen();
+        eightGames = sim.simulateRoundOfSixteen();
+        quarterGames = sim.simulateQuarters();
+        semiGames = sim.simulateSemis();
+        finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
-        this.createBracket(sim);
-        
-        
+        HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(simulateSixteenTeams,simulateEightGames,simulateQuaterGames,simulateSemisGames,simulateFinalAndThird);
+        VBox verticalButtonBox = new VBox();
+        verticalButtonBox.setAlignment(Pos.CENTER);
+        verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
+        this.setTop(verticalButtonBox);
+        this.setCenter(this.createBracket());
 
-       
+        simulateSixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
+        simulateEightGames.setOnAction(e -> addNamesOfTheEightGames());
+        simulateQuaterGames.setOnAction(e -> addNamesToQuaterGames());
+        simulateSemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
+        simulateFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
+        simulateAll.setOnAction(e -> simulateAll());
     }
 
-    private void createBracket(Simulator sim){
-        int x = 120;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
-        int y = 50;                              //The initial y cord of the top left bracket;
+    private GridPane createBracket(){
+        int x = 0;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
+        int y = 0;                              //The initial y cord of the top left bracket;
         int scalingFactor = 40;      // Z.L. (modified value in "scalingFactor" from 50 to 40.)   //Scaling factor of the bracket, increase = bigger
         int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
         int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.  **MIGHT GET REMOVED // TWEAKED since the scaling isn't 100% with it.**
@@ -48,17 +83,7 @@ public class KnockoutPane extends Pane {
         int yIncrementIncrease = yIncrement;                    //Since we change the yIncrement, we use incrementIncrease to keep the base value; technically can be removed but eh
         double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
         double buttonSizeY = scalingFactor / 1.25;
-        int counter = 0;
-        int counterOne = 0;
-        ArrayList<Team> sixteenTeams = sim.getTeamsInOrderInRoundOfSixteen();
-        ArrayList<Game> sixteenGames = sim.simulateRoundOfSixteen();
-        ArrayList<Game> quarterGames = sim.simulateQuarters();
-        ArrayList<Game> semiGames = sim.simulateSemis();
-        ArrayList<Game> finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
-        //scaling factor = 40, 650 = 13
-        //scaling factor = 50, 800 = 16
         int thirdPlaceX = 0;
-        int randomNumber = 0;
 
         Label title = new Label("FIFA WORLD CUP BRACKET");
         title.setFont(Font.font("Arial Black", 20));
@@ -69,9 +94,8 @@ public class KnockoutPane extends Pane {
         winner.setTextFill(Color.rgb(255,244,32));
         
 
-        Rectangle rect = new Rectangle();//
+        Rectangle rect = new Rectangle();
 
-        
         rect.setHeight(buttonSizeY*5);
         rect.setWidth((buttonSizeX*2.09));
         rect.setStroke(Color.WHITE);
@@ -82,7 +106,7 @@ public class KnockoutPane extends Pane {
         thirdPlace.setTextFill(Color.rgb(255,244,32));
         
 
-        this.getChildren().addAll(title, winner, rect, thirdPlace);
+        knockoutPane.getChildren().addAll(title, winner, rect, thirdPlace);
 
         for(int i = 1; i < 35; i++){
             int buttonX = (int)(x - buttonSizeX/2);
@@ -96,19 +120,6 @@ public class KnockoutPane extends Pane {
             button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
 
             if(i < 15){
-                if(i < 9){
-                    button.setText(sixteenTeams.get(i-1).getCountry());
-                }
-                else if(i < 13){
-                    button.setText(sixteenGames.get(counter).getWinner().getCountry());
-                    
-                    counter++;
-                }
-                else if(i < 15){
-                    button.setText(quarterGames.get(counterOne).getWinner().getCountry());
-                    counterOne++;
-                }
-                
                 if(i % 2 == 1){//odd
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
@@ -121,14 +132,12 @@ public class KnockoutPane extends Pane {
                     drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                     if(i == 8){
-                        
                         x += horizontalLength;
                         y = yCordsAtTierOne;                                //sets up the yCords for the **NEXT** tier
                         yLength += yIncrementIncrease/2;
                         yIncrement += yIncrementIncrease;
                     }
                     else if(i == 12){
-                        
                         x += horizontalLength;
                         y = yCordsAtTierTwo;                                
                         yLength += yIncrementIncrease/2;
@@ -145,10 +154,8 @@ public class KnockoutPane extends Pane {
                 button.setLayoutX(buttonX);
                 button.setLayoutY(buttonY);
                 drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
-                
                 x += horizontalLength;
-                y = yCordsAtTierThree - yLength;
-                button.setText(semiGames.get(0).getWinner().getCountry());                             //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
+                y = yCordsAtTierThree - yLength;  //THIS IS THE SPECIAL CASE. since the button needs to be **UP**
             }
             else if(i == 16){
                 button.setLayoutX(buttonX);
@@ -164,7 +171,6 @@ public class KnockoutPane extends Pane {
                 thirdPlaceX = x;
                 x += horizontalLength;
                 y = yCordsAtTierThree;
-                button.setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());                                      
             }
             else if(i == 17){
                 button.setLayoutX(buttonX);
@@ -173,20 +179,8 @@ public class KnockoutPane extends Pane {
                 x += horizontalLength;
                 y = yCordsAtTierTwo;                                    
                 yLength -= yIncrementIncrease/2;
-                button.setText(semiGames.get(1).getWinner().getCountry());
             }
             else if(i > 17 && i < 32){
-                if(i < 20){
-                    button.setText(quarterGames.get(counterOne).getWinner().getCountry());
-                    counterOne++;
-                }
-                else if(i < 24){
-                    button.setText(sixteenGames.get(counter).getWinner().getCountry());
-                    counter++;
-                }
-                else if(i < 32){
-                    button.setText(sixteenTeams.get(i-16).getCountry());
-                }
                 if(i % 2 == 1){
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
@@ -220,31 +214,14 @@ public class KnockoutPane extends Pane {
             else{
                 
                 if(i == 32){
-                    Random random = new Random();
-                    randomNumber = random.nextInt(2);
                     x -= (buttonSizeX*.4);
                     y -= ((buttonSizeY*3)-(buttonSizeY*6));
-                    if(randomNumber == 0){
-                        button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
-                    }
-                    else{
-                        button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
-                    }
-                    
                     button.setLayoutX(x - buttonSizeX/2);
                     button.setLayoutY(y - buttonSizeY/2);
                     drawLines(x,y,false,false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength /2);
                     y += yIncrement;
                 }
                 else if(i == 33){
-                    if(randomNumber == 0){
-                        button.setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
-                    }
-                    else{
-                        button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
-                        
-                    }
-                    
                     button.setLayoutX(buttonX);
 
                     button.setLayoutY(buttonY);
@@ -253,14 +230,16 @@ public class KnockoutPane extends Pane {
                     y -= yIncrement / 2;
                 }
                 else if(i == 34){
-                    button.setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
                     button.setLayoutX(buttonX);
                     button.setLayoutY(buttonY);
                 }
             }
             buttonList.add(button);
-            this.getChildren().addAll(button);
+            knockoutPane.getChildren().addAll(button);
         }
+        masterKnockoutPane.add(knockoutPane, 0, 0);
+        masterKnockoutPane.setAlignment(Pos.CENTER);
+        return masterKnockoutPane;
     }
 
     private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength, int horizontalLength){
@@ -284,6 +263,85 @@ public class KnockoutPane extends Pane {
             line2 = new Line(x_length, y, x_length, y + yLength);
         }
 
-        this.getChildren().addAll(line1, line2);
+        knockoutPane.getChildren().addAll(line1, line2);
+    }
+
+    private void buttonNamesToNumbers(){
+        //JUST A DEBUG BECAUSE COUNTING IS HARD
+        for(int i = 0; i < buttonList.size(); i++){
+            buttonList.get(i).setText(Integer.toString(i));
+        }
+    }
+
+    private void addNamesOfSixteenTeams(){
+        int counter = 0;
+        for(int i = 0; i < 16; i +=4){
+            buttonList.get(counter).setText(sixteenTeams.get(i).getCountry());        
+            buttonList.get(counter+1).setText(sixteenTeams.get(i+1).getCountry());    
+            buttonList.get(counter+23).setText(sixteenTeams.get(i+2).getCountry());   
+            buttonList.get(counter+23+1).setText(sixteenTeams.get(i+3).getCountry()); 
+            counter +=2;
+        }
+        sixteenTeamsDisplayed = true;
+    }
+    private void addNamesOfTheEightGames(){
+        if(sixteenTeamsDisplayed == true){
+            int counter = 0;
+            for(int i = 8; i < 11; i += 2){
+                buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry());        
+                buttonList.get(i+11).setText(eightGames.get(counter+1).getWinner().getCountry());   
+                buttonList.get(i+1).setText(eightGames.get(counter+2).getWinner().getCountry());    
+                buttonList.get(i+12).setText(eightGames.get(counter+3).getWinner().getCountry());   
+                counter =+ 4;
+            }
+        }
+        eightGamesDisplayed = true;
+    }
+    private void addNamesToQuaterGames(){
+        if(eightGamesDisplayed == true){
+            int counter = 0;
+            for(int i = 12; i < 14; i++){
+                buttonList.get(i).setText(quarterGames.get(counter).getWinner().getCountry());
+                buttonList.get(i+5).setText(quarterGames.get(counter+1).getWinner().getCountry());
+                counter =+2;
+            }
+        }
+        quaterGamesDisplayed = true;
+    }
+    private void addNamesToSemisGamesAndThirdPlacePlacements(){
+        if(quaterGamesDisplayed == true){
+            buttonList.get(14).setText(semiGames.get(0).getWinner().getCountry());
+            buttonList.get(16).setText(semiGames.get(1).getWinner().getCountry()); 
+            Random random = new Random();
+            int randomNumber = random.nextInt(2);
+                if(randomNumber == 0){
+                    buttonList.get(31).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                }
+                else{
+                    buttonList.get(31).setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                } 
+                if(randomNumber == 0){
+                    buttonList.get(32).setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
+                }
+                else{
+                    buttonList.get(32).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+                    
+                }
+            }
+        semisGamesAndThirdPlacementsDisplayed = true;
+    }
+    private void addNamesToFinalsAndThirdPlace(){
+        if(semisGamesAndThirdPlacementsDisplayed == true){
+            buttonList.get(15).setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());
+            buttonList.get(33).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
+        }
+    }
+    
+    private void simulateAll(){
+        this.addNamesOfSixteenTeams();
+        this.addNamesOfTheEightGames();
+        this.addNamesToQuaterGames();
+        this.addNamesToSemisGamesAndThirdPlacePlacements();
+        this.addNamesToFinalsAndThirdPlace();
     }
 }
