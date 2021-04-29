@@ -1,6 +1,8 @@
 
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 
@@ -25,21 +27,21 @@ public class GroupStage extends GridPane {
     public GridPane stagemain(){
 
         Group group1 = simulator.getGroups().get(0);
-        TableView groupView1 = GroupStage.groupTable(group1 );
+        TableView groupView1 = GroupStage.groupTable(group1,"Group A" );
         Group group2 = simulator.getGroups().get(1);
-        TableView groupView2 = GroupStage.groupTable(group2 );
+        TableView groupView2 = GroupStage.groupTable(group2,"Group B" );
         Group group3 = simulator.getGroups().get(2);
-        TableView groupView3 = GroupStage.groupTable(group3 );
+        TableView groupView3 = GroupStage.groupTable(group3,"Group C" );
         Group group4 = simulator.getGroups().get(3);
-        TableView groupView4 = GroupStage.groupTable(group4 );
+        TableView groupView4 = GroupStage.groupTable(group4,"Group D" );
         Group group5 = simulator.getGroups().get(4);
-        TableView groupView5 = GroupStage.groupTable(group5 );
+        TableView groupView5 = GroupStage.groupTable(group5,"Group E" );
         Group group6 = simulator.getGroups().get(5);
-        TableView groupView6 = GroupStage.groupTable(group6 );
+        TableView groupView6 = GroupStage.groupTable(group6,"Group F" );
         Group group7 = simulator.getGroups().get(6);
-        TableView groupView7 = GroupStage.groupTable(group7 );
+        TableView groupView7 = GroupStage.groupTable(group7,"Group G" );
         Group group8 = simulator.getGroups().get(7);
-        TableView groupView8 = GroupStage.groupTable(group8 );
+        TableView groupView8 = GroupStage.groupTable(group8,"Group H" );
 
         GridPane a = new GridPane();
         GridPane center = new GridPane();
@@ -60,15 +62,20 @@ public class GroupStage extends GridPane {
         center.add(six6,2,2);
         center.add(seven7,1,3);
         center.add(eight8,2,3);
+        center.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+        center.setVgap(10); //vertical gap in pixels
+        center.setPadding(new Insets(10, 10, 10, 10));
+        center.setTranslateY(-55);
         this.setAlignment(Pos.CENTER);
 
         this.getChildren().addAll(center);
         return a;
     }
-    public static TableView groupTable(Group group) {
+    public static TableView groupTable(Group group,String c ) {
         TableView tableView = new TableView<>();
 
         // Add the columns:
+        TableColumn<Team, String> groupname   = new TableColumn<>(c);
         TableColumn<Team, String> countryCol = new TableColumn<>("Country");
         countryCol.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getCountry()));
@@ -89,12 +96,11 @@ public class GroupStage extends GridPane {
         lossesCol.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().groupLosses())));
 
-        tableView.getColumns().addAll(
-                countryCol, winsCol, drawsCol, lossesCol,pointsCol
-        );
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        groupname.getColumns().addAll(countryCol, winsCol, drawsCol, lossesCol,pointsCol);
+        tableView.getColumns().addAll(groupname);
+        tableView.setFixedCellSize(25);
+        tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(44));
 
-        tableView.setEditable(false);
 
         // Add the teams
         for (Team team : group.getTeams())

@@ -9,7 +9,7 @@ public class testGroupView extends Application {
     public void start(Stage primaryStage) throws Exception {
         Simulator simulator = new Simulator();
         Group group = simulator.getGroups().get(0);
-        TableView groupView = GroupStage.groupTable(group);
+        TableView groupView = GroupStage.groupTable(group,"-fx-background-color: green");
         primaryStage.setScene(new Scene(groupView));
         primaryStage.show();
 
