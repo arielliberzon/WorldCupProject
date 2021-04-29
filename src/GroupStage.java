@@ -13,10 +13,10 @@ import javafx.scene.layout.*;
 
 
 public class GroupStage extends GridPane {
-    public GroupStage(){
+    public GroupStage(Double height, Double width){
         this.stagemain();
-
-
+        this.setMaxHeight(height);
+        this.setMaxWidth(width);
     }
 
 
