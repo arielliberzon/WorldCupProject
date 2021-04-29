@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -406,6 +407,10 @@ public class Simulator {
         beginning++;
         end --;
         return getQualifiedRec(confTeams, spots, beginning, end);
+    }
+
+    public HashMap<String, Team> getTeamMap() {
+        return teamInfo.getTeamMap();
     }
 
 
