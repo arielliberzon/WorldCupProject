@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Simulator class is designed to simulate the world cup in phases so that they can be simulated by steps by the GUI
@@ -57,6 +54,7 @@ public class Simulator {
         int nGroups = 8;
         int nTeams = worldCupTeams.size();
         int teamsPerGroup = nTeams / nGroups;
+        worldCupTeams = sortTeamsIntoGroups(worldCupTeams, nTeams, nGroups, teamsPerGroup);
 
         // Dividing the teams over the groups.
         int teamIndex = 0;
@@ -72,6 +70,42 @@ public class Simulator {
             groups.add(group);
             curGroupChar += 1;
         }
+    }
+
+    /**
+     * Method sorts qualified teams into groups like in the real world cup:
+     * 32 teams sorted into 4 level bowls depending on their ranking.
+     * So bowl one has top 1-8 teams, bowl two 9-16 and so on.
+     * Then randomly teams are placed from each bowl into one group.
+     * @author Samuel Hernandez
+     */
+    private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups, int teamsPerGroup){
+        Collections.sort(worldCupTeams);                    //Make sure world cup teams are sorted by rankings
+        ArrayList<Team> orderedList = new ArrayList<>();    //This array list will have the ordered list
+        ArrayList<ArrayList<Team>> bowls = new ArrayList(); //Holds all the bowls
+
+        //Create the right amount of bowls: : For 32 teams and 8 groups = 4 bowls
+        int numBowls = nTeams/nGroups;
+        for(int i = 0; i < numBowls; i++)
+            bowls.add(new ArrayList<>());
+
+        int currentBowl = 0;
+        //Divide all the teams into bowls
+        for(int i = 0; i < nTeams; i++){
+            Team team = worldCupTeams.get(i);
+            bowls.get(currentBowl).add(team);
+            if((i+1) % nGroups == 0)                             //Change bowl when it is complete
+                currentBowl++;
+        }
+
+        //Now all bowls have ranked teams. Randomly select one and add it to ordered list
+        Random rand = new Random();
+        for(int i = 0; i < nGroups; i++) {                          //Pick teams for each group
+            int randomNum = rand.nextInt(bowls.get(0).size());
+            for(int j = 0; j < bowls.size(); j++)                   //Pick a team from each bowl
+                orderedList.add(bowls.get(j).remove(randomNum));
+        }
+        return orderedList;
     }
 
     /**
@@ -399,7 +433,6 @@ public class Simulator {
         else if(beginning >= end) {
             beginning = 0;
         }
-
 
         //Match the top vs the bottom (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         Team loser = getQualifierGameLoser(confTeams.get(beginning), confTeams.get(end));
