@@ -54,6 +54,8 @@ public class KnockoutPane extends BorderPane {
         this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(10, 10, 10, 10));
+        buttonBox.setSpacing(10);
         buttonBox.getChildren().addAll(simulateSixteenTeams,simulateEightGames,simulateQuaterGames,simulateSemisGames,simulateFinalAndThird);
         VBox verticalButtonBox = new VBox();
         verticalButtonBox.setAlignment(Pos.CENTER);
@@ -67,6 +69,11 @@ public class KnockoutPane extends BorderPane {
         simulateSemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         simulateFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
         simulateAll.setOnAction(e -> simulateAll());
+
+        simulateEightGames.setDisable(true);
+        simulateQuaterGames.setDisable(true);
+        simulateSemisGames.setDisable(true);
+        simulateFinalAndThird.setDisable(true);
     }
 
     private GridPane createBracket(){
@@ -285,6 +292,7 @@ public class KnockoutPane extends BorderPane {
             counter +=2;
         }
         sixteenTeamsDisplayed = true;
+        simulateEightGames.setDisable(false);
     }
     private void addNamesOfTheEightGames(){
         if(sixteenTeamsDisplayed == true){
@@ -298,6 +306,7 @@ public class KnockoutPane extends BorderPane {
             }
         }
         eightGamesDisplayed = true;
+        simulateQuaterGames.setDisable(false);
     }
     private void addNamesToQuaterGames(){
         if(eightGamesDisplayed == true){
@@ -309,12 +318,14 @@ public class KnockoutPane extends BorderPane {
             }
         }
         quaterGamesDisplayed = true;
+        simulateSemisGames.setDisable(false);
     }
     private void addNamesToSemisGamesAndThirdPlacePlacements(){
         if(quaterGamesDisplayed == true){
             buttonList.get(14).setText(semiGames.get(0).getWinner().getCountry());
             buttonList.get(16).setText(semiGames.get(1).getWinner().getCountry()); 
             Random random = new Random();
+            if(semisGamesAndThirdPlacementsDisplayed == false){
             int randomNumber = random.nextInt(2);
                 if(randomNumber == 0){
                     buttonList.get(31).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
@@ -330,6 +341,8 @@ public class KnockoutPane extends BorderPane {
                     
                 }
             }
+            simulateFinalAndThird.setDisable(false);
+            }
         semisGamesAndThirdPlacementsDisplayed = true;
     }
     private void addNamesToFinalsAndThirdPlace(){
@@ -337,6 +350,12 @@ public class KnockoutPane extends BorderPane {
             buttonList.get(15).setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());
             buttonList.get(33).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
         }
+        simulateSixteenTeams.setDisable(true);
+        simulateEightGames.setDisable(true);
+        simulateQuaterGames.setDisable(true);
+        simulateSemisGames.setDisable(true);
+        simulateFinalAndThird.setDisable(true);
+        simulateAll.setDisable(true);
     }
     
     private void simulateAll(){
