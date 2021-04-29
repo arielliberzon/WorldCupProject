@@ -54,7 +54,7 @@ public class Simulator {
         int nGroups = 8;
         int nTeams = worldCupTeams.size();
         int teamsPerGroup = nTeams / nGroups;
-        worldCupTeams = sortTeamsIntoGroups(worldCupTeams, nTeams, nGroups, teamsPerGroup);
+        worldCupTeams = sortTeamsIntoGroups(worldCupTeams, nTeams, nGroups);
 
         // Dividing the teams over the groups.
         int teamIndex = 0;
@@ -77,9 +77,10 @@ public class Simulator {
      * 32 teams sorted into 4 level bowls depending on their ranking.
      * So bowl one has top 1-8 teams, bowl two 9-16 and so on.
      * Then randomly teams are placed from each bowl into one group.
+     * Capability to change number of groups, teams if it were to change.
      * @author Samuel Hernandez
      */
-    private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups, int teamsPerGroup){
+    private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups){
         Collections.sort(worldCupTeams);                    //Make sure world cup teams are sorted by rankings
         ArrayList<Team> orderedList = new ArrayList<>();    //This array list will have the ordered list
         ArrayList<ArrayList<Team>> bowls = new ArrayList(); //Holds all the bowls
