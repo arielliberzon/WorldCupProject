@@ -10,7 +10,6 @@ import java.util.*;
  * {@link #simulateSemis()}
  * {@link #simulateFinalAndThirdPlace()}
  * @author Saif Masoud, and Samuel Hernandez
- * TODO: Delete print statments when done with coding
  */
 public class Simulator {
 
@@ -135,8 +134,6 @@ public class Simulator {
             roundOf16Games.add(new Game(top, runnerUp, false));
         }
 
-        System.out.println("\nRounds of sixteen results");
-        roundOf16Games.forEach(game -> System.out.println(game.getFinalScoreString()));
         return roundOf16Games;
     }
 
@@ -149,15 +146,21 @@ public class Simulator {
      */
     public ArrayList<Game> simulateQuarters() {
         quartersGames = new ArrayList<>();
-        int next = 0;
+        int first = 0;
+        int second = 2;
         for (int i = 0; i < 4; i++) {
-            Team a = roundOf16Games.get(next).getWinner();
-            Team b = roundOf16Games.get(next+1).getWinner();
+            Team a = roundOf16Games.get(first).getWinner();
+            Team b = roundOf16Games.get(second).getWinner();
             quartersGames.add(new Game(a, b, false));
-            next += 2;
+            if(first == 1)
+                first = 4;
+            else
+                first++;
+            if(second == 3)
+                second = 6;
+            else
+                second++;
         }
-        System.out.println("\nQuarters results");
-        quartersGames.forEach(game -> System.out.println(game.toString()));
         return quartersGames;
     }
 
@@ -169,12 +172,10 @@ public class Simulator {
      */
     public ArrayList<Game> simulateSemis() {
         semisGames = new ArrayList<>();
-        Game game1 = new Game(quartersGames.get(0).getWinner(), quartersGames.get(1).getWinner(), false);
-        Game game2 = new Game(quartersGames.get(2).getWinner(), quartersGames.get(3).getWinner(), false);
+        Game game1 = new Game(quartersGames.get(0).getWinner(), quartersGames.get(2).getWinner(), false);
+        Game game2 = new Game(quartersGames.get(1).getWinner(), quartersGames.get(3).getWinner(), false);
         semisGames.add(game1);
         semisGames.add(game2);
-        System.out.println("\nSemis results");
-        semisGames.forEach(game -> System.out.println(game.toString()));
         return semisGames;
     }
 
@@ -190,8 +191,6 @@ public class Simulator {
         Game third = new Game(semisGames.get(0).getLoser(), semisGames.get(1).getLoser(), false);
         finalAndThirdGames.add(finalGame);
         finalAndThirdGames.add(third);
-        System.out.println("\nFinal and third results");
-        finalAndThirdGames.forEach(game -> System.out.println(game.toString()));
         return finalAndThirdGames;
     }
 
@@ -208,7 +207,6 @@ public class Simulator {
 
             //Add the team on top  of ranking team in current group
             Team leader = groups.get(i).getTeams().get(0);
-            System.out.println(leader.getCountry() + " as group leader");
 
             //Get runner up team from next group for A, C, E, G. OR from previous group for B, D, F, H
             Team runnerUp;
@@ -217,7 +215,6 @@ public class Simulator {
             else
                 runnerUp = groups.get(i-1).getTeams().get(1);
 
-            System.out.println(runnerUp.getCountry() + " as group runner up");
             teamsOnRoundOf16.add(leader);
             teamsOnRoundOf16.add(runnerUp);
         };
@@ -297,9 +294,6 @@ public class Simulator {
         //Set each list to the qualified list that is produced from the helper method.
         UEFA = getQualified(UEFA, 13);
         Collections.sort(UEFA);
-        for (int i = 0; i < UEFA.size(); i++) {
-            System.out.println(UEFA.get(i).getCountry());
-        }
         CONMEBOL = getQualified(CONMEBOL, 5);
         Collections.sort(CONMEBOL);
         CONCACAF = getQualified(CONCACAF, 4);
