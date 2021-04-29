@@ -10,7 +10,6 @@ import java.util.Map;
 public class QualifierPane extends BorderPane {
 
     private Map<String, Team> teamMap;
-    private Simulator simulator;
     private TableView table;
     private HBox topButtonBar;
     private Button allButton;
@@ -26,7 +25,6 @@ public class QualifierPane extends BorderPane {
 
 
     public QualifierPane(Simulator simulator, Double height, Double width) {
-        this.simulator = simulator;
         teamMap = simulator.getTeamMap();
         updateTeamMap(simulator.getQualifiedTeams());
 
@@ -49,6 +47,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
+            table.sort();
         });
 
         uefaButton = new Button("UEFA");
@@ -56,6 +55,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "UEFA"));
+            table.sort();
         });
 
         conmebolButton = new Button("CONMEBOL");
@@ -63,7 +63,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONMEBOL"));
-            
+            table.sort();
         });
 
         concacafButton = new Button("CONCACAF");
@@ -71,7 +71,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONCACAF"));
-
+            table.sort();
         });
 
         cafButton = new Button("CAF");
@@ -79,7 +79,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CAF"));
-            
+            table.sort();
         });
 
         afcButton = new Button("AFC");
@@ -87,7 +87,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "AFC"));
-            
+            table.sort();
         });
 
         ofcButton = new Button("OFC");
@@ -95,7 +95,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "OFC"));
-            
+            table.sort();
         });
 
         qualifiedButton = new Button("Qualified Teams");
@@ -103,7 +103,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getQualifiedTeamList(teamMap));
-            
+            table.sort();
         });
 
         searchField = new TextField();
@@ -112,7 +112,7 @@ public class QualifierPane extends BorderPane {
         searchButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             table.getItems().addAll(TableViewHelper.getSearchTeamList(teamMap, searchField.getText()));
-
+            table.sort();
         });
 
         topButtonBar = new HBox();
@@ -139,16 +139,14 @@ public class QualifierPane extends BorderPane {
                 TableViewHelper.getTotalPointsColumn(), TableViewHelper.getCodeColumn(),
                 TableViewHelper.getTeamConfColumn());
 
+        table.getSortOrder().add(table.getColumns().get(1));
+
         // Set the column resize policy to constrained resize policy
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Set the Placeholder for an empty table
         table.setPlaceholder(new Label("No visible columns and/or data exist."));
 
         table.setEditable(false);
-
-        // TODO: this SHOULD WORK but it doesn't :(
-        ((TableColumn) table.getColumns().get(1)).setSortType(TableColumn.SortType.ASCENDING);
-
     }
 
     public void updateTeamMap(ArrayList<Team> updatedTeamMap) {

@@ -103,7 +103,7 @@ public class Game {
         teamOneChance = teamOne.getTotalPoints() * 100/ sum;  //Chance of team one of scoring per
 
         //Update chance to show more realistic scores
-        teamOneChance += teamOne.getTotalPoints() > teamTwo.getTotalPoints()? 20 : -20;
+        teamOneChance += teamOne.getTotalPoints() > teamTwo.getTotalPoints()? 25 : -25;
 
         //Simulate first 90 minutes divided in two halves
         simulateSection(45,0);
