@@ -61,15 +61,11 @@ public class Main extends Application {
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
         buttonBar.setStyle("-fx-background-color: LIGHTGREY");
-
         Button helpButton = new Button("Help");
         helpButton.setDisable(true);
-
         Button resetButton = new Button("Reset");
         resetButton.setDisable(true);
-
         buttonBar.getChildren().addAll(helpButton, resetButton);
-
         return buttonBar;
     }
 
