@@ -18,12 +18,14 @@ public class Main extends Application {
 
     private BorderPane rootPane = new BorderPane();
     private GridPane starterPane = new GridPane();
-    private VBox stackPane = new VBox();
     private Scene scene = new Scene(rootPane);
-    private Simulator simulator = new Simulator();
+    private Simulator simulator;
+    private VBox stackPane;
+    private Stage window;
 
     @Override
     public void start(Stage primaryStage) {
+        window = primaryStage;
         primaryStage.setTitle("World Cup");
         showIntroScene(primaryStage);
         primaryStage.setMaximized(true);
@@ -45,11 +47,23 @@ public class Main extends Application {
         window.setScene(new Scene(starterPane));
         window.setMaximized(true);
         window.show();
-        stackPane.getChildren().addAll(createButtonBar(),
-                createTabPane(window.getHeight() - 100, window.getWidth()));
-        rootPane.setTop(stackPane);
+        initialize();
         startButton.setOnAction(e -> window.setScene(scene));
+    }
 
+    /**
+     * Method sets up and starts the buttons, tab and pane that holds and shows the world cup tournament information
+     * It also creates the simulator object and simulates the tournament.
+     * Method designed to allow to reset the game without showing the welcome screen again.
+     * @author Samuel Hernandez
+     */
+    private void initialize(){
+        simulator = new Simulator();
+        stackPane = new VBox();
+        HBox buttonBar = createButtonBar();
+        TabPane tabs = createTabPane(window.getHeight() - 100, window.getWidth());
+        stackPane.getChildren().addAll(buttonBar, tabs);
+        rootPane.setTop(stackPane);
     }
 
     /**
@@ -65,7 +79,8 @@ public class Main extends Application {
         Button helpButton = new Button("Help");
         helpButton.setDisable(true);
         Button resetButton = new Button("Reset");
-        resetButton.setDisable(true);
+        //Added by Samuel Hernandez
+        resetButton.setOnAction(e -> initialize());
         buttonBar.getChildren().addAll(helpButton, resetButton);
         return buttonBar;
     }
