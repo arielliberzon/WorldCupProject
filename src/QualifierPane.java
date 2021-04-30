@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -182,6 +183,27 @@ public class QualifierPane extends BorderPane {
         table.setPlaceholder(new Label("No visible columns and/or data exist."));
 
         table.setEditable(false);
+
+        table.setFocusTraversable(false);
+
+        table.setRowFactory(tableView -> new TableRow<Team>() {
+            @Override
+            public void updateItem(Team item, boolean empty) {
+                super.updateItem(item, empty) ;
+                if (item == null) {
+                    setStyle("");
+                } else if (item.isQualified()) {
+                    if (getIndex() % 2 == 0) {
+                        setStyle("-fx-background-color: #ffffd8;");
+                    }
+                    else {
+                        setStyle("-fx-background-color: #ffffc7;");
+                    }
+                } else {
+                    setStyle("");
+                }
+            }
+        });
     }
 
     public void updateTeamMap(ArrayList<Team> updatedTeamMap) {

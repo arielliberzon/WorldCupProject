@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-// TODO: Add description and comments
 public class TeamInfo {
     private HashMap<String, Team> teams;
 
