@@ -1,3 +1,6 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -184,26 +187,38 @@ public class QualifierPane extends BorderPane {
 
         table.setEditable(false);
 
-        table.setFocusTraversable(false);
-
         table.setRowFactory(tableView -> new TableRow<Team>() {
             @Override
             public void updateItem(Team item, boolean empty) {
-                super.updateItem(item, empty) ;
+                super.updateItem(item, empty);
                 if (item == null) {
                     setStyle("");
                 } else if (item.isQualified()) {
                     if (getIndex() % 2 == 0) {
                         setStyle("-fx-background-color: #ffffd8;");
-                    }
-                    else {
+                    } else {
                         setStyle("-fx-background-color: #ffffc7;");
                     }
                 } else {
                     setStyle("");
                 }
             }
+            @Override
+            public void updateSelected(boolean empty) {
+                super.updateSelected(empty);
+                if (isSelected()) {
+                    setStyle("");
+                }
+            }
         });
+
+        table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                table.refresh();
+            }
+        });
+
     }
 
     public void updateTeamMap(ArrayList<Team> updatedTeamMap) {
