@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,6 +17,7 @@ public class Main extends Application {
 
     private BorderPane rootPane = new BorderPane();
     private GridPane starterPane = new GridPane();
+    private VBox stackPane = new VBox();
     private Scene scene = new Scene(rootPane);
     private Simulator simulator = new Simulator();
 
@@ -42,9 +44,33 @@ public class Main extends Application {
         window.setScene(new Scene(starterPane));
         window.setMaximized(true);
         window.show();
-        rootPane.setTop(createTopping(window.getHeight() - 60, window.getWidth()));
+        stackPane.getChildren().addAll(createButtonBar(),
+                createTabPane(window.getHeight() - 100, window.getWidth()));
+        rootPane.setTop(stackPane);
         startButton.setOnAction(e -> window.setScene(scene));
 
+    }
+
+    /**
+     * @author Ariel Liberzon
+     * TODO: ADD description and use for buttons
+     * @return HBox ButtonBar
+     */
+    private HBox createButtonBar() {
+        HBox buttonBar = new HBox();
+        buttonBar.setPadding(new Insets(5, 10, 5, 10));
+        buttonBar.setSpacing(10);
+        buttonBar.setStyle("-fx-background-color: LIGHTGREY");
+
+        Button helpButton = new Button("Help");
+        helpButton.setDisable(true);
+
+        Button resetButton = new Button("Reset");
+        resetButton.setDisable(true);
+
+        buttonBar.getChildren().addAll(helpButton, resetButton);
+
+        return buttonBar;
     }
 
     /**
@@ -54,7 +80,7 @@ public class Main extends Application {
      * @param width
      * @return
      */
-    private TabPane createTopping(Double height, Double width){
+    private TabPane createTabPane(Double height, Double width){
 
         TabPane tabPane = new TabPane();
         Tab qualifierStageTab = new Tab("   Teams   ",new QualifierPane(height, width,simulator));
