@@ -24,7 +24,7 @@ public class QualifierPane extends BorderPane {
     private TextField searchField;
 
 
-    public QualifierPane(Simulator simulator, Double height, Double width) {
+    public QualifierPane( Double height, Double width,Simulator simulator) {
         teamMap = simulator.getTeamMap();
         updateTeamMap(simulator.getQualifiedTeams());
 

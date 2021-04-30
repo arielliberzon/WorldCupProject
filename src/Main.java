@@ -28,13 +28,12 @@ public class Main extends Application {
 
     /**
      * TODO: Add description
-     * @author Harjit Sighn
+     * @author Harjit Singh
      * @param window
      */
     private void showIntroScene(Stage window) {
         Image img = new Image("Images/background.jpg");
-        starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
         startButton.setStyle("-fx-background-color: LIGHTGREY");
         starterPane.add(startButton, 0, 1);
@@ -43,7 +42,6 @@ public class Main extends Application {
         window.setScene(new Scene(starterPane));
         window.setMaximized(true);
         window.show();
-
         rootPane.setTop(createTopping(window.getHeight() - 60, window.getWidth()));
         startButton.setOnAction(e -> window.setScene(scene));
 
@@ -51,6 +49,7 @@ public class Main extends Application {
 
     /**
      * TODO: description
+     * @author Harjit Singh
      * @param height
      * @param width
      * @return
@@ -58,22 +57,13 @@ public class Main extends Application {
     private TabPane createTopping(Double height, Double width){
 
         TabPane tabPane = new TabPane();
-
-        QualifierPane teamsPane = new QualifierPane(simulator, height, width);
-        GroupStage groupPane = new GroupStage(height, width, simulator);
-        KnockoutPane knockoutPane = new KnockoutPane(simulator);
-
-        Tab qualifierStageTab = new Tab("   Teams   ", teamsPane);
-        Tab groupStageTab = new Tab("   Group Stage   ", groupPane);
-        Tab knockoutStageTab = new Tab("   Knockout Stage  ", knockoutPane);
-
-
-
+        Tab qualifierStageTab = new Tab("   Teams   ",new QualifierPane(height, width,simulator));
+        Tab groupStageTab = new Tab("   Group Stage   ",new GroupStage(height, width, simulator));
+        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(simulator));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
         qualifierStageTab.setClosable(false);
         tabPane.getTabs().addAll(qualifierStageTab,groupStageTab,knockoutStageTab);
-
         return tabPane;
     }
 
