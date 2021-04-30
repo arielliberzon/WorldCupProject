@@ -38,7 +38,7 @@ public class Main extends Application {
         Image img = new Image("Images/background.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
-        startButton.setStyle("-fx-background-color: #589257ff");
+        startButton.setStyle("-fx-background-color: LIGHTGREY");
         starterPane.add(startButton, 0, 1);
         startButton.setTranslateX(800);
         startButton.setTranslateY(500);
@@ -61,7 +61,7 @@ public class Main extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        buttonBar.setStyle("-fx-background-color: LIGHTGREY");
+        buttonBar.setStyle("-fx-background-color: #589257ff");
         Button helpButton = new Button("Help");
         helpButton.setDisable(true);
         Button resetButton = new Button("Reset");
