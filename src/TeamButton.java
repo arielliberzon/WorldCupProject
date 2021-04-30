@@ -1,5 +1,7 @@
 import javafx.scene.control.Button;
 
+
+// // TODO: remove this if it's not needed
 public class TeamButton extends Button{
     int xCord;
     int yCord;

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// TODO: remove this from final submission
 public class testGroup {
     public static void main(String[] args) {
         ArrayList<Team> teams = new ArrayList<>(Arrays.asList(

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+// TODO: Change name to TeamsPane
 public class QualifierPane extends BorderPane {
 
     private Map<String, Team> teamMap;

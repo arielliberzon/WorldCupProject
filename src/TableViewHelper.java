@@ -7,6 +7,7 @@ import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.util.Map;
 
+// TODO: add comments and description
 public class TableViewHelper {
 
     // Returns an observable list of teams based on the given map

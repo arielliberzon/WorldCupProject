@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 
 
+// TODO: Change class name to GroupPane
 public class GroupStage extends GridPane {
         private Simulator simulator;
         private Team t;

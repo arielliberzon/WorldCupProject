@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  * the tournament group stage, and the tournaments knock out stage). TODO: finish
  */
 
+// TODO: Change class name to WorldCupGUI
 public class Main extends Application {
 
     private BorderPane rootPane = new BorderPane();
@@ -37,7 +38,7 @@ public class Main extends Application {
         Image img = new Image("Images/background.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
-        startButton.setStyle("-fx-background-color: LIGHTGREY");
+        startButton.setStyle("-fx-background-color: #589257ff");
         starterPane.add(startButton, 0, 1);
         startButton.setTranslateX(800);
         startButton.setTranslateY(500);

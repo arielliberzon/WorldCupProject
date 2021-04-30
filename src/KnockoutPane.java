@@ -22,6 +22,8 @@ import java.util.ArrayList;
  *   Main is composed of this (I'm pretty sure)
  *      - Justin V
  */
+
+// TODO: Add comments and description
 public class KnockoutPane extends BorderPane {
     private ArrayList<Button> buttonList = new ArrayList<>();
     private GridPane masterKnockoutPane = new GridPane();
