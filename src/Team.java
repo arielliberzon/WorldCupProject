@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// TODO: Add description and comments
 public class Team implements Comparable<Team> {
 
     private Integer ranking;

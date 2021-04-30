@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 
 
 // TODO: Change class name to GroupPane
+// TODO: Add description and comments
 public class GroupStage extends GridPane {
         private Simulator simulator;
         private Team t;
