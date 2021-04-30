@@ -3,12 +3,7 @@
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
@@ -16,6 +11,7 @@ import javafx.scene.layout.*;
 
 public class GroupStage extends GridPane {
     private Simulator simulator;
+    private Team t;
     public GroupStage(Double height, Double width, Simulator simulator){
         this.simulator = simulator;
         this.stagemain();
@@ -96,12 +92,25 @@ public class GroupStage extends GridPane {
         lossesCol.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().groupLosses())));
 
-        groupname.getColumns().addAll(countryCol, winsCol, drawsCol, lossesCol,pointsCol);
+        TableColumn<Team, String> gf = new TableColumn<>("GF");
+        gf.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupWins())));
+
+        TableColumn<Team, String> ga = new TableColumn<>("GD");
+        ga.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupDraws())));
+
+        TableColumn<Team, String> gd = new TableColumn<>("GA");
+        gd.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupLosses())));
+
+
+
+        groupname.getColumns().addAll(countryCol, winsCol, drawsCol, lossesCol,gf,ga,gd,pointsCol);
         tableView.getColumns().addAll(groupname);
         tableView.setFixedCellSize(25);
-        tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(44));
-
-
+        tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(55));
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Add the teams
         for (Team team : group.getTeams())
             tableView.getItems().add(team);

@@ -19,8 +19,7 @@ public class Team implements Comparable<Team> {
     // The order of games matters, first 3 are group stage, followed by 16,quarters,semis,final/3rdPlace.
     private ArrayList<Game> games;
 
-    public Team(int ranking, String country,double totalPoints, String countryCode,
-                String confederation) {
+    public Team(int ranking, String country,double totalPoints, String countryCode, String confederation) {
         this.ranking = ranking;
         this.country = country;
         this.totalPoints = totalPoints;
