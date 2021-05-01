@@ -3,6 +3,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -51,6 +52,25 @@ public class Main extends Application {
         startButton.setOnAction(e -> window.setScene(scene));
     }
 
+
+    /**
+     * @author Ariel Liberzon
+     * TODO: ADD description and use for buttons
+     * @return HBox ButtonBar
+     */
+    private HBox createButtonBar() {
+        HBox buttonBar = new HBox();
+        buttonBar.setPadding(new Insets(5, 10, 5, 10));
+        buttonBar.setSpacing(10);
+        buttonBar.setStyle("-fx-background-color: #589257ff");
+        Button helpButton = new Button("Help");;
+        Button resetButton = new Button("Reset");
+        //Added by Samuel Hernandez
+        resetButton.setOnAction(e -> initialize());
+        helpButton.setOnAction(e -> help());
+        buttonBar.getChildren().addAll(helpButton, resetButton);
+        return buttonBar;
+    }
     /**
      * Method sets up and starts the buttons, tab and pane that holds and shows the world cup tournament information
      * It also creates the simulator object and simulates the tournament.
@@ -65,24 +85,26 @@ public class Main extends Application {
         stackPane.getChildren().addAll(buttonBar, tabs);
         rootPane.setTop(stackPane);
     }
-
     /**
-     * @author Ariel Liberzon
-     * TODO: ADD description and use for buttons
-     * @return HBox ButtonBar
+     * @author Harjit Singh
+     * Displays Alert message to Help the user and them
+     * user-friendly experience
+     * @return alert
      */
-    private HBox createButtonBar() {
-        HBox buttonBar = new HBox();
-        buttonBar.setPadding(new Insets(5, 10, 5, 10));
-        buttonBar.setSpacing(10);
-        buttonBar.setStyle("-fx-background-color: #589257ff");
-        Button helpButton = new Button("Help");
-        helpButton.setDisable(true);
-        Button resetButton = new Button("Reset");
-        //Added by Samuel Hernandez
-        resetButton.setOnAction(e -> initialize());
-        buttonBar.getChildren().addAll(helpButton, resetButton);
-        return buttonBar;
+
+    private Alert help(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText(null);
+        alert.setContentText("WE ARE HERE TO HELP YOU" +
+                "\n-Click Teams tab to see all confederation" +
+                "\n-Search your team in the search-bar by country name or country code"+
+                "\n-Click on Group-stage tab to see 8 groups" +
+                "\n-Click KnockoutStage tab to simulate for the winner " +
+                "\n-Click Reset button to reset the simulator ");
+
+        alert.show();
+        return alert;
     }
 
     /**
@@ -90,7 +112,7 @@ public class Main extends Application {
      * @author Harjit Singh
      * @param height
      * @param width
-     * @return
+     * @return tabPane
      */
     private TabPane createTabPane(Double height, Double width){
 
