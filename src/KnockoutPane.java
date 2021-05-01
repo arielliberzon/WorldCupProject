@@ -299,44 +299,38 @@ public class KnockoutPane extends BorderPane {
         for(int i = 0; i < 16; i +=4){   
             buttonList.get(counter).setTeam(sixteenTeams.get(i));
                 
-
-            //buttonList.get(counter+1).setText(sixteenTeams.get(i+1).getCountry());
             buttonList.get(counter+1).setTeam(sixteenTeams.get(i+1));  
 
-            //buttonList.get(counter+23).setText(sixteenTeams.get(i+2).getCountry());
             buttonList.get(counter+23).setTeam(sixteenTeams.get(i+2));
 
-            //buttonList.get(counter+23+1).setText(sixteenTeams.get(i+3).getCountry());
             buttonList.get(counter+23+1).setTeam(sixteenTeams.get(i+3)); 
 
             counter +=2;
         }
         sixteenTeamsDisplayed = true;
+        simulateSixteenTeams.setDisable(true);
         simulateEightGames.setDisable(false);
     }
     private void addNamesOfTheEightGames(){
         if(sixteenTeamsDisplayed == true){
             int counter = 0;
             for(int i = 8; i < 11; i += 2){
-                //buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry());   
                 buttonList.get(i).setGame(eightGames.get(counter));  
                 buttonList.get(i).setGameOrder(1);   
 
-                //buttonList.get(i+11).setText(eightGames.get(counter+1).getWinner().getCountry());   
                 buttonList.get(i+11).setGame(eightGames.get(counter+1));
                 buttonList.get(i+11).setGameOrder(1);        
 
-                //buttonList.get(i+1).setText(eightGames.get(counter+2).getWinner().getCountry());
                 buttonList.get(i+1).setGame(eightGames.get(counter+2));
                 buttonList.get(i+1).setGameOrder(1);        
                 
-                //buttonList.get(i+12).setText(eightGames.get(counter+3).getWinner().getCountry());   
                 buttonList.get(i+12).setGame(eightGames.get(counter+3));   
                 buttonList.get(i+12).setGameOrder(1);     
 
                 counter =+ 4;
             }
         }
+        simulateEightGames.setDisable(true);
         eightGamesDisplayed = true;
         simulateQuarterGames.setDisable(false);
     }
@@ -344,54 +338,47 @@ public class KnockoutPane extends BorderPane {
         if(eightGamesDisplayed == true){
             int counter = 0;
             for(int i = 12; i < 14; i++){
-                //buttonList.get(i).setText(quarterGames.get(counter).getWinner().getCountry());
                 buttonList.get(i).setGame(quarterGames.get(counter));
                 buttonList.get(i).setGameOrder(2);   
 
-                //buttonList.get(i+5).setText(quarterGames.get(counter+1).getWinner().getCountry());
                 buttonList.get(i+5).setGame(quarterGames.get(counter+1));
                 buttonList.get(i+5).setGameOrder(2);   
                 counter =+2;
             }
         }
+        simulateQuarterGames.setDisable(true);
         quarterGamesDisplayed = true;
         simulateSemisGames.setDisable(false);
     }
     private void addNamesToSemisGamesAndThirdPlacePlacements(){
         if(quarterGamesDisplayed == true){
-            //buttonList.get(14).setText(semiGames.get(0).getWinner().getCountry());
             buttonList.get(14).setGame(semiGames.get(0));
             buttonList.get(14).setGameOrder(3);   
 
-            //buttonList.get(16).setText(semiGames.get(1).getWinner().getCountry()); 
             buttonList.get(16).setGame(semiGames.get(1));
             buttonList.get(16).setGameOrder(3);   
             Random random = new Random();
             if(semisGamesAndThirdPlacementsDisplayed == false){
             int randomNumber = random.nextInt(2);
-            //TODO: SOMETHING ABOUT THIS SEEMS WEIRD. MAKE SURE TO TEST
                 if(randomNumber == 0){
-                    //buttonList.get(31).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
                     buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), true);
                     buttonList.get(31).setGameOrder(3);   
                 }
                 else{
-                    //buttonList.get(31).setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
                     buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), false);
                     buttonList.get(31).setGameOrder(3);
                 } 
                 if(randomNumber == 0){
-                    //buttonList.get(32).setText(finalAndThirdPlaceGame.get(1).getLoser().getCountry());
                     buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), false);
                     buttonList.get(32).setGameOrder(3);
                 }
                 else{
-                    //buttonList.get(32).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
                     buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), true);
                     buttonList.get(32).setGameOrder(3);
                     
                 }
             }
+            simulateSemisGames.setDisable(true);
             simulateFinalAndThird.setDisable(false);
             }
         semisGamesAndThirdPlacementsDisplayed = true;
@@ -407,10 +394,6 @@ public class KnockoutPane extends BorderPane {
             buttonList.get(33).setGame(finalAndThirdPlaceGame.get(1));
             buttonList.get(33).setGameOrder(4);
         }
-        simulateSixteenTeams.setDisable(true);
-        simulateEightGames.setDisable(true);
-        simulateQuarterGames.setDisable(true);
-        simulateSemisGames.setDisable(true);
         simulateFinalAndThird.setDisable(true);
         simulateAll.setDisable(true);
     }
@@ -423,28 +406,13 @@ public class KnockoutPane extends BorderPane {
         this.addNamesToFinalsAndThirdPlace();
     }
 
-    //Display left click stuff, so the team's information. What the *team* displayed on the button's stats
-    private void leftClickInteraction(){
-        
-    }
-
-    //Display the history of the team's game. specifically the team displayed on the button
-    private void rightClickInteraction(){
-
-    }
-
-    //The idea of this is to display the information of that game; score, over time score, penality kicks
-    private void toolTipInteraction(){
-
-    }
-
     private EventHandler<MouseEvent> clicked = mouseEvent -> {
         TeamButton button = (TeamButton) mouseEvent.getSource();
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {//LEFT CLICK
             if(button.getGame() != null){
                 String s = "";
                 for (int i = button.getGameOrder(); i > 0; i--) {
-                    System.out.println(button.getGame().getWinner().getGames().get(i+2));//Gives an arrayList, call the array List from +3, 
+                   //Gives an arrayList, call the array List from +3, 
                     s += button.getGame().getWinner().getGames().get(i+2)+"\n";
                 }
                 //Alert.AlertType.INFORMATION or NONE
