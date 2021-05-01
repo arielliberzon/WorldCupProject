@@ -49,7 +49,7 @@ public class KnockoutPane extends BorderPane {
 
     private Button simulateSixteenTeams = new Button("Simulate 16");
     private Button simulateEightGames = new Button("Simulate 8");
-    private Button simulateQuarterGames = new Button("Simulate Quaters");
+    private Button simulateQuarterGames = new Button("Simulate Quarters");
     private Button simulateSemisGames = new Button("Simulate Semis");
     private Button simulateFinalAndThird = new Button("Simulate Final and Third");
     private Button simulateAll = new Button("Simulate All Rounds");
