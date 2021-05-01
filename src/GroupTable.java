@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+// TODO: Remove it from the main branch before submitting final project
 public class GroupTable {
 
 

@@ -1,15 +1,24 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
-public class QualifierPane extends BorderPane {
+// TODO: Change name to TeamsPane
+public class TeamsPane extends BorderPane {
 
     private Map<String, Team> teamMap;
+    private Map<String, String> confInfo;
     private TableView table;
     private HBox topButtonBar;
     private Button allButton;
@@ -24,14 +33,16 @@ public class QualifierPane extends BorderPane {
     private TextField searchField;
 
 
-    public QualifierPane(Map<String, Team> teamMap, Double height, Double width) {
-        this.teamMap = teamMap;
+    public TeamsPane(Double height, Double width, Simulator simulator) {
+        confInfo = new HashMap<>();
+
+        teamMap = simulator.getTeamMap();
+        updateTeamMap(simulator.getQualifiedTeams());
 
         createTable();
-        //table.setMaxSize(width- 50, height);
         setCenter(table);
 
-
+        createConfMap();
         createButtonBar();
         setTop(topButtonBar);
 
@@ -39,6 +50,15 @@ public class QualifierPane extends BorderPane {
         this.setMinWidth(width);
     }
 
+    private void createConfMap() {
+        //HashMap<String,String> confInfo = new HashMap<>();
+        confInfo.put("UEFA", "EUROPE\n\n55 TEAMS\n\n13 PLACES");
+        confInfo.put("CONMEBOL", "SOUTH AMERICA\n\n10 TEAMS\n\n4.5 PLACES");
+        confInfo.put("CONCACAF", "NORTH AMERICA, CENTRAL AMERICA, CARIBBEAN\n\n35 TEAMS\n\n3.5 PLACES");
+        confInfo.put("CAF", "AFRICA\n\n53 TEAMS\n\n5 PLACES");
+        confInfo.put("AFC", "ASIA\n\n46 TEAMS\n\n4.5 PLACES");
+        confInfo.put("OFC", "OCEANIA\n\n9 TEAMS\n\n0.5 PLACES");
+    }
 
 
     private void createButtonBar() {
@@ -47,53 +67,61 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
+            table.sort();
         });
 
         uefaButton = new Button("UEFA");
+        uefaButton.setTooltip(createToolTip("UEFA"));
         uefaButton.setOnMouseClicked(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "UEFA"));
+            table.sort();
         });
 
         conmebolButton = new Button("CONMEBOL");
+        conmebolButton.setTooltip(createToolTip("CONMEBOL"));
         conmebolButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONMEBOL"));
-            
+            table.sort();
         });
 
         concacafButton = new Button("CONCACAF");
+        concacafButton.setTooltip(createToolTip("CONCACAF"));
         concacafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONCACAF"));
-
+            table.sort();
         });
 
         cafButton = new Button("CAF");
+        cafButton.setTooltip(createToolTip("CAF"));
         cafButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CAF"));
-            
+            table.sort();
         });
 
         afcButton = new Button("AFC");
+        afcButton.setTooltip(createToolTip("AFC"));
         afcButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "AFC"));
-            
+            table.sort();
         });
 
         ofcButton = new Button("OFC");
+        ofcButton.setTooltip(createToolTip("OFC"));
         ofcButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "OFC"));
-            
+            table.sort();
         });
 
         qualifiedButton = new Button("Qualified Teams");
@@ -101,7 +129,7 @@ public class QualifierPane extends BorderPane {
             table.getItems().clear();
             searchField.setText("");
             table.getItems().addAll(TableViewHelper.getQualifiedTeamList(teamMap));
-            
+            table.sort();
         });
 
         searchField = new TextField();
@@ -110,7 +138,7 @@ public class QualifierPane extends BorderPane {
         searchButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             table.getItems().addAll(TableViewHelper.getSearchTeamList(teamMap, searchField.getText()));
-
+            table.sort();
         });
 
         topButtonBar = new HBox();
@@ -121,6 +149,19 @@ public class QualifierPane extends BorderPane {
                concacafButton, cafButton, afcButton, ofcButton, qualifiedButton, searchField,searchButton);
 
 
+    }
+
+    private Tooltip createToolTip(String confederation) {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText(confInfo.get(confederation));
+        try {
+            tooltip.setGraphic(new ImageView(
+                    this.getClass().getResource("Images/"+confederation+".png"
+                    ).toString()));
+        } catch (Exception e) {
+            tooltip.setText("Missing Logo!");
+        }
+        return tooltip;
     }
 
     private void createTable() {
@@ -137,6 +178,8 @@ public class QualifierPane extends BorderPane {
                 TableViewHelper.getTotalPointsColumn(), TableViewHelper.getCodeColumn(),
                 TableViewHelper.getTeamConfColumn());
 
+        table.getSortOrder().add(table.getColumns().get(1));
+
         // Set the column resize policy to constrained resize policy
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Set the Placeholder for an empty table
@@ -144,8 +187,37 @@ public class QualifierPane extends BorderPane {
 
         table.setEditable(false);
 
-        // TODO: this SHOULD WORK but it doesn't :(
-        ((TableColumn) table.getColumns().get(1)).setSortType(TableColumn.SortType.ASCENDING);
+        table.setRowFactory(tableView -> new TableRow<Team>() {
+            @Override
+            public void updateItem(Team item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null) {
+                    setStyle("");
+                } else if (item.isQualified()) {
+                    if (getIndex() % 2 == 0) {
+                        setStyle("-fx-background-color: #ffffd8;");
+                    } else {
+                        setStyle("-fx-background-color: #ffffc7;");
+                    }
+                } else {
+                    setStyle("");
+                }
+            }
+            @Override
+            public void updateSelected(boolean empty) {
+                super.updateSelected(empty);
+                if (isSelected()) {
+                    setStyle("");
+                }
+            }
+        });
+
+        table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                table.refresh();
+            }
+        });
 
     }
 

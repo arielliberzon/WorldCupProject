@@ -1,9 +1,7 @@
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
+// TODO: Rearrange methods so they make sense chronologically (ex: qualifiers, group, knockout)
+// TODO: Add @author at the top of each comment that relates to YOU
 /**
  * Simulator class is designed to simulate the world cup in phases so that they can be simulated by steps by the GUI
  * Upon simulator being constructed the group stage is simulated. After that, individuals methods should be called to
@@ -13,7 +11,6 @@ import java.util.Random;
  * {@link #simulateSemis()}
  * {@link #simulateFinalAndThirdPlace()}
  * @author Saif Masoud, and Samuel Hernandez
- * TODO: Delete print statments when done with coding
  */
 public class Simulator {
 
@@ -45,7 +42,7 @@ public class Simulator {
     public Simulator() {
         teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        getQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
+        setQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
         simulateGroups();
     }
 
@@ -57,6 +54,7 @@ public class Simulator {
         int nGroups = 8;
         int nTeams = worldCupTeams.size();
         int teamsPerGroup = nTeams / nGroups;
+        worldCupTeams = sortTeamsIntoGroups(worldCupTeams, nTeams, nGroups);
 
         // Dividing the teams over the groups.
         int teamIndex = 0;
@@ -72,6 +70,44 @@ public class Simulator {
             groups.add(group);
             curGroupChar += 1;
         }
+    }
+
+    /**
+     * Method sorts qualified teams into groups like in the real world cup:
+     * 32 teams sorted into 4 level bowls depending on their ranking.
+     * So bowl one has top 1-8 teams, bowl two 9-16 and so on.
+     * Then randomly teams are placed from each bowl into one group.
+     * Capability to change number of groups, teams if it were to change.
+     * @author Samuel Hernandez
+     */
+    private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups){
+        Collections.sort(worldCupTeams);                            //Make sure world cup teams are sorted by rankings
+        ArrayList<Team> orderedList = new ArrayList<>();            //This array list will have the ordered list
+        ArrayList<ArrayList<Team>> bowls = new ArrayList();         //Holds all the bowls
+
+        //Create the right amount of bowls: : For 32 teams and 8 groups = 4 bowls
+        int numBowls = nTeams/nGroups;
+        for(int i = 0; i < numBowls; i++)
+            bowls.add(new ArrayList<>());
+
+        //Divide all the teams into bowls according to their ranking
+        int currentBowl = 0;
+        for(int i = 0; i < nTeams; i++){
+            Team team = worldCupTeams.get(i);
+            bowls.get(currentBowl).add(team);
+            if((i+1) % nGroups == 0)                                //Change bowl when it is complete
+                currentBowl++;
+        }
+
+        //Now all bowls have ranked teams. Randomly select one and add it to ordered list
+        Random rand = new Random();
+        for(int i = 0; i < nGroups; i++) {                          //Pick teams for each group
+            for(int j = 0; j < bowls.size(); j++) {                 //Pick a team from each bowl
+                int randomNum = rand.nextInt(bowls.get(j).size());
+                orderedList.add(bowls.get(j).remove(randomNum));
+            }
+        }
+        return orderedList;
     }
 
     /**
@@ -99,8 +135,6 @@ public class Simulator {
             roundOf16Games.add(new Game(top, runnerUp, false));
         }
 
-        System.out.println("\nRounds of sixteen results");
-        roundOf16Games.forEach(game -> System.out.println(game.getFinalScoreString()));
         return roundOf16Games;
     }
 
@@ -113,15 +147,16 @@ public class Simulator {
      */
     public ArrayList<Game> simulateQuarters() {
         quartersGames = new ArrayList<>();
-        int next = 0;
+        int index = 0;
         for (int i = 0; i < 4; i++) {
-            Team a = roundOf16Games.get(next).getWinner();
-            Team b = roundOf16Games.get(next+1).getWinner();
+            Team a = roundOf16Games.get(index).getWinner();
+            Team b = roundOf16Games.get(index + 2).getWinner();
             quartersGames.add(new Game(a, b, false));
-            next += 2;
+            if(index == 1)
+                index = 4;
+            else
+                index++;
         }
-        System.out.println("\nQuarters results");
-        quartersGames.forEach(game -> System.out.println(game.toString()));
         return quartersGames;
     }
 
@@ -133,12 +168,10 @@ public class Simulator {
      */
     public ArrayList<Game> simulateSemis() {
         semisGames = new ArrayList<>();
-        Game game1 = new Game(quartersGames.get(0).getWinner(), quartersGames.get(1).getWinner(), false);
-        Game game2 = new Game(quartersGames.get(2).getWinner(), quartersGames.get(3).getWinner(), false);
+        Game game1 = new Game(quartersGames.get(0).getWinner(), quartersGames.get(2).getWinner(), false);
+        Game game2 = new Game(quartersGames.get(1).getWinner(), quartersGames.get(3).getWinner(), false);
         semisGames.add(game1);
         semisGames.add(game2);
-        System.out.println("\nSemis results");
-        semisGames.forEach(game -> System.out.println(game.toString()));
         return semisGames;
     }
 
@@ -154,8 +187,6 @@ public class Simulator {
         Game third = new Game(semisGames.get(0).getLoser(), semisGames.get(1).getLoser(), false);
         finalAndThirdGames.add(finalGame);
         finalAndThirdGames.add(third);
-        System.out.println("\nFinal and third results");
-        finalAndThirdGames.forEach(game -> System.out.println(game.toString()));
         return finalAndThirdGames;
     }
 
@@ -172,7 +203,6 @@ public class Simulator {
 
             //Add the team on top  of ranking team in current group
             Team leader = groups.get(i).getTeams().get(0);
-            System.out.println(leader.getCountry() + " as group leader");
 
             //Get runner up team from next group for A, C, E, G. OR from previous group for B, D, F, H
             Team runnerUp;
@@ -181,7 +211,6 @@ public class Simulator {
             else
                 runnerUp = groups.get(i-1).getTeams().get(1);
 
-            System.out.println(runnerUp.getCountry() + " as group runner up");
             teamsOnRoundOf16.add(leader);
             teamsOnRoundOf16.add(runnerUp);
         };
@@ -223,7 +252,7 @@ public class Simulator {
      * stage slots. Each arraylist is filled up by the method getQualified().
      * @return An ArrayList<Team> that contains 32 teams that will move on to the group stage.
      */
-    public ArrayList<Team> getQualifiedTeams(TeamInfo teamInfo) {
+    public void setQualifiedTeams(TeamInfo teamInfo) {
 
         ArrayList<Team> output = new ArrayList<>();
 
@@ -261,9 +290,6 @@ public class Simulator {
         //Set each list to the qualified list that is produced from the helper method.
         UEFA = getQualified(UEFA, 13);
         Collections.sort(UEFA);
-        for (int i = 0; i < UEFA.size(); i++) {
-            System.out.println(UEFA.get(i).getCountry());
-        }
         CONMEBOL = getQualified(CONMEBOL, 5);
         Collections.sort(CONMEBOL);
         CONCACAF = getQualified(CONCACAF, 4);
@@ -299,12 +325,11 @@ public class Simulator {
         output.addAll(CAF);
 
         worldCupTeams = output;
-        return output;
     }
 
     /**
      * @author Alexander and Michael
-     * Helper function to the getQualifiedTeams() method. This returns an arraylist that contains the teams that qualify to
+     * Helper function to the setQualifiedTeams() method. This returns an arraylist that contains the teams that qualify to
      * group stage. Using the Java.util Random(), it will determine which team will qualify to the group stage with the
      * higher seeded team having a greater chance.
      * @param input Confederation team list
@@ -330,7 +355,7 @@ public class Simulator {
         int indexTop = 0;
         int indexBottom = input.size() -1;
 
-        getQualifiedTeams(input, evenSpots);
+        setQualifiedTeams(input, evenSpots);
 
         if (spots % 2 == 1) {
             teamOne = input.get(0);
@@ -375,7 +400,7 @@ public class Simulator {
             return tTwo;
     }
 
-    private ArrayList<Team>  getQualifiedTeams(ArrayList<Team> confTeams , int spots){
+    private ArrayList<Team>  setQualifiedTeams(ArrayList<Team> confTeams , int spots){
         return getQualifiedRec(confTeams,  spots, 0, (confTeams.size()-1));
     }
 
@@ -399,7 +424,6 @@ public class Simulator {
         else if(beginning >= end) {
             beginning = 0;
         }
-
 
         //Match the top vs the bottom (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         Team loser = getQualifierGameLoser(confTeams.get(beginning), confTeams.get(end));

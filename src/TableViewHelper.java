@@ -7,14 +7,31 @@ import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * @author Ariel Liberzon
+ * A static class that helps create a TableView object through the use of
+ * various static methods. Some methods are in charge of creating an
+ * ObservableList of teams and other methods are used to create columns.
+ */
 public class TableViewHelper {
 
-    // Returns an observable list of teams based on the given map
+    /**
+     * Returns an observable list of teams from the given Map
+     * @param teamMap Map of teams
+     * @return ObservableList of teams
+     */
     public static ObservableList<Team> getFullTeamList(Map<String, Team> teamMap) {
         ArrayList<Team> teamArrayList = new ArrayList<Team>(teamMap.values());
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    /**
+     * Returns an observable list of teams from the given Map.
+     * Only returns teams that match the given confederation
+     * @param teamMap Map of teams
+     * @param conf Confederation String (ex: "UEFA")
+     * @return ObservableList of teams
+     */
     public static ObservableList<Team> getConfTeamList(Map<String, Team> teamMap, String conf) {
         ArrayList<Team> teamArrayList = new ArrayList<>();
         for (Map.Entry<String, Team> entry : teamMap.entrySet()) {
@@ -25,6 +42,12 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    /**
+     * Returns an observable list of teams from the given Map.
+     * Only returns teams that have are marked as "qualified"
+     * @param teamMap Map of teams
+     * @return ObservableList of teams
+     */
     public static ObservableList<Team> getQualifiedTeamList(Map<String, Team> teamMap) {
         ArrayList<Team> teamArrayList = new ArrayList<>();
         for (Map.Entry<String, Team> entry : teamMap.entrySet()) {
@@ -35,6 +58,14 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    /**
+     * Returns an observable list of teams from the given Map.
+     * Only returns teams that contain the search parameter in
+     * either their team name or country code.
+     * @param teamMap Map of teams
+     * @param search Search parameter (ex: "Island")
+     * @return
+     */
     public static ObservableList<Team> getSearchTeamList(Map<String, Team> teamMap, String search) {
         ArrayList<Team> teamArrayList = new ArrayList<>();
         for (Map.Entry<String, Team> entry : teamMap.entrySet()) {
@@ -53,7 +84,9 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
-    // Returns "Rank" column
+    /**
+     * @return "Rank" TableColumn
+     */
     public static TableColumn<Team, Integer> getTeamRankingColumn() {
         TableColumn<Team, Integer> rankingColumn = new TableColumn<>("Rank");
         PropertyValueFactory<Team, Integer> rankingCellValueFactory = new PropertyValueFactory<>("ranking");
@@ -64,7 +97,10 @@ public class TableViewHelper {
         return rankingColumn;
     }
 
-    // Returns "Team" column
+    /**
+     *
+     * @return "Team" TableColumn
+     */
     public static TableColumn<Team, String> getCountryNameColumn() {
         TableColumn<Team, String> countryCol = new TableColumn<>("Team");
         PropertyValueFactory<Team, String> countryCellValueFactory = new PropertyValueFactory<>("country");
@@ -74,7 +110,10 @@ public class TableViewHelper {
         return countryCol;
     }
 
-    // Returns "Total Points" column
+    /**
+     *
+     * @return "Total Points" TableColumn
+     */
     public static TableColumn<Team, Double> getTotalPointsColumn() {
         TableColumn<Team, Double> pointsCol = new TableColumn<>("Total Points");
         PropertyValueFactory<Team, Double> pointsCellValueFactory = new PropertyValueFactory<>("totalPoints");
@@ -84,7 +123,10 @@ public class TableViewHelper {
         return pointsCol;
     }
 
-    // Returns "Country Code" column
+    /**
+     *
+     * @return "Country Code" TableColumn
+     */
     public static TableColumn<Team, String> getCodeColumn() {
         TableColumn<Team, String> codeCol = new TableColumn<>("Country Code");
         PropertyValueFactory<Team, String> countryCellValueFactory = new PropertyValueFactory<>("countryCode");
@@ -94,6 +136,10 @@ public class TableViewHelper {
         return codeCol;
     }
 
+    /**
+     *
+     * @return "Flag" TableColumn
+     */
     public static TableColumn<Team, ImageView> getFlagColumn() {
         TableColumn<Team, ImageView> flagCol = new TableColumn<>("Flag");
         PropertyValueFactory<Team, ImageView> flagCellValueFactory = new PropertyValueFactory<>("flag");
@@ -104,7 +150,10 @@ public class TableViewHelper {
         return flagCol;
     }
 
-    // Returns "Confederation" column
+    /**
+     *
+     * @return "Confederation" TableColumn
+     */
     public static TableColumn<Team, String> getTeamConfColumn() {
         TableColumn<Team, String> confColumn = new TableColumn<>("Confederation");
         PropertyValueFactory<Team, String> confCellValueFactory = new PropertyValueFactory<>("confederation");
