@@ -22,6 +22,8 @@ import java.util.ArrayList;
  *   Main is composed of this (I'm pretty sure)
  *      - Justin V
  */
+
+// TODO: Add comments and description
 public class KnockoutPane extends BorderPane {
     private ArrayList<TeamButton> buttonList = new ArrayList<>();
     private GridPane masterKnockoutPane = new GridPane();
@@ -33,12 +35,12 @@ public class KnockoutPane extends BorderPane {
     private ArrayList<Game> finalAndThirdPlaceGame;
     private boolean sixteenTeamsDisplayed = false;
     private boolean eightGamesDisplayed = false;
-    private boolean quaterGamesDisplayed = false;
+    private boolean quarterGamesDisplayed = false;
     private boolean semisGamesAndThirdPlacementsDisplayed = false;
 
     private Button simulateSixteenTeams = new Button("Simulate 16");
     private Button simulateEightGames = new Button("Simulate 8");
-    private Button simulateQuaterGames = new Button("Simulate Quaters");
+    private Button simulateQuarterGames = new Button("Simulate Quaters");
     private Button simulateSemisGames = new Button("Simulate Semis");
     private Button simulateFinalAndThird = new Button("Simulate Final and Third");
     private Button simulateAll = new Button("Simulate All Rounds");
@@ -56,7 +58,7 @@ public class KnockoutPane extends BorderPane {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 10, 10, 10));
         buttonBox.setSpacing(10);
-        buttonBox.getChildren().addAll(simulateSixteenTeams,simulateEightGames,simulateQuaterGames,simulateSemisGames,simulateFinalAndThird);
+        buttonBox.getChildren().addAll(simulateSixteenTeams,simulateEightGames, simulateQuarterGames,simulateSemisGames,simulateFinalAndThird);
         VBox verticalButtonBox = new VBox();
         verticalButtonBox.setAlignment(Pos.CENTER);
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
@@ -65,21 +67,25 @@ public class KnockoutPane extends BorderPane {
 
         simulateSixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
         simulateEightGames.setOnAction(e -> addNamesOfTheEightGames());
-        simulateQuaterGames.setOnAction(e -> addNamesToQuaterGames());
+        simulateQuarterGames.setOnAction(e -> addNamesToQuaterGames());
         simulateSemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         simulateFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
         simulateAll.setOnAction(e -> simulateAll());
 
         simulateEightGames.setDisable(true);
-        simulateQuaterGames.setDisable(true);
+        simulateQuarterGames.setDisable(true);
         simulateSemisGames.setDisable(true);
         simulateFinalAndThird.setDisable(true);
     }
 
     private GridPane createBracket(){
-        int x = 0;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
-        int y = 0;                              //The initial y cord of the top left bracket;
         int scalingFactor = 40;      // Z.L. (modified value in "scalingFactor" from 50 to 40.)   //Scaling factor of the bracket, increase = bigger
+        double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
+        double buttonSizeY = scalingFactor / 1.25;
+        int thirdPlaceX = 0;
+        int x = (int) buttonSizeX/2;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
+        int y = 0;                    
+       
         int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
         int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.  **MIGHT GET REMOVED // TWEAKED since the scaling isn't 100% with it.**
         int yIncrement = scalingFactor*2;       //How much will the next tier bracket be moved down. 
@@ -88,9 +94,7 @@ public class KnockoutPane extends BorderPane {
         int yCordsAtTierTwo = yCordsAtTierOne + scalingFactor*2;                         
         int yCordsAtTierThree = yCordsAtTierTwo + scalingFactor*4;
         int yIncrementIncrease = yIncrement;                    //Since we change the yIncrement, we use incrementIncrease to keep the base value; technically can be removed but eh
-        double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
-        double buttonSizeY = scalingFactor / 1.25;
-        int thirdPlaceX = 0;
+                  //The initial y cord of the top left bracket;
 
         Label title = new Label("FIFA WORLD CUP BRACKET");
         title.setFont(Font.font("Arial Black", 20));
@@ -320,7 +324,7 @@ public class KnockoutPane extends BorderPane {
             }
         }
         eightGamesDisplayed = true;
-        simulateQuaterGames.setDisable(false);
+        simulateQuarterGames.setDisable(false);
     }
     private void addNamesToQuaterGames(){
         if(eightGamesDisplayed == true){
@@ -334,11 +338,11 @@ public class KnockoutPane extends BorderPane {
                 counter =+2;
             }
         }
-        quaterGamesDisplayed = true;
+        quarterGamesDisplayed = true;
         simulateSemisGames.setDisable(false);
     }
     private void addNamesToSemisGamesAndThirdPlacePlacements(){
-        if(quaterGamesDisplayed == true){
+        if(quarterGamesDisplayed == true){
             buttonList.get(14).setText(semiGames.get(0).getWinner().getCountry());
             buttonList.get(14).setGame(semiGames.get(0));
 
@@ -381,7 +385,7 @@ public class KnockoutPane extends BorderPane {
         }
         simulateSixteenTeams.setDisable(true);
         simulateEightGames.setDisable(true);
-        simulateQuaterGames.setDisable(true);
+        simulateQuarterGames.setDisable(true);
         simulateSemisGames.setDisable(true);
         simulateFinalAndThird.setDisable(true);
         simulateAll.setDisable(true);
@@ -409,4 +413,6 @@ public class KnockoutPane extends BorderPane {
     private void toolTipInteraction(){
 
     }
+
+    
 }
