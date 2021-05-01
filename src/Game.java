@@ -1,4 +1,5 @@
-import com.sun.javafx.tools.ant.Info;
+//import com.sun.javafx.tools.ant.Info;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -473,7 +474,7 @@ public class Game {
         return getFinalScoreString();
     }
 
-    public Pane getFinalScore() {
+    public BorderPane getFinalScore() {
         BorderPane borderPane = new BorderPane();
 
         Label scoreLabel = new Label(toString());
@@ -482,16 +483,18 @@ public class Game {
         Label finishTypeLabel = new Label(getFinishType());
 
         ImageView teamOneFlag = new ImageView(teamOne.getFlag().getImage());
-        teamOneFlag.setFitWidth(10);
-        teamOneFlag.setFitHeight(15);
+        teamOneFlag.setFitWidth(50);
+        teamOneFlag.setFitHeight(40);
         ImageView teamTwoFlag = new ImageView(teamTwo.getFlag().getImage());
-        teamTwoFlag.setFitWidth(10);
-        teamTwoFlag.setFitHeight(15);
+        teamTwoFlag.setFitWidth(50);
+        teamTwoFlag.setFitHeight(40);
 
         borderPane.setLeft(teamOneFlag);
         borderPane.setRight(teamTwoFlag);
         borderPane.setCenter(scoreLabel);
         borderPane.setBottom(finishTypeLabel);
+        BorderPane.setAlignment(borderPane.getBottom(), Pos.CENTER);
+        
 
         return borderPane;
     }
