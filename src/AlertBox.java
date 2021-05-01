@@ -11,10 +11,6 @@ public class AlertBox {
         // default constructor.
     }
 
-    public AlertBox(Pane test){
-        showMessageDialogue(test);
-    }
-
     public static void showMessageDialogue(Pane test) {
 
 

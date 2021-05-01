@@ -1,8 +1,12 @@
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
 public class TeamButton extends Button{
@@ -13,13 +17,16 @@ public class TeamButton extends Button{
 
     public TeamButton(){
         super();
+        this.setOnMouseClicked(clicked);
     }
     public TeamButton(String buttonName){
         super(buttonName);
+        this.setOnMouseClicked(clicked);
     }
 
     public TeamButton(String buttonName, Node node){
         super(buttonName, node);
+        this.setOnMouseClicked(clicked);
     }
 
     private Tooltip createToolTip(TeamButton button) {
@@ -103,4 +110,30 @@ public class TeamButton extends Button{
         return gameOrder;
     }
     
+
+    private EventHandler<MouseEvent> clicked = mouseEvent -> {
+        TeamButton button = (TeamButton) mouseEvent.getSource();
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {//LEFT CLICK
+            if(button.getGame() != null){
+                VBox gameBox = new VBox();
+                //gameBox.setAlignment(Pos.CENTER);
+                for (int i = button.getGameOrder(); i > 0; i--) {
+                   //Gives an arrayList, call the array List from +3, 
+                    //s += button.getGame().getWinner().getGames().get(i+2)+"\n";
+                    gameBox.getChildren().addAll(button.getGame().getWinner().getGames().get(i+2).getFinalScore());
+                }
+                /*//Alert.AlertType.INFORMATION or NONE
+                Alert alertBox = new Alert(Alert.AlertType.INFORMATION, s);
+                alertBox.setTitle("Game History");
+                alertBox.setGraphic(button.getGame().getWinner().getFlag());
+                alertBox.setHeaderText(null);
+                alertBox.show();*/
+                AlertBox.showMessageDialogue(gameBox);
+            }
+                
+            }
+        else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {//RIGHT CLICK
+            //useless but kept here incase we need it
+            }
+        };
 }

@@ -132,7 +132,6 @@ public class KnockoutPane extends BorderPane {
             int buttonX = (int)(x - buttonSizeX/2);
             int buttonY = (int)(y - buttonSizeY/2);
             TeamButton button = new TeamButton();
-            button.setOnMouseClicked(clicked);
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
             //
@@ -406,31 +405,7 @@ public class KnockoutPane extends BorderPane {
         this.addNamesToFinalsAndThirdPlace();
     }
 
-    private EventHandler<MouseEvent> clicked = mouseEvent -> {
-        TeamButton button = (TeamButton) mouseEvent.getSource();
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {//LEFT CLICK
-            if(button.getGame() != null){
-                VBox gameBox = new VBox();
-                gameBox.setAlignment(Pos.CENTER);
-                for (int i = button.getGameOrder(); i > 0; i--) {
-                   //Gives an arrayList, call the array List from +3, 
-                    //s += button.getGame().getWinner().getGames().get(i+2)+"\n";
-                    gameBox.getChildren().addAll(button.getGame().getWinner().getGames().get(i+2).getFinalScore());
-                }
-                /*//Alert.AlertType.INFORMATION or NONE
-                Alert alertBox = new Alert(Alert.AlertType.INFORMATION, s);
-                alertBox.setTitle("Game History");
-                alertBox.setGraphic(button.getGame().getWinner().getFlag());
-                alertBox.setHeaderText(null);
-                alertBox.show();*/
-                AlertBox alertBox = new AlertBox(gameBox);
-            }
-                
-            }
-        else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {//RIGHT CLICK
-            //useless but kept here incase we need it
-            }
-        };
+    
 
         
         
