@@ -422,6 +422,20 @@ public class KnockoutPane extends BorderPane {
                 alertBox.setHeaderText(null);
                 alertBox.show();
             }
+            else if(button.getTeam() != null){
+                String s = "Group Stage Games \n";
+                for (int i = 3; i > 0; i--) {
+                    //Gives an arrayList, call the array List from +3, 
+                     s += button.getTeam().getGames().get(i)+"\n";
+                 }
+
+                //Alert.AlertType.INFORMATION or NONE
+                Alert alertBox = new Alert(Alert.AlertType.INFORMATION, s);
+                alertBox.setTitle("Game History");
+                alertBox.setGraphic(button.getTeam().getFlag());
+                alertBox.setHeaderText(null);
+                alertBox.show();
+            }
                 
             }
         else if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {//RIGHT CLICK
