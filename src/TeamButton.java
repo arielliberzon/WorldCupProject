@@ -1,6 +1,8 @@
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
+import javafx.scene.text.TextAlignment;
 
 public class TeamButton extends Button{
     private Team team;
@@ -22,9 +24,11 @@ public class TeamButton extends Button{
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
             tooltip.setText(button.getTeam().toString());
+            //tooltip.setGraphic(button.getTeam().getFlag());           THESE ARE REDUNDENT IF WE SHOW IT IN BUTTON NAME
         }
         else if(button.getGame() != null){
             tooltip.setText(button.getGame().getWinner().toString());
+            //tooltip.setGraphic(button.getGame().getWinner().getFlag());
         }
         return tooltip;
     }
@@ -33,10 +37,12 @@ public class TeamButton extends Button{
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
             tooltip.setText(button.getTeam().toString());
+            //tooltip.setGraphic(button.getTeam().getFlag());
         }
         else if(button.getGame() != null){
             if(thirdPlaceWinner){
             tooltip.setText(button.getGame().getWinner().toString());
+            //tooltip.setGraphic(button.getGame().getWinner().getFlag());
         }
             else{
                 tooltip.setText(button.getGame().getLoser().toString()); 
@@ -49,12 +55,15 @@ public class TeamButton extends Button{
         this.team = team;
         //buttonList.get(counter).setText(sixteenTeams.get(i).getCountry());
         //buttonList.get(counter).setTooltip(createToolTip(buttonList.get(counter)));
+        this.setGraphic(team.getFlag());
         this.setTooltip(createToolTip(this));
         this.setText(team.getCountry());
+        this.setTextAlignment(TextAlignment.CENTER);
     }
     public void setGame(Game game) {
         this.game = game;
         //buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry())
+        this.setGraphic(game.getWinner().getFlag());
         this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
     }
@@ -62,12 +71,14 @@ public class TeamButton extends Button{
         if(thirdPlaceWinner){
         this.game = game;
         //buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry())
+        this.setGraphic(game.getWinner().getFlag());
         this.setTooltip(createToolTip(this,true));
         this.setText(game.getWinner().getCountry());
         }
         else{
             this.game = game;
             //buttonList.get(i).setText(eightGames.get(counter).getWinner().getCountry())
+            this.setGraphic(game.getLoser().getFlag());
             this.setTooltip(createToolTip(this,false));
             this.setText(game.getLoser().getCountry()); 
         }
