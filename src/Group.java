@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+
 /**
  * Class to represent groups (A,B,C,...) in group stage.
+ * TODO: Add authors! (first and last name add the top of the method)
  */
 public class Group {
 

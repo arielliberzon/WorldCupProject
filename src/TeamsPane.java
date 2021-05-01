@@ -15,7 +15,7 @@ import java.util.Map;
 
 
 // TODO: Change name to TeamsPane
-public class QualifierPane extends BorderPane {
+public class TeamsPane extends BorderPane {
 
     private Map<String, Team> teamMap;
     private Map<String, String> confInfo;
@@ -33,7 +33,7 @@ public class QualifierPane extends BorderPane {
     private TextField searchField;
 
 
-    public QualifierPane(Double height, Double width,Simulator simulator) {
+    public TeamsPane(Double height, Double width, Simulator simulator) {
         confInfo = new HashMap<>();
 
         teamMap = simulator.getTeamMap();

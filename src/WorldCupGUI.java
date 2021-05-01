@@ -3,19 +3,21 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
- * This is the main class which starts the application. It has a starterPane
- * that displays an image and has a "Start" button. It also creates a rootPane
- * which that contains tabs for each aspect of the World Cup (all national teams,
- * the tournament group stage, and the tournaments knock out stage). TODO: finish
+ * This is the application's main class, run it to view the simulator. It has a
+ * starterPane that displays an image and has a "Start" button. It also creates a
+ * rootPane which that contains tabs for each aspect of the World Cup (all national
+ * teams, the tournament group stage, and the tournaments knock out stage). It also
+ * has a "Help" button to quickly break down what each feature of the simulator. A
+ * "Reset" button was added to relaunch the simulator without having to close the
+ * application.
  */
 
 // TODO: Change class name to WorldCupGUI
-public class Main extends Application {
+public class WorldCupGUI extends Application {
 
     private BorderPane rootPane = new BorderPane();
     private GridPane starterPane = new GridPane();
@@ -55,7 +57,7 @@ public class Main extends Application {
 
     /**
      * @author Ariel Liberzon
-     * TODO: ADD description and use for buttons
+     * A function which produces an HBox consisting of multple buttons
      * @return HBox ButtonBar
      */
     private HBox createButtonBar() {
@@ -72,10 +74,11 @@ public class Main extends Application {
         return buttonBar;
     }
     /**
-     * Method sets up and starts the buttons, tab and pane that holds and shows the world cup tournament information
-     * It also creates the simulator object and simulates the tournament.
-     * Method designed to allow to reset the game without showing the welcome screen again.
      * @author Samuel Hernandez
+     * Method sets up and starts the buttons, tab and pane that holds and
+     * shows the world cup tournament information It also creates the
+     * simulator object and simulates the tournament. Method designed to
+     * allow to reset the game without showing the welcome screen again.
      */
     private void initialize(){
         simulator = new Simulator();
@@ -85,23 +88,23 @@ public class Main extends Application {
         stackPane.getChildren().addAll(buttonBar, tabs);
         rootPane.setTop(stackPane);
     }
+
     /**
      * @author Harjit Singh
      * Displays Alert message to Help the user and them
      * user-friendly experience
      * @return alert
      */
-
     private Alert help(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
         alert.setContentText("WE ARE HERE TO HELP YOU" +
-                "\n-Click Teams tab to see all confederation" +
+                "\n-Click on the \"Teams\" tab to see all confederations" +
                 "\n-Search your team in the search-bar by country name or country code"+
-                "\n-Click on Group-stage tab to see 8 groups" +
-                "\n-Click KnockoutStage tab to simulate for the winner " +
-                "\n-Click Reset button to reset the simulator ");
+                "\n-Click on the \"Group Stage\" tab to see all 8 groups" +
+                "\n-Click on the \"Knockout Stage\" tab to simulate for the winner" +
+                "\n-Click on the \"Reset\" button to reset the simulator");
 
         alert.show();
         return alert;
@@ -117,8 +120,8 @@ public class Main extends Application {
     private TabPane createTabPane(Double height, Double width){
 
         TabPane tabPane = new TabPane();
-        Tab qualifierStageTab = new Tab("   Teams   ",new QualifierPane(height, width,simulator));
-        Tab groupStageTab = new Tab("   Group Stage   ",new GroupStage(height, width, simulator));
+        Tab qualifierStageTab = new Tab("   Teams   ",new TeamsPane(height, width,simulator));
+        Tab groupStageTab = new Tab("   Group Stage   ",new GroupPane(height, width, simulator));
         Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(simulator));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);

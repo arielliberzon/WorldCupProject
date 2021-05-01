@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+// TODO: Add authors! (first and last name add the top of the method)
+// TODO: Add comments and description
 public class TeamInfo {
     private HashMap<String, Team> teams;
 

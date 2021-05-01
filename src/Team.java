@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // TODO: Add description and comments
+// TODO: Add authors! (first and last name add the top of the method)
 public class Team implements Comparable<Team> {
 
     private Integer ranking;

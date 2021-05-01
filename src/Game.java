@@ -136,7 +136,7 @@ public class Game {
     }
 
     /**
-     * @author Alexander Tang and Samuel Hernandez
+     * @author Alexander Tang, Samuel Hernandez
      * This is a helper method to simulate the time given by {@link #simulateGame()}
      * This method will first determine randomly, but taking chances into consideration, if a goal will happen
      * for every minute.
@@ -178,13 +178,13 @@ public class Game {
     }
 
     /**
+     * @author Ariel Liberzon, Samuel Hernandez
      * This method determines who wins in the penalty kicks. The chance of one team winning is random but still
      * takes into consideration the team difference as follows:
      * The average success of a penalty kick is 70%
      * The difference is divided by a 100 and then added to the team with the highest raking and subtracted
      * from the team with the lowest ranking.
      * Example: T1 score = 1800. T2 score = 1600. Difference/100 = 2 -> So T1 chance = 72%. T2 chance = 68%
-     * @author Ariel Liberzon and Samuel Hernandez
      */
     private void simulatePenaltyKicks() {
         penaltyKicksReached = true;                                             //Mark game reached penalty kicks
@@ -217,12 +217,12 @@ public class Game {
 
 
     /**
+     * @author Ariel Liberzon, Samuel Hernandez
      * Method shoots the first 5 penalty kicks unless there is an unrecoverable difference in which case it
      * just stops at that point.
      * @return true if first 5 kicks solved tie (there is a winner), else false
      * @param teamOneScoreChance the chance of scoring for team one
      * @param teamTwoScoreChance the chance of scoring for team two
-     * @author Ariel Liberzon and Samuel Hernandez
      */
     private boolean shootFirst5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         for(int i = 0; i < 5; i++){
@@ -245,10 +245,10 @@ public class Game {
     }
 
     /**
+     * @author Ariel Liberzon, Samuel Hernandez
      * Method will keep shooting kicks until one team scores and the other team misses
      * @param teamOneScoreChance the chance of scoring for team one
      * @param teamTwoScoreChance the chance of scoring for team two
-     * @author Ariel Liberzon and Samuel Hernandez
      */
     private void suddenDeathKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         boolean notDone = true;
@@ -265,13 +265,13 @@ public class Game {
     }
 
     /**
+     * @author Ariel Liberzon, Samuel Hernandez
      * This method checks if a team can still recover from the scoring difference
      * Example: Team 1 scored first 3 shots. Team two misses first 3 shots.
      * Even if team two scores the remaining 2 shots the difference is unrecoverable.
      * @param roundT1 rounds already shot by Team One
      * @param roundT2 rounds already shot by Team Two
      * @return true if difference is unrecoverable. Else false
-     * @author Ariel Liberzon and Samuel Hernandez
      */
     private boolean unrecoverableDifference(int roundT1, int roundT2) {
         //Check if it is possible for a team to recover
@@ -291,11 +291,11 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method simulates penalty kick and returns whether the penalty was scored or not.
      * Method takes into consideration the chance but is also random (if random <= team chance)
      * @param teamChance the chance of scoring (calculated by Fifa score differences)
      * @return true if goal scored else false
-     * @author Samuel Hernandez
      */
     private boolean shootPenalty(int teamChance) {
         Random randomNum = new Random();
@@ -307,11 +307,11 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Helper method to determine the winner and loser
      * Sets the winner and loser depending on the scores passed.
      * @param teamOneScore score of team 1
      * @param teamTwoScore score of team 2
-     * @author Samuel Hernandez
      */
     private void declareWinnerAndLoser(int teamOneScore, int teamTwoScore){
         if(teamOneScore > teamTwoScore){                           //If team one wins
@@ -325,9 +325,9 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method gets the result as a string for the first 45 minutes
      * @return the score at 45 minutes
-     * @author Samuel Hernandez
      */
     public String getFirst45ScoreString(){
         return new String(teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
@@ -343,9 +343,9 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method gets the result as a string for the first over time 15 minutes
      * @return the score at 105 minutes or if not played specify why
-     * @author Samuel Hernandez
      */
     public String getFirst15ScoreString(){
         if(!overTimeUsed) {
@@ -356,9 +356,9 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method gets the result as a string for the second over time 15 minutes
      * @return the score at 120 minutes or if not played specify why
-     * @author Samuel Hernandez
      */
     public String getSecond15ScoreString(){
         if(!overTimeUsed) {
@@ -369,9 +369,9 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method gets the result of the penalty kicks
      * @return the scores of the penalty kicks
-     * @author Samuel Hernandez
      */
     public String getPenaltiesScoreString(){
         if(!penaltyKicksReached) {
@@ -391,10 +391,10 @@ public class Game {
     }
 
     /**
+     * @author Alexander Tang, Samuel Hernandez
      * Returns the team that lost
      * @return the team that lost, if any.
      * @throws UnsupportedOperationException if loser is null
-     * @author Alexander Tang and Samuel Hernandez
      */
     public Team getLoser(){
         if(loser != null)
@@ -404,18 +404,18 @@ public class Game {
     }
 
     /**
+     * @author Alexander Tang, Samuel Hernandez
      * Returns the team that won
      * @return the team that won, if any, otherwise null.
-     * @author Alexander Tang and Samuel Hernandez
      */
     public Team getWinner() {
         return winner;
     }
 
     /**
+     * @author Samuel Hernandez
      * Method returns the final score of the game regardless of the way it happened
      * @return the final score represented in a string
-     * @author Samuel Hernandez
      */
     public String getFinalScoreString(){
         if(overTimeUsed){
@@ -431,6 +431,7 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method gets whether or not over time was used
      * @return true if over time was used, else false
      */
@@ -439,9 +440,9 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Method gets whether or not penalty kicks were reached
      * @return true if reached, else false
-     * @author Samuel Hernandez
      */
     public boolean werePenaltyKicksReached() {
         return penaltyKicksReached;
@@ -456,9 +457,9 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Gets the game information as a string
      * @return string representation of the game
-     * @author Samuel Hernandez
      */
     @Override
     public String toString() {
@@ -466,10 +467,10 @@ public class Game {
     }
 
     /**
+     * @author Samuel Hernandez
      * Compares two games to see if they are equal
      * @param o object to test for equality
      * @return true if equal, else false.
-     * @author Samuel Hernandez
      */
     @Override
     public boolean equals(Object o) {

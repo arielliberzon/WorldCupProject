@@ -1,6 +1,7 @@
-import java.io.IOException;
 import java.util.*;
 
+// TODO: Rearrange methods so they make sense chronologically (ex: qualifiers, group, knockout)
+// TODO: Add @author at the top of each comment that relates to YOU
 /**
  * Simulator class is designed to simulate the world cup in phases so that they can be simulated by steps by the GUI
  * Upon simulator being constructed the group stage is simulated. After that, individuals methods should be called to

@@ -4,6 +4,7 @@ import java.util.Arrays;
 // TODO: remove this from final submission
 public class testGroup {
     public static void main(String[] args) {
+        // Will need to comment out setImage in "Team"
         ArrayList<Team> teams = new ArrayList<>(Arrays.asList(
                 new Team(1, "ARG", 0, "ARG", "SA"),
                 new Team(1, "ARG", 0, "ARG", "SA"),

@@ -9,10 +9,10 @@ import javafx.scene.layout.*;
 
 // TODO: Change class name to GroupPane
 // TODO: Add description and comments
-public class GroupStage extends GridPane {
+public class GroupPane extends GridPane {
         private Simulator simulator;
         private Team t;
-        public GroupStage(Double height, Double width, Simulator simulator){
+        public GroupPane(Double height, Double width, Simulator simulator){
                 this.simulator = simulator;
                 this.stagemain();
                 this.setMaxHeight(height);
@@ -23,21 +23,21 @@ public class GroupStage extends GridPane {
         public GridPane stagemain(){
 
                 Group group1 = simulator.getGroups().get(0);
-                TableView groupView1 = GroupStage.groupTable(group1,"Group A" );
+                TableView groupView1 = GroupPane.groupTable(group1,"Group A" );
                 Group group2 = simulator.getGroups().get(1);
-                TableView groupView2 = GroupStage.groupTable(group2,"Group B" );
+                TableView groupView2 = GroupPane.groupTable(group2,"Group B" );
                 Group group3 = simulator.getGroups().get(2);
-                TableView groupView3 = GroupStage.groupTable(group3,"Group C" );
+                TableView groupView3 = GroupPane.groupTable(group3,"Group C" );
                 Group group4 = simulator.getGroups().get(3);
-                TableView groupView4 = GroupStage.groupTable(group4,"Group D" );
+                TableView groupView4 = GroupPane.groupTable(group4,"Group D" );
                 Group group5 = simulator.getGroups().get(4);
-                TableView groupView5 = GroupStage.groupTable(group5,"Group E" );
+                TableView groupView5 = GroupPane.groupTable(group5,"Group E" );
                 Group group6 = simulator.getGroups().get(5);
-                TableView groupView6 = GroupStage.groupTable(group6,"Group F" );
+                TableView groupView6 = GroupPane.groupTable(group6,"Group F" );
                 Group group7 = simulator.getGroups().get(6);
-                TableView groupView7 = GroupStage.groupTable(group7,"Group G" );
+                TableView groupView7 = GroupPane.groupTable(group7,"Group G" );
                 Group group8 = simulator.getGroups().get(7);
-                TableView groupView8 = GroupStage.groupTable(group8,"Group H" );
+                TableView groupView8 = GroupPane.groupTable(group8,"Group H" );
 
                 GridPane a = new GridPane();
                 GridPane center = new GridPane();
