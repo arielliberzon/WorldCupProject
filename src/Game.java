@@ -1,9 +1,11 @@
 //import com.sun.javafx.tools.ant.Info;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -474,27 +476,34 @@ public class Game {
         return getFinalScoreString();
     }
 
-    public BorderPane getFinalScore() {
+    /** @author Ariel Liberzon
+     * TODO: Add comments
+     * @return
+     */
+    public Pane getFinalScore() {
         BorderPane borderPane = new BorderPane();
 
         Label scoreLabel = new Label(toString());
-        Label teamOneLabel = new Label();
-        Label teamTwoLabel = new Label();
+        scoreLabel.setPadding(new Insets(0,10,0,10));
+
         Label finishTypeLabel = new Label(getFinishType());
+        finishTypeLabel.setFont(new Font(finishTypeLabel.getFont().toString(), 8));
 
         ImageView teamOneFlag = new ImageView(teamOne.getFlag().getImage());
-        teamOneFlag.setFitWidth(50);
-        teamOneFlag.setFitHeight(40);
+        teamOneFlag.setFitHeight(30);
+        teamOneFlag.setFitWidth(45);
+
         ImageView teamTwoFlag = new ImageView(teamTwo.getFlag().getImage());
-        teamTwoFlag.setFitWidth(50);
-        teamTwoFlag.setFitHeight(40);
+        teamTwoFlag.setFitHeight(30);
+        teamTwoFlag.setFitWidth(45);
 
         borderPane.setLeft(teamOneFlag);
         borderPane.setRight(teamTwoFlag);
         borderPane.setCenter(scoreLabel);
         borderPane.setBottom(finishTypeLabel);
+        borderPane.setPadding(new Insets(10, 10, 10, 10));
+
         BorderPane.setAlignment(borderPane.getBottom(), Pos.CENTER);
-        
 
         return borderPane;
     }
