@@ -1,4 +1,5 @@
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -129,6 +130,14 @@ public class TeamButton extends Button{
                 alertBox.setHeaderText(null);
                 alertBox.show();*/
                 AlertBox.showMessageDialogue(gameBox);
+            }
+            else if(button.getTeam() != null){
+                VBox gameBox = new VBox();
+                for (int i = 2; i >= 0; i--) {
+                    //Gives an arrayList, call the array List from +3, 
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
+                 }
+                 AlertBox.showMessageDialogue(gameBox);
             }
                 
             }
