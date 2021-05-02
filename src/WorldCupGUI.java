@@ -16,7 +16,6 @@ import javafx.stage.Stage;
  * application.
  */
 
-// TODO: Change class name to WorldCupGUI
 public class WorldCupGUI extends Application {
 
     private BorderPane rootPane = new BorderPane();
