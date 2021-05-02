@@ -1,16 +1,7 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -359,9 +350,7 @@ public class KnockoutPane extends BorderPane {
             Random random = new Random();
             if(semisGamesAndThirdPlacementsDisplayed == false){
             int randomNumber = random.nextInt(2);
-            System.out.println(randomNumber);
                 if(randomNumber == 0){
-                    System.out.println(finalAndThirdPlaceGame.get(1).getWinner().getCountry() + " winner and loser is : " + finalAndThirdPlaceGame.get(1).getLoser().getCountry());
                     buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), true);
                     buttonList.get(31).setGameOrder(3);   
                 }
@@ -370,7 +359,6 @@ public class KnockoutPane extends BorderPane {
                     buttonList.get(31).setGameOrder(3);
                 } 
                 if(randomNumber == 0){
-                    System.out.println(finalAndThirdPlaceGame.get(1).getWinner().getCountry() + " winner and loser is : " + finalAndThirdPlaceGame.get(1).getLoser().getCountry());
                     buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), false);
                     buttonList.get(32).setGameOrder(3);
                 }
