@@ -165,6 +165,13 @@ public class TableViewHelper {
         return confColumn;
     }
 
+
+    public static TableColumn<Team, String> getGroupcuntry() {
+    TableColumn<Team, String> countryCol = new TableColumn<>("Country");
+                countryCol.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getCountry()));
+        return countryCol;
+    }
     /**
      * @author Harjit Singh
      * @return
@@ -173,8 +180,6 @@ public class TableViewHelper {
         TableColumn<Team, String> groupWinsColumn = new TableColumn<>("Wins");
         groupWinsColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().getGroupWins())));
-        groupWinsColumn.setMinWidth(50);
-        groupWinsColumn.setMaxWidth(50);
         return groupWinsColumn;
     }
 
@@ -186,8 +191,6 @@ public class TableViewHelper {
         TableColumn<Team, String> groupDrawsColumn = new TableColumn<>("Draws");
         groupDrawsColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().getGroupDraws())));
-        groupDrawsColumn.setMinWidth(50);
-        groupDrawsColumn.setMaxWidth(50);
         return groupDrawsColumn;
     }
 
@@ -199,8 +202,7 @@ public class TableViewHelper {
         TableColumn<Team, String> groupLossesColumn = new TableColumn<>("Losses");
         groupLossesColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
-        groupLossesColumn.setMinWidth(50);
-        groupLossesColumn.setMaxWidth(50);
+
         return groupLossesColumn;
     }
 
@@ -211,9 +213,8 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGFColumn() {
         TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
         goalsForColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
-        goalsForColumn.setMinWidth(50);
-        goalsForColumn.setMaxWidth(50);
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
+
         return goalsForColumn;
     }
 
@@ -225,8 +226,6 @@ public class TableViewHelper {
         TableColumn<Team, String> goalDifferenceColumn = new TableColumn<>("GD");
         goalDifferenceColumn.setCellValueFactory(data ->
                 new SimpleStringProperty("FIX"));
-        goalDifferenceColumn.setMinWidth(50);
-        goalDifferenceColumn.setMaxWidth(50);
         return goalDifferenceColumn;
     }
 
@@ -237,9 +236,8 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGAColumn() {
         TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
         goalsAgainstColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
-        goalsAgainstColumn.setMinWidth(50);
-        goalsAgainstColumn.setMaxWidth(50);
+                new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
+
         return goalsAgainstColumn;
     }
 
@@ -248,12 +246,10 @@ public class TableViewHelper {
      * @return
      */
     public static TableColumn<Team, String> getPointsColumn() {
-        TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("Points");
-        goalsAgainstColumn.setCellValueFactory(data ->
+        TableColumn<Team, String> pointtotal = new TableColumn<>("Points");
+        pointtotal.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
-        goalsAgainstColumn.setMinWidth(50);
-        goalsAgainstColumn.setMaxWidth(50);
-        return goalsAgainstColumn;
+        return pointtotal;
     }
 
 }

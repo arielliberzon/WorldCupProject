@@ -1,15 +1,16 @@
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
 
-        // TODO: Change class name to GroupPane
+// TODO: Change class name to GroupPane
         // TODO: Add description and comments
         public class GroupPane extends GridPane {
         private Simulator simulator;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
         public GridPane stagemain(){
                 GridPane a = new GridPane();
                 GridPane center = new GridPane();
+
                 ArrayList<Group> groupList = simulator.getGroups();
                 char groupChar = 'A';
                 int count = 0;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
                         Group group = groupList.get(i);
                         TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
+                        vBox.setStyle("-fx-background-color: #FFFFFF;");
                         if (count % 2 == 0) {
                                 center.add(vBox, 1, evenCount);
                         }else {
@@ -42,12 +45,12 @@ import java.util.ArrayList;
                         count++;
                         groupChar++;
                 }
-                center.setHgap(10); //horizontal gap in pixels => that's what you are asking for
-                center.setVgap(10); //vertical gap in pixels
+                center.setHgap(5); //horizontal gap in pixels => that's what you are asking for
+                center.setVgap(5); //vertical gap in pixels
                 center.setPadding(new Insets(10, 10, 10, 10));
-                center.setTranslateY(-55);
+                ScrollPane sp = new ScrollPane(center);
                 this.setAlignment(Pos.CENTER);
-                this.getChildren().addAll(center);
+                this.getChildren().addAll(sp);
                 return a;
         }
 
@@ -57,6 +60,7 @@ import java.util.ArrayList;
                     TeamButton teamButton = new TeamButton();
                     teamButton.setTeam(group.getTeams().get(i));
                     hBox.getChildren().add(teamButton);
+                    hBox.setPrefWidth(5);
             }
             hBox.setSpacing(50);
             hBox.setAlignment(Pos.CENTER);
@@ -64,57 +68,25 @@ import java.util.ArrayList;
             return hBox;
         }
 
-        public static TableView groupTable(Group group,String c ) {
+        public static TableView groupTable(Group group,String c) {
                 TableView tableView = new TableView<>();
-                TeamButton buttons=new TeamButton();
-
                 // Add the columns:
                 TableColumn<Team, String> groupname   = new TableColumn<>(c);
-                TableColumn<Team, String> countryCol = new TableColumn<>("Country");
-                countryCol.setCellValueFactory(data ->
-                        new SimpleStringProperty(data.getValue().getCountry()));
-
-
-                TableColumn<Team, String> pointsCol = new TableColumn<>("Points");
-                pointsCol.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
-
-                TableColumn<Team, String> winsCol = new TableColumn<>("Wins");
-                winsCol.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().getGroupWins())));
-
-                TableColumn<Team, String> drawsCol = new TableColumn<>("Draws");
-                drawsCol.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().getGroupDraws())));
-
-                TableColumn<Team, String> lossesCol = new TableColumn<>("Losses");
-                lossesCol.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
-
-                TableColumn<Team, String> gf = new TableColumn<>("GF");
-                gf.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().getGroupWins())));
-
-                TableColumn<Team, String> ga = new TableColumn<>("GD");
-                ga.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().getGroupDraws())));
-
-                TableColumn<Team, String> gd = new TableColumn<>("GA");
-                gd.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
-
-
-
-                groupname.getColumns().addAll(countryCol, winsCol, drawsCol, lossesCol,gf,ga,gd,pointsCol);
+                groupname.getColumns().addAll(TableViewHelper.getGroupcuntry(),TableViewHelper.getGroupWinsColumn(),
+                        TableViewHelper.getGroupDrawsColumn(), TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn()
+                        ,TableViewHelper.getGFColumn(),TableViewHelper.getGDColumn(),TableViewHelper.getPointsColumn());
                 tableView.getColumns().addAll(groupname);
-                tableView.setFixedCellSize(25);
-                tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(55));
+                tableView.setFixedCellSize(20);
+                tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(52));
                 tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                 // Add the teams
+                BackgroundFill background_fill = new BackgroundFill(Color.TRANSPARENT.invert(),
+                        CornerRadii.EMPTY, Insets.EMPTY);
+                Background background = new Background(background_fill);
+                tableView.setBackground(background);
+
                 for (Team team : group.getTeams())
                         tableView.getItems().add(team);
-
-
                 return tableView;
 
         }
