@@ -2,6 +2,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -71,22 +72,26 @@ public class TeamButton extends Button{
     }
     public void setGame(Game game) {
         this.game = game;
+        this.team = game.getWinner();
         this.setFlag(game.getWinner().getFlag().getImage());
         this.setGraphic(flag);
         this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
     }
     public void setGame(Game game, Boolean thirdPlaceWinner){//Special case for third place
+        System.out.println("boolean: " + thirdPlaceWinner);
         if(thirdPlaceWinner){
         this.game = game;
+        this.team = game.getWinner();
         this.setFlag(game.getWinner().getFlag().getImage());
         this.setGraphic(flag);
         this.setTooltip(createToolTip(this,true));
         this.setText(game.getWinner().getCountry());
         }
-        else{
+        else if(!thirdPlaceWinner){
+            System.out.println(game.getLoser().getCountry());
             this.game = game;
-
+            this.team = game.getLoser();
             this.setFlag(game.getLoser().getFlag().getImage());
             this.setGraphic(flag);
             this.setTooltip(createToolTip(this,false));
@@ -120,19 +125,22 @@ public class TeamButton extends Button{
                 //gameBox.setAlignment(Pos.CENTER);
                 for (int i = button.getGameOrder(); i > 0; i--) {
                    //Gives an arrayList, call the array List from +3, 
-                    //s += button.getGame().getWinner().getGames().get(i+2)+"\n";
-                    gameBox.getChildren().addAll(button.getGame().getWinner().getGames().get(i+2).getFinalScore());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getFinalScore());
                 }
-                /*//Alert.AlertType.INFORMATION or NONE
-                Alert alertBox = new Alert(Alert.AlertType.INFORMATION, s);
-                alertBox.setTitle("Game History");
-                alertBox.setGraphic(button.getGame().getWinner().getFlag());
-                alertBox.setHeaderText(null);
-                alertBox.show();*/
-                AlertBox.showMessageDialogue(gameBox);
+                Label label = new Label("Group Stage Games");
+                label.setAlignment(Pos.CENTER);
+                gameBox.getChildren().addAll(label);
+                for (int i = 2; i >= 0; i--) {
+                    //Gives an arrayList, call the array List from +3, 
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
+                 }
+                 AlertBox.showMessageDialogue(gameBox);
             }
             else if(button.getTeam() != null){
                 VBox gameBox = new VBox();
+                Label label = new Label("Group Stage Games");
+                label.setAlignment(Pos.CENTER);
+                gameBox.getChildren().addAll(label);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from +3, 
                     gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
