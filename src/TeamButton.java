@@ -106,8 +106,8 @@ public class TeamButton extends Button{
     }
     public void setFlag(Image flag) {
        this.flag = new ImageView(flag);
-       this.flag.setFitHeight(30);//change these values to change the scaling
-       this.flag.setFitWidth(45);
+       this.flag.setFitHeight(20);//change these values to change the scaling
+       this.flag.setFitWidth(30);
     }
     public Team getTeam() {
         return team;
