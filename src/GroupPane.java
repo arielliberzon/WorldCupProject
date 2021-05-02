@@ -33,9 +33,9 @@ import java.util.ArrayList;
                         TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         if (count % 2 == 0) {
-                                center.add(vBox, 2, evenCount);
-                        }else {
                                 center.add(vBox, 1, evenCount);
+                        }else {
+                                center.add(vBox, 2, evenCount);
                                 evenCount++;
 
                         }
