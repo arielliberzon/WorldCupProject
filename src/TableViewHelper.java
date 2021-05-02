@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * @author Ariel Liberzon
+ * @author Ariel Liberzon, Harjit singh
  * A static class that helps create a TableView object through the use of
  * various static methods. Some methods are in charge of creating an
- * ObservableList of teams and other methods are used to create columns.
+ * ObservableList of teams and other methods are used to create columns
+ * which we have used in TeamPane and GroupPane.
  */
 public class TableViewHelper {
 
@@ -59,6 +60,7 @@ public class TableViewHelper {
     }
 
     /**
+     * @author Harjit Singh
      * Returns an observable list of teams from the given Map.
      * Only returns teams that contain the search parameter in
      * either their team name or country code.
@@ -170,83 +172,97 @@ public class TableViewHelper {
             new SimpleStringProperty(data.getValue().getCountry()));
         return countryCol;
     }
+
+
+
     /**
      * @author Harjit Singh
-     * @return
+     * Wins column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return groupWinsColumn
      */
     public static TableColumn<Team, String> getGroupWinsColumn() {
         TableColumn<Team, String> groupWinsColumn = new TableColumn<>("Wins");
         groupWinsColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(Integer.toString(data.getValue().getGroupWins())));
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupWins())));//gets the data from the team class
         return groupWinsColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * Draws column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return groupDrawsColumn
      */
     public static TableColumn<Team, String> getGroupDrawsColumn() {
         TableColumn<Team, String> groupDrawsColumn = new TableColumn<>("Draws");
         groupDrawsColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(Integer.toString(data.getValue().getGroupDraws())));
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupDraws())));//gets the data from the team class
         return groupDrawsColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * Losses column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return groupLossesColumn
      */
     public static TableColumn<Team, String> getGroupLossesColumn() {
         TableColumn<Team, String> groupLossesColumn = new TableColumn<>("Losses");
         groupLossesColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
-
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));//gets the data from the team class
         return groupLossesColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * GoalFor column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return goalsForColumn
      */
     public static TableColumn<Team, String> getGFColumn() {
         TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
         goalsForColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
-
+                new SimpleStringProperty("FIX"));//gets the data from the team class
         return goalsForColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * GoalDifference column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return goalDifferenceColumn
      */
     public static TableColumn<Team, String> getGDColumn() {
         TableColumn<Team, String> goalDifferenceColumn = new TableColumn<>("GD");
         goalDifferenceColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
+                new SimpleStringProperty("FIX"));//gets the data from the team class
         return goalDifferenceColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * GoalAgainst column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return goalsAgainstColumn
      */
     public static TableColumn<Team, String> getGAColumn() {
         TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
         goalsAgainstColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
-
+                new SimpleStringProperty("FIX"));//gets the data from the team class
         return goalsAgainstColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * Points column for the table-view used in the group-stage class
+     * Gets the info form the Team class
+     * @return totalPointsColumn
      */
     public static TableColumn<Team, String> getPointsColumn() {
         TableColumn<Team, String> totalPointsColumn = new TableColumn<>("Points");
         totalPointsColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
+                new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));//gets the data from the team class
         return totalPointsColumn;
     }
 
