@@ -164,7 +164,7 @@ public class TableViewHelper {
     }
 
 
-    public static TableColumn<Team, String> getGroupcuntry() {
+    public static TableColumn<Team, String> getGroupCountry() {
     TableColumn<Team, String> countryCol = new TableColumn<>("Country");
                 countryCol.setCellValueFactory(data ->
             new SimpleStringProperty(data.getValue().getCountry()));
@@ -211,7 +211,7 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGFColumn() {
         TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
         goalsForColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
+                new SimpleStringProperty("FIX"));
 
         return goalsForColumn;
     }
@@ -234,7 +234,7 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGAColumn() {
         TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
         goalsAgainstColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
+                new SimpleStringProperty("FIX"));
 
         return goalsAgainstColumn;
     }
@@ -244,10 +244,10 @@ public class TableViewHelper {
      * @return
      */
     public static TableColumn<Team, String> getPointsColumn() {
-        TableColumn<Team, String> pointtotal = new TableColumn<>("Points");
-        pointtotal.setCellValueFactory(data ->
+        TableColumn<Team, String> totalPointsColumn = new TableColumn<>("Points");
+        totalPointsColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
-        return pointtotal;
+        return totalPointsColumn;
     }
 
 }

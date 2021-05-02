@@ -72,7 +72,7 @@ import java.util.ArrayList;
                 TableView tableView = new TableView<>();
                 // Add the columns:
                 TableColumn<Team, String> groupname   = new TableColumn<>(c);
-                groupname.getColumns().addAll(TableViewHelper.getGroupcuntry(),TableViewHelper.getGroupWinsColumn(),
+                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(),TableViewHelper.getGroupWinsColumn(),
                         TableViewHelper.getGroupDrawsColumn(), TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn()
                         ,TableViewHelper.getGFColumn(),TableViewHelper.getGDColumn(),TableViewHelper.getPointsColumn());
                 tableView.getColumns().addAll(groupname);
