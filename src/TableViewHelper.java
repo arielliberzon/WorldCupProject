@@ -1,10 +1,8 @@
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.util.Map;

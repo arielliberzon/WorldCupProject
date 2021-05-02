@@ -1,6 +1,7 @@
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -8,8 +9,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class TeamButton extends Button{
     private Team team;
@@ -134,7 +138,7 @@ public class TeamButton extends Button{
                     //Gives an arrayList, call the array List from +3, 
                     gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
                  }
-                 AlertBox.showMessageDialogue(gameBox);
+                 this.showMessageDialogue(gameBox);
             }
             else if(button.getTeam() != null){
                 VBox gameBox = new VBox();
@@ -145,7 +149,7 @@ public class TeamButton extends Button{
                     //Gives an arrayList, call the array List from +3, 
                     gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
                  }
-                 AlertBox.showMessageDialogue(gameBox);
+                 this.showMessageDialogue(gameBox);
             }
                 
             }
@@ -153,4 +157,25 @@ public class TeamButton extends Button{
             //useless but kept here incase we need it
             }
         };
+
+    private void showMessageDialogue(Pane test) {
+
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.setTitle("Games"); // come back to
+
+        Pane pane = new Pane();
+
+
+        pane.getChildren().add(test);
+
+
+
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+
+    }
 }
