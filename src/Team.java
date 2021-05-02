@@ -42,7 +42,7 @@ public class Team implements Comparable<Team> {
     /**
      * @return Gets the number of wins in the group stage.
      */
-    public int groupWins () {
+    public int getGroupWins () {
         int wins = 0;
         for (int i = 0; i < 3; i++) {
             Game curGroupGame = games.get(i);
@@ -53,7 +53,7 @@ public class Team implements Comparable<Team> {
     /**
      * @return Gets the number of wins in the group stage.
      */
-    public int groupDraws () {
+    public int getGroupDraws () {
         int draws = 0;
         for (int i = 0; i < 3; i++) {
             Game curGroupGame = games.get(i);
@@ -64,7 +64,7 @@ public class Team implements Comparable<Team> {
     /**
      * @return Gets the number of wins in the group stage.
      */
-    public int groupLosses () {
+    public int getGroupLosses () {
         int losses = 0;
         for (int i = 0; i < 3; i++) {
             Game curGroupGame = games.get(i);
@@ -75,7 +75,7 @@ public class Team implements Comparable<Team> {
     }
 
     public int groupPoints () {
-        return 3 * groupWins() + 1 * groupDraws();
+        return 3 * getGroupWins() + 1 * getGroupDraws();
     }
 
     public Integer getRanking() {
