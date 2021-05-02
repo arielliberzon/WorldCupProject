@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ *
+ */
 // TODO: Add description and comments
 // TODO: Add authors! (first and last name add the top of the method)
 public class Team implements Comparable<Team> {
@@ -76,6 +79,44 @@ public class Team implements Comparable<Team> {
 
     public int groupPoints () {
         return 3 * groupWins() + 1 * groupDraws();
+    }
+
+    /**
+     * @return goals scored during group-stage.
+     */
+    public int groupGoalsFor() {
+        int goalsFor = 0;
+        // First 3 are the group-stage games.
+        for (Game game : games.subList(0, 3))
+        {
+            int teamIndex = 0;
+            if (this != game.getTeamOne()) teamIndex=1;
+            int curGameGoals = game.getScore()[1][teamIndex];
+            goalsFor += curGameGoals;
+        }
+        return goalsFor;
+    }
+    /**
+     * @return goals scored against this team during group-stage.
+     */
+    public int groupGoalsAgainst() {
+        int goalsFor = 0;
+        // First 3 are the group-stage games.
+        for (Game game : games.subList(0, 3))
+        {
+            int teamIndex = 1;
+            if (this != game.getTeamOne()) teamIndex=0;
+            int curGameGoals = game.getScore()[1][teamIndex];
+            goalsFor += curGameGoals;
+        }
+        return goalsFor;
+    }
+
+    /**
+     * @return difference between goals-scored and goals-against in groups.
+     */
+    public int groupGoalsDifference() {
+        return groupGoalsFor() - groupGoalsAgainst();
     }
 
     public Integer getRanking() {

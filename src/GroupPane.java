@@ -94,15 +94,15 @@ public class GroupPane extends GridPane {
 
                 TableColumn<Team, String> gf = new TableColumn<>("GF");
                 gf.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().groupWins())));
+                        new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsFor())));
 
                 TableColumn<Team, String> ga = new TableColumn<>("GD");
                 ga.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().groupDraws())));
+                        new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsDifference())));
 
                 TableColumn<Team, String> gd = new TableColumn<>("GA");
                 gd.setCellValueFactory(data ->
-                        new SimpleStringProperty(Integer.toString(data.getValue().groupLosses())));
+                        new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsAgainst())));
 
 
 
