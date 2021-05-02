@@ -12,13 +12,10 @@ public class TeamInfo {
 
     public TeamInfo() {
         teams = new HashMap<>();
-        try {
-            loadFromFile();
-        } catch (Exception e) {
-            // TODO: catch exception and do something with it
-        }
+        loadFromFile();
     }
-    private void loadFromFile() throws IOException {
+
+    private void loadFromFile(){
         String firstLine;
         int ranking;
         String country;
@@ -26,9 +23,10 @@ public class TeamInfo {
         String countryCode;
         String confederation;
         String countryFlagID;
+        String fileName= "teamInfo1.txt";
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader("teamInfo.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
 
             while((firstLine = br.readLine()) != null){
                 ranking = Integer.parseInt(firstLine);
@@ -51,7 +49,8 @@ public class TeamInfo {
 
         }
         catch(IOException e) {
-            e.printStackTrace();
+           System.out.println("Error file "+fileName +" could not be found");
+           System.exit(1);
         }
 
     }
