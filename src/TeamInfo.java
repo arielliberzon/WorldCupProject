@@ -23,7 +23,7 @@ public class TeamInfo {
         String countryCode;
         String confederation;
         String countryFlagID;
-        String fileName= "teamInfo1.txt";
+        String fileName= "teamInfo.txt";
 
         try{
             BufferedReader br = new BufferedReader(new FileReader(fileName));
