@@ -359,7 +359,9 @@ public class KnockoutPane extends BorderPane {
             Random random = new Random();
             if(semisGamesAndThirdPlacementsDisplayed == false){
             int randomNumber = random.nextInt(2);
+            System.out.println(randomNumber);
                 if(randomNumber == 0){
+                    System.out.println(finalAndThirdPlaceGame.get(1).getWinner().getCountry() + " winner and loser is : " + finalAndThirdPlaceGame.get(1).getLoser().getCountry());
                     buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), true);
                     buttonList.get(31).setGameOrder(3);   
                 }
@@ -368,6 +370,7 @@ public class KnockoutPane extends BorderPane {
                     buttonList.get(31).setGameOrder(3);
                 } 
                 if(randomNumber == 0){
+                    System.out.println(finalAndThirdPlaceGame.get(1).getWinner().getCountry() + " winner and loser is : " + finalAndThirdPlaceGame.get(1).getLoser().getCountry());
                     buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), false);
                     buttonList.get(32).setGameOrder(3);
                 }
