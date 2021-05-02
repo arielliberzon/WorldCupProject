@@ -14,9 +14,9 @@ public class testGroup {
         Group group = new Group('A', teams);
         Team testTeam = teams.get(0);
         System.out.println(testTeam + "\n" +
-                "Wins: " + testTeam.groupWins() + "\n" +
-                "Draws: " + testTeam.groupDraws() + "\n" +
-                "Losses: " + testTeam.groupLosses() + "\n" +
+                "Wins: " + testTeam.getGroupWins() + "\n" +
+                "Draws: " + testTeam.getGroupDraws() + "\n" +
+                "Losses: " + testTeam.getGroupLosses() + "\n" +
                 "Points: " + testTeam.groupPoints());
     }
 }

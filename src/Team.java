@@ -3,7 +3,6 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 // TODO: Add description and comments
 // TODO: Add authors! (first and last name add the top of the method)
@@ -42,7 +41,7 @@ public class Team implements Comparable<Team> {
     /**
      * @return Gets the number of wins in the group stage.
      */
-    public int groupWins () {
+    public int getGroupWins () {
         int wins = 0;
         for (int i = 0; i < 3; i++) {
             Game curGroupGame = games.get(i);
@@ -53,7 +52,7 @@ public class Team implements Comparable<Team> {
     /**
      * @return Gets the number of wins in the group stage.
      */
-    public int groupDraws () {
+    public int getGroupDraws () {
         int draws = 0;
         for (int i = 0; i < 3; i++) {
             Game curGroupGame = games.get(i);
@@ -64,7 +63,7 @@ public class Team implements Comparable<Team> {
     /**
      * @return Gets the number of wins in the group stage.
      */
-    public int groupLosses () {
+    public int getGroupLosses () {
         int losses = 0;
         for (int i = 0; i < 3; i++) {
             Game curGroupGame = games.get(i);
@@ -75,7 +74,7 @@ public class Team implements Comparable<Team> {
     }
 
     public int groupPoints () {
-        return 3 * groupWins() + 1 * groupDraws();
+        return 3 * getGroupWins() + 1 * getGroupDraws();
     }
 
     public Integer getRanking() {
