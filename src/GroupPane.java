@@ -34,10 +34,8 @@ import java.util.ArrayList;
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         if (count % 2 == 0) {
                                 center.add(vBox, 2, evenCount);
-                                System.out.println(count / 2);
                         }else {
                                 center.add(vBox, 1, evenCount);
-                                System.out.println(evenCount);
                                 evenCount++;
 
                         }
@@ -58,17 +56,13 @@ import java.util.ArrayList;
             for (int i = 0; i < group.getTeams().size(); i++) {
                     TeamButton teamButton = new TeamButton();
                     teamButton.setTeam(group.getTeams().get(i));
-                    //teamButton.setPadding(new Insets(5, 50, 5, 50));
-                    //teamButton.setMinWidth(table.getWidth()/4);
-                    //teamButton.setMaxWidth(table.getWidth()/4);
                     hBox.getChildren().add(teamButton);
             }
-            //hBox.setSpacing(50);
+            hBox.setSpacing(50);
             hBox.setAlignment(Pos.CENTER);
 
             return hBox;
         }
-
 
         public static TableView groupTable(Group group,String c ) {
                 TableView tableView = new TableView<>();
@@ -124,8 +118,4 @@ import java.util.ArrayList;
                 return tableView;
 
         }
-
-
-
-
         }
