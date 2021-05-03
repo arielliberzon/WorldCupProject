@@ -42,6 +42,8 @@ public class KnockoutPane extends BorderPane {
     private boolean eightGamesDisplayed = false;
     private boolean quarterGamesDisplayed = false;
     private boolean semisGamesAndThirdPlacementsDisplayed = false;
+    private int lineWidth = 2;
+    private Color lineColor = Color.WHITE;
 
     private Button displaySixteenTeams = new Button("Display 16");
     private Button displayEightGames = new Button("Display 8");
@@ -60,7 +62,7 @@ public class KnockoutPane extends BorderPane {
         finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
         //this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
         //this.setBackground(new Background(new BackgroundImage(new Image("Images/One.jpg"),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        Image img = new Image("Images/grass.jpg");
+        Image img = new Image("Images/grass.png");
         this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
@@ -122,8 +124,8 @@ public class KnockoutPane extends BorderPane {
 
         rect.setHeight(buttonSizeY*5);
         rect.setWidth((buttonSizeX*2.09));
-        rect.setStroke(Color.WHITE);
-        rect.setStrokeWidth(5);
+        rect.setStroke(lineColor);
+        rect.setStrokeWidth(lineWidth);
         rect.setFill(Color.TRANSPARENT);
 
         Label thirdPlace = new Label("3rd Place");
@@ -189,7 +191,6 @@ public class KnockoutPane extends BorderPane {
                 button.setLayoutY(buttonY);
                 title.setLayoutX(x-(354/2)); //312 is the rough pixel measurement #GimpForLife
                 title.setLayoutY(y-yCordsAtTierTwo);//
-                System.out.println(title.getWidth());
                 winner.setLayoutX(x-(144/2));//108 is rough pixel measurement (font isn't scalable for this reason)
                 winner.setLayoutY(y-35-10-buttonSizeY); //5 is the height of the label, and 10 is the "distance" between the label and the button, and buttonSizeY is the height of the button
                 rect.setX(x-(rect.getWidth()/2));//
@@ -273,8 +274,6 @@ public class KnockoutPane extends BorderPane {
     private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength, int horizontalLength){
         Line line1;
         Line line2;
-        int width = 5;
-        Color lineColor = Color.WHITE;
         
 
         int x_length;
@@ -282,23 +281,23 @@ public class KnockoutPane extends BorderPane {
         if(isLeft){
             x_length = x - horizontalLength;
             line1 = new Line(x, y, x_length, y);
-            line1.setStrokeWidth(width);
+            line1.setStrokeWidth(lineWidth);
             line1.setStroke(lineColor);
         }
         else{
             x_length = x + horizontalLength;
             line1 = new Line(x, y, x_length, y);
-            line1.setStrokeWidth(width);
+            line1.setStrokeWidth(lineWidth);
             line1.setStroke(lineColor);
         }
         if(isUp){
             line2 = new Line(x_length, y, x_length, y - yLength);
-            line2.setStrokeWidth(width);
+            line2.setStrokeWidth(lineWidth);
             line2.setStroke(lineColor);
         }
         else{
             line2 = new Line(x_length, y, x_length, y + yLength);
-            line2.setStrokeWidth(width);
+            line2.setStrokeWidth(lineWidth);
             line2.setStroke(lineColor);
 
         }
