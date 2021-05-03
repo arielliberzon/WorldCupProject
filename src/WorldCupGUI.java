@@ -64,7 +64,9 @@ public class WorldCupGUI extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        buttonBar.setStyle("-fx-background-color: #589257ff");
+        //buttonBar.setStyle("-fx-background-color: #589257ff");
+        buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
+
         Button helpButton = new Button("Help");;
         Button resetButton = new Button("Reset");
         //Added by Samuel Hernandez
