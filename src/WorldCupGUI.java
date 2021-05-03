@@ -30,7 +30,7 @@ public class WorldCupGUI extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("World Cup");
-        primaryStage.getIcons().add(new Image("Images/logo.jpg"));
+        primaryStage.getIcons().add(new Image("Images/logo2.png"));
         showIntroScene(primaryStage);
         primaryStage.setMaximized(true);
     }
