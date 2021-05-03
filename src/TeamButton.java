@@ -147,11 +147,12 @@ public class TeamButton extends Button{
             }
             else if(button.getTeam() != null){
                 VBox gameBox = new VBox();
-                Label label = new Label("Group Stage Games");
+                gameBox.setAlignment(Pos.CENTER);
+                Label label = new Label("Group Stage Games: \n");
                 label.setAlignment(Pos.CENTER);
                 gameBox.getChildren().addAll(label);
                 for (int i = 2; i >= 0; i--) {
-                    //Gives an arrayList, call the array List from +3, 
+                    //Gives an arrayList, call the array List from 0 - 3, 
                     gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
                  }
                  this.showMessageDialogue(gameBox);
