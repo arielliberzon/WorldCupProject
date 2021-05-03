@@ -1,9 +1,12 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -16,19 +19,21 @@ import javafx.stage.Stage;
  * application.
  */
 
+// TODO: Change class name to WorldCupGUI
 public class WorldCupGUI extends Application {
 
     private BorderPane rootPane = new BorderPane();
     private GridPane starterPane = new GridPane();
     private Scene scene = new Scene(rootPane);
     private Simulator simulator;
-    private VBox stackPane;
+    private VBox vBox;
     private Stage window;
 
     @Override
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("World Cup");
+        primaryStage.getIcons().add(new Image("Images/logo2.png"));
         showIntroScene(primaryStage);
         primaryStage.setMaximized(true);
     }
@@ -39,19 +44,21 @@ public class WorldCupGUI extends Application {
      * @param window
      */
     private void showIntroScene(Stage window) {
-        Image img = new Image("Images/background.jpg");
+        Image img = new Image("Images/two.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
-        startButton.setStyle("-fx-background-color: LIGHTGREY");
+        startButton.setBackground(new Background(new BackgroundFill(Color.LIGHTSTEELBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        startButton.setFont(Font.font("Arial Black", 18));
+        startButton.setTextFill(Color.WHITE);
+        starterPane.setAlignment(Pos.CENTER);
         starterPane.add(startButton, 0, 1);
-        startButton.setTranslateX(800);
-        startButton.setTranslateY(500);
         window.setScene(new Scene(starterPane));
         window.setMaximized(true);
         window.show();
         initialize();
         startButton.setOnAction(e -> window.setScene(scene));
     }
+
 
 
     /**
@@ -63,7 +70,9 @@ public class WorldCupGUI extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        buttonBar.setStyle("-fx-background-color: #589257ff");
+        //buttonBar.setStyle("-fx-background-color: #589257ff");
+        buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
+
         Button helpButton = new Button("Help");;
         Button resetButton = new Button("Reset");
         //Added by Samuel Hernandez
@@ -81,11 +90,11 @@ public class WorldCupGUI extends Application {
      */
     private void initialize(){
         simulator = new Simulator();
-        stackPane = new VBox();
+        vBox = new VBox();
         HBox buttonBar = createButtonBar();
         TabPane tabs = createTabPane(window.getHeight() - 100, window.getWidth());
-        stackPane.getChildren().addAll(buttonBar, tabs);
-        rootPane.setTop(stackPane);
+        vBox.getChildren().addAll(buttonBar, tabs);
+        rootPane.setTop(vBox);
     }
 
     /**
@@ -120,8 +129,8 @@ public class WorldCupGUI extends Application {
 
         TabPane tabPane = new TabPane();
         Tab qualifierStageTab = new Tab("   Teams   ",new TeamsPane(height, width,simulator));
-        Tab groupStageTab = new Tab("   Group Stage   ",new GroupPane(height, width, simulator));
-        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(simulator));
+        Tab groupStageTab = new Tab("   Group Stage   ",new GroupsPane(height, width, simulator));
+        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(height, width, simulator));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
         qualifierStageTab.setClosable(false);

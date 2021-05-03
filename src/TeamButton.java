@@ -118,6 +118,10 @@ public class TeamButton extends Button{
     public int getGameOrder() {
         return gameOrder;
     }
+
+    public void removeName(){
+        this.setText("");
+    }
     
 
     private EventHandler<MouseEvent> clicked = mouseEvent -> {
