@@ -524,9 +524,11 @@ public class Game {
                 Arrays.equals(score, game.score);
     }
 
+
     public Team getTeamOne() {
         return teamOne;
     }
+
     public Team getTeamTwo() {
         return teamTwo;
     }
