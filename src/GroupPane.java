@@ -15,7 +15,8 @@ import java.util.ArrayList;
         // TODO: Add description and comments
         public class GroupPane extends GridPane {
         private Simulator simulator;
-        public GroupPane(Double height, Double width, Simulator simulator){
+
+        public GroupPane(Double height, Double width, Simulator simulator) {
                 this.simulator = simulator;
                 this.stagemain();
                 this.setMaxHeight(height);
@@ -23,7 +24,7 @@ import java.util.ArrayList;
         }
 
 
-        public GridPane stagemain(){
+        public GridPane stagemain() {
                 GridPane a = new GridPane();
                 GridPane center = new GridPane();
 
@@ -31,31 +32,12 @@ import java.util.ArrayList;
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
-                        //TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
-                        TableView table = new TableView<>();
-                        TableColumn<Team, String> groupHeader = new TableColumn<>(group.toString());
-
-                        table.getItems().addAll(TableViewHelper.getGroupList(group));
-
-                        groupHeader.getColumns().addAll(TableViewHelper.getGroupCountry(),
-                                TableViewHelper.getGroupWinsColumn(), TableViewHelper.getGroupDrawsColumn(),
-                                TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn(),
-                                TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(),
-                                TableViewHelper.getPointsColumn());
-
-                        table.getColumns().addAll(groupHeader);
-
-                        table.setFixedCellSize(25);
-                        table.prefHeightProperty().bind(
-                                Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
-
-                        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-                        VBox vBox = new VBox(createButtonBar(group , table) ,table);
+                        TableView table = createGroupTable(group);
+                        VBox vBox = new VBox(createButtonBar(group, table), table);
                         vBox.setStyle("-fx-background-color: #FFFFFF;");
                         if (i % 2 == 0) {
                                 center.add(vBox, 1, evenCount);
-                        }else {
+                        } else {
                                 center.add(vBox, 2, evenCount);
                                 evenCount++;
 
@@ -70,27 +52,27 @@ import java.util.ArrayList;
                 return a;
         }
 
-        private HBox createButtonBar(Group group,TableView table){
-            HBox hBox=new HBox();
-            for (int i = 0; i < group.getTeams().size(); i++) {
-                    TeamButton teamButton = new TeamButton();
-                    teamButton.setTeam(group.getTeams().get(i));
-                    hBox.getChildren().add(teamButton);
-                    hBox.setPrefWidth(5);
-            }
-            hBox.setSpacing(50);
-            hBox.setAlignment(Pos.CENTER);
+        private HBox createButtonBar(Group group, TableView table) {
+                HBox hBox = new HBox();
+                for (int i = 0; i < group.getTeams().size(); i++) {
+                        TeamButton teamButton = new TeamButton();
+                        teamButton.setTeam(group.getTeams().get(i));
+                        hBox.getChildren().add(teamButton);
+                        hBox.setPrefWidth(5);
+                }
+                hBox.setSpacing(50);
+                hBox.setAlignment(Pos.CENTER);
 
-            return hBox;
+                return hBox;
         }
 
-        public static TableView groupTable(Group group,String c) {
+        public static TableView groupTable(Group group, String c) {
                 TableView tableView = new TableView<>();
                 // Add the columns:
-                TableColumn<Team, String> groupname   = new TableColumn<>(c);
-                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(),TableViewHelper.getGroupWinsColumn(),
+                TableColumn<Team, String> groupname = new TableColumn<>(c);
+                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(), TableViewHelper.getGroupWinsColumn(),
                         TableViewHelper.getGroupDrawsColumn(), TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn()
-                        ,TableViewHelper.getGFColumn(),TableViewHelper.getGDColumn(),TableViewHelper.getPointsColumn());
+                        , TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(), TableViewHelper.getPointsColumn());
                 tableView.getColumns().addAll(groupname);
                 tableView.setFixedCellSize(20);
                 tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(52));
@@ -106,4 +88,34 @@ import java.util.ArrayList;
                 return tableView;
 
         }
+
+
+        /**
+         * This one fixes the bug on Mac's check it out tell me what you don't like
+         * and we'll take it from there
+         * @param group
+         * @return
+         */
+        private TableView createGroupTable(Group group) {
+                TableView table = new TableView<>();
+                TableColumn<Team, String> groupHeader = new TableColumn<>(group.toString());
+
+                table.getItems().addAll(TableViewHelper.getGroupList(group));
+
+                groupHeader.getColumns().addAll(TableViewHelper.getGroupCountry(),
+                        TableViewHelper.getGroupWinsColumn(), TableViewHelper.getGroupDrawsColumn(),
+                        TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn(),
+                        TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(),
+                        TableViewHelper.getPointsColumn());
+
+                table.getColumns().addAll(groupHeader);
+
+                table.setFixedCellSize(25);
+                table.prefHeightProperty().bind(
+                        Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
+
+                table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+                return table;
         }
+}
