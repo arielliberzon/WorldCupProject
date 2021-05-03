@@ -51,7 +51,7 @@ public class Group {
      */
     @Override
     public String toString() {
-        return "Group: "+name+"\n" +teams.toString()+"\n";
+        return "Group " + name;//"\n" +teams.toString()+"\n";
 
     }
 }

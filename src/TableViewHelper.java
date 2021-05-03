@@ -1,14 +1,14 @@
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * @author Ariel Liberzon
+ * @author Ariel Liberzon, Harjit Singh
  * A static class that helps create a TableView object through the use of
  * various static methods. Some methods are in charge of creating an
  * ObservableList of teams and other methods are used to create columns.
@@ -59,6 +59,7 @@ public class TableViewHelper {
     }
 
     /**
+     * @author Harjit Singh
      * Returns an observable list of teams from the given Map.
      * Only returns teams that contain the search parameter in
      * either their team name or country code.
@@ -84,6 +85,10 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    public static ObservableList<Team> getGroupList(Group group) {
+        ArrayList<Team> groupList = group.getTeams();
+        return FXCollections.<Team>observableArrayList(groupList);
+    }
     /**
      * @return "Rank" TableColumn
      */
@@ -161,6 +166,96 @@ public class TableViewHelper {
         confColumn.setMinWidth(100);
         confColumn.setMaxWidth(100);
         return confColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGroupCountry() {
+    TableColumn<Team, String> countryCol = new TableColumn<>("Country");
+                countryCol.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getCountry()));
+        return countryCol;
+    }
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGroupWinsColumn() {
+        TableColumn<Team, String> groupWinsColumn = new TableColumn<>("Wins");
+        groupWinsColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupWins())));
+        return groupWinsColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGroupDrawsColumn() {
+        TableColumn<Team, String> groupDrawsColumn = new TableColumn<>("Draws");
+        groupDrawsColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupDraws())));
+        return groupDrawsColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGroupLossesColumn() {
+        TableColumn<Team, String> groupLossesColumn = new TableColumn<>("Losses");
+        groupLossesColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
+
+        return groupLossesColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGFColumn() {
+        TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
+        goalsForColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsFor())));
+
+        return goalsForColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGDColumn() {
+        TableColumn<Team, String> goalDifferenceColumn = new TableColumn<>("GD");
+        goalDifferenceColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsDifference())));
+        return goalDifferenceColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getGAColumn() {
+        TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
+        goalsAgainstColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsAgainst())));
+
+        return goalsAgainstColumn;
+    }
+
+    /**
+     * @author Harjit Singh
+     * @return
+     */
+    public static TableColumn<Team, String> getPointsColumn() {
+        TableColumn<Team, String> totalPointsColumn = new TableColumn<>("Points");
+        totalPointsColumn.setCellValueFactory(data ->
+                new SimpleStringProperty(Integer.toString(data.getValue().groupPoints())));
+        return totalPointsColumn;
     }
 
 }
