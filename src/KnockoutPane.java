@@ -55,7 +55,17 @@ public class KnockoutPane extends BorderPane {
     private Button simulateAll = new Button("Simulate All Rounds");
 
 
-    public KnockoutPane(Simulator sim){
+
+
+    /**
+     * Constructor for Knockout pane. since only one pane exists, 
+     *
+     * @author Justin Valas and Shane Callahan
+     * @param height 
+     * @param width
+     * @param sim
+     */
+    public KnockoutPane(Double height, Double width, Simulator sim){
         //this.sim = sim;
         sixteenTeams = sim.getTeamsInOrderInRoundOfSixteen();
         eightGames = sim.simulateRoundOfSixteen();
