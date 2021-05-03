@@ -19,8 +19,7 @@ import java.util.Random;
  */
 public class Game {
 
-    //TODO: fix the naming of some methods and boolean variables (no integers and shorter)
-    //TODO: Comment and implement finish type
+    //TODO: Add comment to Ariel's method, and delete this line.
 
     //Holds team one
     private Team teamOne;
@@ -121,7 +120,7 @@ public class Game {
 
         //If game was not tied
         if(score[1][0] != score[1][1]){
-            declareWinnerAndLoser(score[1][0], score[1][1]);        //Declare winner
+            declareWinnerNLoser(score[1][0], score[1][1]);        //Declare winner
             return;                                                 //No need to go any further
         }
 
@@ -140,7 +139,7 @@ public class Game {
                 if(score[3][0] == score[3][1])                                 //If still tied go to penalty kicks
                     simulatePenaltyKicks();
                 else                                                                   //Else: not tied anymore
-                    declareWinnerAndLoser(score[3][0], score[3][1]);                    //Declare winner and loser
+                    declareWinnerNLoser(score[3][0], score[3][1]);                    //Declare winner and loser
             }
         }
     }
@@ -216,13 +215,13 @@ public class Game {
         }
 
         //Shoot first 5 penalty kicks
-        boolean resolved = shootFirst5PenaltyKicks(teamOneScoreChance, teamTwoScoreChance);
+        boolean resolved = shoot5PenaltyKicks(teamOneScoreChance, teamTwoScoreChance);
 
         if (!resolved)                          //If first 5 kicks were not enough go to sudden death to declare winner
             suddenDeathKicks(teamOneScoreChance, teamTwoScoreChance);
 
         //Record penalty kick score and declare a winner
-        declareWinnerAndLoser(score[4][0], score[4][1]);
+        declareWinnerNLoser(score[4][0], score[4][1]);
     }
 
 
@@ -234,7 +233,7 @@ public class Game {
      * @param teamTwoScoreChance the chance of scoring for team two
      * @author Ariel Liberzon, Samuel Hernandez
      */
-    private boolean shootFirst5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
+    private boolean shoot5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         for(int i = 0; i < 5; i++){
             boolean t1Scored = shootPenalty(teamOneScoreChance);       //Team one shoots
             boolean t2Scored = shootPenalty(teamTwoScoreChance);       //Team two shoots
@@ -324,7 +323,7 @@ public class Game {
      * @param teamTwoScore score of team 2
      * @author Samuel Hernandez
      */
-    private void declareWinnerAndLoser(int teamOneScore, int teamTwoScore){
+    private void declareWinnerNLoser(int teamOneScore, int teamTwoScore){
         if(teamOneScore > teamTwoScore){                           //If team one wins
             winner = teamOne;
             loser = teamTwo;
@@ -340,7 +339,7 @@ public class Game {
      * @return the score at 45 minutes
      * @author Samuel Hernandez
      */
-    public String getFirst45ScoreString(){
+    public String get45minScore(){
         return new String(teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
     }
 
@@ -349,7 +348,7 @@ public class Game {
      * @return the score at 90 minutes
      * @author Samuel Hernandez
      */
-    public String getSecond45ScoreString(){
+    public String get90minScore(){
         return new String(teamOne.getCountry()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getCountry());
     }
 
@@ -358,7 +357,7 @@ public class Game {
      * @return the score at 105 minutes or if not played specify why
      * @author Samuel Hernandez
      */
-    public String getFirst15ScoreString(){
+    public String get105minScore(){
         if(!overTimeUsed) {
             return "Overtime was not used ";
         }
@@ -371,7 +370,7 @@ public class Game {
      * @return the score at 120 minutes or if not played specify why
      * @author Samuel Hernandez
      */
-    public String getSecond15ScoreString(){
+    public String get120minScore(){
         if(!overTimeUsed) {
             return "Overtime was not used ";
         }
@@ -384,7 +383,7 @@ public class Game {
      * @return the scores of the penalty kicks
      * @author Samuel Hernandez
      */
-    public String getPenaltiesScoreString(){
+    public String getPenaltiesScore(){
         if(!penaltyKicksReached) {
             return "Penalty kicks were not reached";
         }
@@ -435,10 +434,10 @@ public class Game {
                         score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+") " + teamTwo.getCountry());
             }
             else
-                return getSecond15ScoreString();
+                return get120minScore();
         }
         else
-            return getSecond45ScoreString();
+            return get90minScore();
     }
 
     /**
@@ -455,7 +454,7 @@ public class Game {
      * @return true if reached, else false
      * @author Samuel Hernandez
      */
-    public boolean werePenaltyKicksReached() {
+    public boolean penaltyKicksReached() {
         return penaltyKicksReached;
     }
 
