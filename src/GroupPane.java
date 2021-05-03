@@ -59,6 +59,7 @@ import java.util.ArrayList;
             for (int i = 0; i < group.getTeams().size(); i++) {
                     TeamButton teamButton = new TeamButton();
                     teamButton.setTeam(group.getTeams().get(i));
+                    teamButton.removeName();
                     hBox.getChildren().add(teamButton);
                     hBox.setPrefWidth(5);
             }
