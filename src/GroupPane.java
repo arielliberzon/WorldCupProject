@@ -1,6 +1,7 @@
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,37 +28,38 @@ import java.util.ArrayList;
                 GridPane center = new GridPane();
 
                 ArrayList<Group> groupList = simulator.getGroups();
-                char groupChar = 'A';
-                int count = 0;
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
                         //TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
                         TableView table = new TableView<>();
+                        TableColumn<Team, String> groupHeader = new TableColumn<>(group.toString());
 
                         table.getItems().addAll(TableViewHelper.getGroupList(group));
 
-                        table.getColumns().addAll(TableViewHelper.getGroupCountry(),
+                        groupHeader.getColumns().addAll(TableViewHelper.getGroupCountry(),
                                 TableViewHelper.getGroupWinsColumn(), TableViewHelper.getGroupDrawsColumn(),
                                 TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn(),
                                 TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(),
                                 TableViewHelper.getPointsColumn());
 
+                        table.getColumns().addAll(groupHeader);
+
                         table.setFixedCellSize(25);
-                        table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
+                        table.prefHeightProperty().bind(
+                                Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
 
+                        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-                        VBox vBox = new VBox(createButtonBar(group , table) , table);
+                        VBox vBox = new VBox(createButtonBar(group , table) ,table);
                         vBox.setStyle("-fx-background-color: #FFFFFF;");
-                        if (count % 2 == 0) {
+                        if (i % 2 == 0) {
                                 center.add(vBox, 1, evenCount);
                         }else {
                                 center.add(vBox, 2, evenCount);
                                 evenCount++;
 
                         }
-                        count++;
-                        groupChar++;
                 }
                 center.setHgap(5); //horizontal gap in pixels => that's what you are asking for
                 center.setVgap(5); //vertical gap in pixels
