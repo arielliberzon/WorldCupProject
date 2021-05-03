@@ -34,7 +34,7 @@ public class Game {
     private int[][] score = new int[5][2];
 
     //Chance to score per minute (Average goals per minute = 0.03) so 3%
-    private final int chancePerMinute = 3;
+    private int chancePerMinute = 3;
 
     //Holds the winner of the game
     private Team winner;
@@ -515,6 +515,53 @@ public class Game {
     }
 
     /**
+     * Gets whether or not a game can be drawn
+     * @return true if can be draw, else false
+     */
+    public boolean canBeDraw() {
+        return canBeDraw;
+    }
+    /**
+     * Sets whether or not a game can be drawn
+     * @param canBeDraw true if can be draw, else false
+     */
+    public void setCanBeDraw(boolean canBeDraw) {
+        this.canBeDraw = canBeDraw;
+    }
+
+    /**
+     * Gets the chance of scoring per minute
+     * @return the number representing the percentage of chance to score
+     */
+    public int getChancePerMinute() {
+        return chancePerMinute;
+    }
+
+    /**
+     * Sets the chance of scoring per minute
+     * @param chancePerMinute the number representing the percentage of chance to score
+     */
+    public void setChancePerMinute(int chancePerMinute) {
+        this.chancePerMinute = chancePerMinute;
+    }
+
+    /**
+     * Sets team one
+     * @param teamOne the team to set as team one
+     */
+    public void setTeamOne(Team teamOne) {
+        this.teamOne = teamOne;
+    }
+
+    /**
+     * Sets team two
+     * @param teamTwo the team to set as team two
+     */
+    public void setTeamTwo(Team teamTwo) {
+        this.teamTwo = teamTwo;
+    }
+
+    /**
      * Gets the game information as a string
      * @return string representation of the game
      * @author Samuel Hernandez
@@ -539,4 +586,6 @@ public class Game {
                 Objects.equals(teamTwo, game.teamTwo) &&
                 Arrays.equals(score, game.score);
     }
+
+    //Rest of setters and getters do not make sense, so are not included
 }
