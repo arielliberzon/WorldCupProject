@@ -480,12 +480,12 @@ public class Game {
         finishTypeLabel.setFont(new Font(finishTypeLabel.getFont().toString(), 8));
 
         ImageView teamOneFlag = new ImageView(teamOne.getFlag().getImage());
-        teamOneFlag.setFitHeight(30);
-        teamOneFlag.setFitWidth(45);
+        teamOneFlag.setFitHeight(20);
+        teamOneFlag.setFitWidth(30);
 
         ImageView teamTwoFlag = new ImageView(teamTwo.getFlag().getImage());
-        teamTwoFlag.setFitHeight(30);
-        teamTwoFlag.setFitWidth(45);
+        teamTwoFlag.setFitHeight(20);
+        teamTwoFlag.setFitWidth(30);
 
         borderPane.setLeft(teamOneFlag);
         borderPane.setRight(teamTwoFlag);
