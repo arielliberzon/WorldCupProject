@@ -32,8 +32,22 @@ import java.util.ArrayList;
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
-                        TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
-                        VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
+                        //TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
+                        TableView table = new TableView<>();
+
+                        table.getItems().addAll(TableViewHelper.getGroupList(group));
+
+                        table.getColumns().addAll(TableViewHelper.getGroupCountry(),
+                                TableViewHelper.getGroupWinsColumn(), TableViewHelper.getGroupDrawsColumn(),
+                                TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn(),
+                                TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(),
+                                TableViewHelper.getPointsColumn());
+
+                        table.setFixedCellSize(25);
+                        table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
+
+
+                        VBox vBox = new VBox(createButtonBar(group , table) , table);
                         vBox.setStyle("-fx-background-color: #FFFFFF;");
                         if (count % 2 == 0) {
                                 center.add(vBox, 1, evenCount);
