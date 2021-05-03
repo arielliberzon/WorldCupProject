@@ -1,7 +1,6 @@
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,14 +14,14 @@ import java.util.ArrayList;
  * @author John Youte, Harjit Singh
  * A class that extends gridpane
  * This class is displaying informations for the eight groups in the group
- * stage tab. it take informations from the similator class and put these informations in a tableView.
+ * stage tab. it take information from the similator class and put these informations in a tableView.
  */
-        public class GroupPane extends GridPane {
+        public class GroupsPane extends GridPane {
         private Simulator simulator;
 
-        public GroupPane(Double height, Double width, Simulator simulator) {
+        public GroupsPane(Double height, Double width, Simulator simulator) {
                 this.simulator = simulator;
-                this.stagemain();
+                this.createMainStage();
                 this.setMaxHeight(height);
                 this.setMaxWidth(width);
         }
@@ -33,10 +32,10 @@ import java.util.ArrayList;
          * Creates eight tableView with the group information.
          * @return a
          */
-        public GridPane stagemain(){
+        public GridPane createMainStage(){
 
-                GridPane a = new GridPane();
-                GridPane center = new GridPane();
+                GridPane mainPane = new GridPane();
+                GridPane centerPane = new GridPane();
                 ArrayList<Group> groupList = simulator.getGroups();
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
@@ -45,19 +44,19 @@ import java.util.ArrayList;
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
                         if (i % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
-                                center.add(vBox, 1, evenCount);
+                                centerPane.add(vBox, 1, evenCount);
                         } else {
-                                center.add(vBox, 2, evenCount);
+                                centerPane.add(vBox, 2, evenCount);
                                 evenCount++;
                         }
                 }
-                center.setHgap(5); //horizontal gap in pixels => that's what you are asking for
-                center.setVgap(5); //vertical gap in pixels
-                center.setPadding(new Insets(10, 10, 10, 10));
-                ScrollPane sp = new ScrollPane(center); //User friendly pane, for the users with a small screen resolution.
+                centerPane.setHgap(5); //horizontal gap in pixels => that's what you are asking for
+                centerPane.setVgap(5); //vertical gap in pixels
+                centerPane.setPadding(new Insets(10, 10, 10, 10));
+                ScrollPane scrollPane = new ScrollPane(centerPane); //User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
-                this.getChildren().addAll(sp);
-                return a;
+                this.getChildren().addAll(scrollPane);
+                return mainPane;
         }
 
         /**
