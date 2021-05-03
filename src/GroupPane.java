@@ -1,6 +1,7 @@
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,7 +19,8 @@ import java.util.ArrayList;
  */
         public class GroupPane extends GridPane {
         private Simulator simulator;
-        public GroupPane(Double height, Double width, Simulator simulator){
+
+        public GroupPane(Double height, Double width, Simulator simulator) {
                 this.simulator = simulator;
                 this.stagemain();
                 this.setMaxHeight(height);
@@ -32,25 +34,22 @@ import java.util.ArrayList;
          * @return a
          */
         public GridPane stagemain(){
+
                 GridPane a = new GridPane();
                 GridPane center = new GridPane();
                 ArrayList<Group> groupList = simulator.getGroups();
-                char groupChar = 'A';
-                int count = 0;
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
-                        TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
+                        TableView groupTable = createGroupTable(group);
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
-                        if (count % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
+                        if (i % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
                                 center.add(vBox, 1, evenCount);
-                        }else {
+                        } else {
                                 center.add(vBox, 2, evenCount);
                                 evenCount++;
                         }
-                        count++;
-                        groupChar++;
                 }
                 center.setHgap(5); //horizontal gap in pixels => that's what you are asking for
                 center.setVgap(5); //vertical gap in pixels
@@ -101,13 +100,13 @@ import java.util.ArrayList;
             return hBox;
         }
 
-        public static TableView groupTable(Group group,String c) {
+        public static TableView groupTable(Group group, String c) {
                 TableView tableView = new TableView<>();
                 // Add the columns:
-                TableColumn<Team, String> groupname   = new TableColumn<>(c);
-                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(),TableViewHelper.getGroupWinsColumn(),
+                TableColumn<Team, String> groupname = new TableColumn<>(c);
+                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(), TableViewHelper.getGroupWinsColumn(),
                         TableViewHelper.getGroupDrawsColumn(), TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn()
-                        ,TableViewHelper.getGFColumn(),TableViewHelper.getGDColumn(),TableViewHelper.getPointsColumn());
+                        , TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(), TableViewHelper.getPointsColumn());
                 tableView.getColumns().addAll(groupname);
                 tableView.setFixedCellSize(20);
                 tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(52));
@@ -123,4 +122,34 @@ import java.util.ArrayList;
                 return tableView;
 
         }
+
+
+        /**
+         * This one fixes the bug on Mac's check it out tell me what you don't like
+         * and we'll take it from there
+         * @param group
+         * @return
+         */
+        private TableView createGroupTable(Group group) {
+                TableView table = new TableView<>();
+                TableColumn<Team, String> groupHeader = new TableColumn<>(group.toString());
+
+                table.getItems().addAll(TableViewHelper.getGroupList(group));
+
+                groupHeader.getColumns().addAll(TableViewHelper.getGroupCountry(),
+                        TableViewHelper.getGroupWinsColumn(), TableViewHelper.getGroupDrawsColumn(),
+                        TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn(),
+                        TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(),
+                        TableViewHelper.getPointsColumn());
+
+                table.getColumns().addAll(groupHeader);
+
+                table.setFixedCellSize(25);
+                table.prefHeightProperty().bind(
+                        Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
+
+                table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+                return table;
         }
+}

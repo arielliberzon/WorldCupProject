@@ -84,6 +84,10 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    public static ObservableList<Team> getGroupList(Group group) {
+        ArrayList<Team> groupList = group.getTeams();
+        return FXCollections.<Team>observableArrayList(groupList);
+    }
     /**
      * @return "Rank" TableColumn
      */
