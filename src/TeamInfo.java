@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 // TODO: Add authors! (first and last name add the top of the method)
 // TODO: Add comments and description
@@ -12,13 +10,10 @@ public class TeamInfo {
 
     public TeamInfo() {
         teams = new HashMap<>();
-        try {
-            loadFromFile();
-        } catch (Exception e) {
-            // TODO: catch exception and do something with it
-        }
+        loadFromFile();
     }
-    private void loadFromFile() throws IOException {
+
+    private void loadFromFile(){
         String firstLine;
         int ranking;
         String country;
@@ -26,9 +21,10 @@ public class TeamInfo {
         String countryCode;
         String confederation;
         String countryFlagID;
+        String fileName= "teamInfo.txt";
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader("teamInfo.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
 
             while((firstLine = br.readLine()) != null){
                 ranking = Integer.parseInt(firstLine);
@@ -51,7 +47,8 @@ public class TeamInfo {
 
         }
         catch(IOException e) {
-            e.printStackTrace();
+           System.out.println("Error file "+fileName +" could not be found");
+           System.exit(1);
         }
 
     }
