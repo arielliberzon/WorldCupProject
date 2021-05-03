@@ -1,11 +1,3 @@
-//import com.sun.javafx.tools.ant.Info;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
@@ -71,13 +63,12 @@ public class Game {
         teamTwo.addGame(this);
     }
 
-    public String getFinishType() {
-        if (!overTimeUsed)
-            return "Regular Time";
-        else if (overTimeUsed && !penaltyKicksReached)
-            return "Extra Time";
-        else
-            return "Penalties";
+    public FinishType getFinishType() {
+        return FinishType.NORMAL_TIME;
+    }
+
+    enum FinishType {
+        EXTRA_TIME, PENALTIES, NORMAL_TIME
     }
 
     public int getId() {
@@ -430,7 +421,7 @@ public class Game {
         if(overTimeUsed){
             if(penaltyKicksReached) {
                 return new String(teamOne.getCountry() + " " + score[3][0] + "(" +
-                       score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+") " + teamTwo.getCountry());
+                       score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+")" + teamTwo.getCountry());
             }
             else
                 return getSecond15ScoreString();
@@ -475,38 +466,6 @@ public class Game {
         return getFinalScoreString();
     }
 
-    /** @author Ariel Liberzon
-     * TODO: Add comments
-     * @return
-     */
-    public Pane getFinalScore() {
-        BorderPane borderPane = new BorderPane();
-
-        Label scoreLabel = new Label(toString());
-        scoreLabel.setPadding(new Insets(0,10,0,10));
-
-        Label finishTypeLabel = new Label(getFinishType());
-        finishTypeLabel.setFont(new Font(finishTypeLabel.getFont().toString(), 8));
-
-        ImageView teamOneFlag = new ImageView(teamOne.getFlag().getImage());
-        teamOneFlag.setFitHeight(30);
-        teamOneFlag.setFitWidth(45);
-
-        ImageView teamTwoFlag = new ImageView(teamTwo.getFlag().getImage());
-        teamTwoFlag.setFitHeight(30);
-        teamTwoFlag.setFitWidth(45);
-
-        borderPane.setLeft(teamOneFlag);
-        borderPane.setRight(teamTwoFlag);
-        borderPane.setCenter(scoreLabel);
-        borderPane.setBottom(finishTypeLabel);
-        borderPane.setPadding(new Insets(10, 10, 10, 10));
-
-        BorderPane.setAlignment(borderPane.getBottom(), Pos.CENTER);
-
-        return borderPane;
-    }
-
     /**
      * @author Samuel Hernandez
      * Compares two games to see if they are equal
@@ -522,13 +481,6 @@ public class Game {
                 Objects.equals(teamOne, game.teamOne) &&
                 Objects.equals(teamTwo, game.teamTwo) &&
                 Arrays.equals(score, game.score);
-    }
-
-    public Team getTeamOne() {
-        return teamOne;
-    }
-    public Team getTeamTwo() {
-        return teamTwo;
     }
 
 
