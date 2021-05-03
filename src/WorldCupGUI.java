@@ -31,6 +31,7 @@ public class WorldCupGUI extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("World Cup");
+        primaryStage.getIcons().add(new Image("Images/logo2.png"));
         showIntroScene(primaryStage);
         primaryStage.setMaximized(true);
     }
@@ -41,7 +42,7 @@ public class WorldCupGUI extends Application {
      * @param window
      */
     private void showIntroScene(Stage window) {
-        Image img = new Image("Images/background.jpg");
+        Image img = new Image("Images/two.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
         startButton.setStyle("-fx-background-color: LIGHTGREY");
@@ -57,6 +58,7 @@ public class WorldCupGUI extends Application {
     }
 
 
+
     /**
      * @author Ariel Liberzon
      * A function which produces an HBox consisting of multple buttons
@@ -66,7 +68,9 @@ public class WorldCupGUI extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        buttonBar.setStyle("-fx-background-color: #589257ff");
+        //buttonBar.setStyle("-fx-background-color: #589257ff");
+        buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
+
         Button helpButton = new Button("Help");;
         Button resetButton = new Button("Reset");
         //Added by Samuel Hernandez
@@ -123,7 +127,7 @@ public class WorldCupGUI extends Application {
 
         TabPane tabPane = new TabPane();
         Tab qualifierStageTab = new Tab("   Teams   ",new TeamsPane(height, width,simulator));
-        Tab groupStageTab = new Tab("   Group Stage   ",new GroupPane(height, width, simulator));
+        Tab groupStageTab = new Tab("   Group Stage   ",new GroupsPane(height, width, simulator));
         Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(height, width, simulator));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
