@@ -53,12 +53,16 @@ public class KnockoutPane extends BorderPane {
     private Button simulateAll = new Button("Display All Rounds");
 
     /**
-     * Constructor for Knockout pane. since only one pane exists, 
+     * Constructor for Knockout pane. 
+     * the Array lists hold the values from simulator; this might not actually matter, but at the time was neater.
+     * The HBox holds the buttons to display the teams, (vertical box too for style)
+     * each of the display buttons get their events
+     * The boolean is there to dictate the status of the buttons, to enable and disable when it can or can't be pressed.
      *
      * @author Justin Valas and Shane Callahan
-     * @param height 
-     * @param width
-     * @param sim
+     * @param height height of the pane
+     * @param width width of the pane. the reason these exist is to help scale the knockout pane. although it proved much trickier than I thought due to font
+     * @param sim the simulator object, to be the same through out the whole project
      */
     public KnockoutPane(Double height, Double width, Simulator sim){
         //this.sim = sim;
@@ -77,8 +81,16 @@ public class KnockoutPane extends BorderPane {
         buttonBox.setSpacing(10);
         buttonBox.getChildren().addAll(displaySixteenTeams,displayEightGames, displayQuarterGames,displaySemisGames,displayFinalAndThird);
         VBox verticalButtonBox = new VBox();
-        verticalButtonBox.setAlignment(Pos.CENTER);
+        simulateAll.setAlignment(Pos.CENTER);
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
+        verticalButtonBox.setAlignment(Pos.CENTER);
+        Button help = new Button("Help");
+        help.setAlignment(Pos.CENTER_RIGHT);
+        //GridPane buttonPane = new GridPane();
+        //buttonPane.add(verticalButtonBox, 0, 0);
+        //buttonPane.add(help, 0, 1);
+        //buttonPane.getChildren().addAll(buttonPane);
+        //this.setTop(buttonPane);
         this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
@@ -95,6 +107,13 @@ public class KnockoutPane extends BorderPane {
         displayFinalAndThird.setDisable(true);
     }
 
+    /**
+     * The bread and butter of this class; creates the bracket.
+     * there's a scalingFactor variable, where the idea was to make it scale based off of your monitor resolution
+     * 
+     * @author 
+     * @return GridPane 
+     */
     private GridPane createBracket(){
         int scalingFactor = 40;      // Z.L. (modified value in "scalingFactor" from 50 to 40.)   //Scaling factor of the bracket, increase = bigger
         double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
@@ -430,10 +449,4 @@ public class KnockoutPane extends BorderPane {
         this.addNamesToSemisGamesAndThirdPlacePlacements();
         this.addNamesToFinalsAndThirdPlace();
     }
-
-        
-        
-
-
-    
 }
