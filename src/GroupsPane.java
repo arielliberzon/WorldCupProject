@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author John Youte, Harjit Singh
  * A class that extends gridpane
  * This class is displaying informations for the eight groups in the group
- * stage tab. it take informations from the similator class and put these informations in a tableView.
+ * stage tab. it take information from the similator class and put these informations in a tableView.
  */
         public class GroupsPane extends GridPane {
         private Simulator simulator;

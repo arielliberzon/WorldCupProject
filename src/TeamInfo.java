@@ -1,5 +1,10 @@
 /**
- * Programmer Emolyn Tumwebaze
+ * @author Emolyn Tumwebaze
+ * This class reads data from a text file and populates it in a hashmap
+ * The methods in the class are;
+ * @loadFromFile
+ * @getTeam
+ * @getTeamMap
 **/
 import java.io.BufferedReader;
 import java.io.FileReader;
