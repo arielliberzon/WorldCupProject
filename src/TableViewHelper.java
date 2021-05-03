@@ -211,7 +211,7 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGFColumn() {
         TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
         goalsForColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
+                new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsFor())));
 
         return goalsForColumn;
     }
@@ -223,7 +223,7 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGDColumn() {
         TableColumn<Team, String> goalDifferenceColumn = new TableColumn<>("GD");
         goalDifferenceColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
+                new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsDifference())));
         return goalDifferenceColumn;
     }
 
@@ -234,7 +234,7 @@ public class TableViewHelper {
     public static TableColumn<Team, String> getGAColumn() {
         TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
         goalsAgainstColumn.setCellValueFactory(data ->
-                new SimpleStringProperty("FIX"));
+                new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsAgainst())));
 
         return goalsAgainstColumn;
     }
