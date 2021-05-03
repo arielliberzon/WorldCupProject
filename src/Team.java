@@ -187,6 +187,11 @@ public class Team implements Comparable<Team> {
         this.qualified = qualified;
     }
 
+    /**
+     * @author Alexander and Michael
+     * @param o The team to compare to
+     * @return return 1, -1, or zero according to ranking
+     */
     @Override
     public int compareTo(Team o) {
         //return (int) (o.getTotalPoints() - this.getTotalPoints());
