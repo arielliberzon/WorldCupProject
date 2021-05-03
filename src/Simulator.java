@@ -367,9 +367,9 @@ public class Simulator {
 
     /**
      * ALEX's method
-     * @param tOne
-     * @param tTwo
-     * @return
+     * @param tOne The first team to play
+     * @param tTwo The second team to play
+     * @return The team that loses three games out of five games. (This helps with our algorithm).
      */
     private Team getQualifierGameLoser(Team tOne, Team tTwo) {
         Random random = new Random();
@@ -393,6 +393,7 @@ public class Simulator {
                 tTwoWins++;
             }
         }
+        //This would return the losing team
         if(tOneWins < tTwoWins)
             return tOne;
         else
