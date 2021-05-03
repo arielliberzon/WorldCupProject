@@ -340,7 +340,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String get45minScore(){
-        return new String(teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
+        return (teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -349,7 +349,7 @@ public class Game {
      * @author Samuel Hernandez
      */
     public String get90minScore(){
-        return new String(teamOne.getCountry()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getCountry());
+        return (teamOne.getCountry()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -362,7 +362,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(teamOne.getCountry()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getCountry());
+            return (teamOne.getCountry()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -375,7 +375,7 @@ public class Game {
             return "Overtime was not used ";
         }
         else
-            return new String(teamOne.getCountry()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getCountry());
+            return (teamOne.getCountry()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -388,7 +388,7 @@ public class Game {
             return "Penalty kicks were not reached";
         }
         else
-            return new String(teamOne.getCountry()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getCountry());
+            return (teamOne.getCountry()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -430,7 +430,7 @@ public class Game {
     public String getFinalScoreString(){
         if(overTimeUsed){
             if(penaltyKicksReached) {
-                return new String(teamOne.getCountry() + " " + score[3][0] + "(" +
+                return (teamOne.getCountry() + " " + score[3][0] + "(" +
                         score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+") " + teamTwo.getCountry());
             }
             else
