@@ -6,3 +6,4 @@
 .vscode/settings.json
 /src/out/production/WorldCupProject/
 /src/out/production/
+.DS_Store
