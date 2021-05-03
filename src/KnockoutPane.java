@@ -86,21 +86,30 @@ public class KnockoutPane extends BorderPane {
         simulateAll.setAlignment(Pos.CENTER);
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
         verticalButtonBox.setAlignment(Pos.CENTER);
-        Button help = new Button("Help");
-//        help.setAlignment(Pos.CENTER_RIGHT);
-        StackPane buttonPane = new StackPane();
-        buttonPane.getChildren().add(verticalButtonBox);
-        AnchorPane test = new AnchorPane();
-        AnchorPane.setRightAnchor(help, 25.0);
-        AnchorPane.setTopAnchor(help, 10.0);
-        test.getChildren().addAll(help);
-        buttonPane.getChildren().add(test);
+        this.setTop(verticalButtonBox);
+
+        //BACK UP IF MAIN HELP BUTTON DIES IN A HORRIBLE FIRE
+        /*Button help = new Button("Help");
+//      help.setAlignment(Pos.CENTER_RIGHT);
+        GridPane test2 = new GridPane();
+        test2.add(help,0 ,0);
+        //test2.setAlignment(Pos.CENTER_RIGHT);
+        test2.setPadding(new Insets(10,20,10,10));
+        BorderPane buttonPane = new BorderPane();
+        buttonPane.setCenter(verticalButtonBox);
+        buttonPane.setRight(test2);
+        GridPane test3 = new GridPane();
+        test3.add(new Button("Help"),0,0);
+        test3.setPadding(new Insets(10,20,10,10));
+        test3.setVisible(false);
+        buttonPane.setLeft(test3);
+        //
         //buttonPane.setHgap(100);
         //buttonPane.setPadding(new Insets(0,0,0,40));
-//        buttonPane.getChildren().addAll(buttonPane);
+        //buttonPane.getChildren().addAll(buttonPane);
         //buttonPane.setAlignment(Pos.CENTER);
-        this.setTop(buttonPane);
-//        this.setTop(verticalButtonBox);
+        this.setTop(buttonPane);*/
+        //END OF BACKUP
         this.setCenter(this.createBracket());
 
         displaySixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
