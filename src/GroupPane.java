@@ -61,7 +61,7 @@ import java.util.ArrayList;
         }
 
         /**
-         * @author John Youte
+         * @author John Youte, Harjit Singh
          * This method is made to give different background color for the vBox,
          * ArrayList of String which adds different colors to the Arraylist.
          * @return colorArrayList
@@ -100,35 +100,14 @@ import java.util.ArrayList;
             return hBox;
         }
 
-        public static TableView groupTable(Group group, String c) {
-                TableView tableView = new TableView<>();
-                // Add the columns:
-                TableColumn<Team, String> groupname = new TableColumn<>(c);
-                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(), TableViewHelper.getGroupWinsColumn(),
-                        TableViewHelper.getGroupDrawsColumn(), TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn()
-                        , TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(), TableViewHelper.getPointsColumn());
-                tableView.getColumns().addAll(groupname);
-                tableView.setFixedCellSize(20);
-                tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(52));
-                tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-                // Add the teams
-                BackgroundFill background_fill = new BackgroundFill(Color.TRANSPARENT.invert(),
-                        CornerRadii.EMPTY, Insets.EMPTY);
-                Background background = new Background(background_fill);
-                tableView.setBackground(background);
 
-                for (Team team : group.getTeams())
-                        tableView.getItems().add(team);
-                return tableView;
-
-        }
 
 
         /**
-         * This one fixes the bug on Mac's check it out tell me what you don't like
+         * @author Harjit Singh
          * and we'll take it from there
          * @param group
-         * @return
+         * @return table
          */
         private TableView createGroupTable(Group group) {
                 TableView table = new TableView<>();
@@ -147,8 +126,11 @@ import java.util.ArrayList;
                 table.setFixedCellSize(25);
                 table.prefHeightProperty().bind(
                         Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
-
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                BackgroundFill background_fill = new BackgroundFill(Color.TRANSPARENT,
+                        CornerRadii.EMPTY, Insets.EMPTY);
+                Background background = new Background(background_fill);
+                table.setBackground(background);
 
                 return table;
         }

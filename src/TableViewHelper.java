@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * @author Ariel Liberzon
+ * @author Ariel Liberzon, Harjit Singh
  * A static class that helps create a TableView object through the use of
  * various static methods. Some methods are in charge of creating an
  * ObservableList of teams and other methods are used to create columns.
@@ -59,6 +59,7 @@ public class TableViewHelper {
     }
 
     /**
+     * @author Harjit Singh
      * Returns an observable list of teams from the given Map.
      * Only returns teams that contain the search parameter in
      * either their team name or country code.
@@ -167,7 +168,10 @@ public class TableViewHelper {
         return confColumn;
     }
 
-
+    /**
+     * @author Harjit Singh
+     * @return
+     */
     public static TableColumn<Team, String> getGroupCountry() {
     TableColumn<Team, String> countryCol = new TableColumn<>("Country");
                 countryCol.setCellValueFactory(data ->
