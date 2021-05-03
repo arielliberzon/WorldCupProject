@@ -40,7 +40,7 @@ public class WorldCupGUI extends Application {
      * @param window
      */
     private void showIntroScene(Stage window) {
-        Image img = new Image("Images/background.jpg");
+        Image img = new Image("Images/two.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
         startButton.setStyle("-fx-background-color: LIGHTGREY");

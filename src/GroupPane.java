@@ -10,8 +10,12 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 
-// TODO: Change class name to GroupPane
-        // TODO: Add description and comments
+/**
+ * @author John Youte, Harjit Singh
+ * A class that extends gridpane
+ * This class is displaying informations for the eight groups in the group
+ * stage tab. it take informations from the similator class and put these informations in a tableView.
+ */
         public class GroupPane extends GridPane {
         private Simulator simulator;
         public GroupPane(Double height, Double width, Simulator simulator){
@@ -21,11 +25,15 @@ import java.util.ArrayList;
                 this.setMaxWidth(width);
         }
 
-
+        /**
+         * @author John Youte, Harjit Singh
+         * Calls getGroups() from the similator class
+         * Creates eight tableView with the group information.
+         * @return a
+         */
         public GridPane stagemain(){
                 GridPane a = new GridPane();
                 GridPane center = new GridPane();
-
                 ArrayList<Group> groupList = simulator.getGroups();
                 char groupChar = 'A';
                 int count = 0;
@@ -34,13 +42,12 @@ import java.util.ArrayList;
                         Group group = groupList.get(i);
                         TableView groupTable = GroupPane.groupTable(group, "Group " + groupChar );
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
-                        vBox.setStyle("-fx-background-color: #FFFFFF;");
-                        if (count % 2 == 0) {
+                        vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
+                        if (count % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
                                 center.add(vBox, 1, evenCount);
                         }else {
                                 center.add(vBox, 2, evenCount);
                                 evenCount++;
-
                         }
                         count++;
                         groupChar++;
@@ -48,12 +55,37 @@ import java.util.ArrayList;
                 center.setHgap(5); //horizontal gap in pixels => that's what you are asking for
                 center.setVgap(5); //vertical gap in pixels
                 center.setPadding(new Insets(10, 10, 10, 10));
-                ScrollPane sp = new ScrollPane(center);
+                ScrollPane sp = new ScrollPane(center); //User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
                 this.getChildren().addAll(sp);
                 return a;
         }
 
+        /**
+         * @author John Youte
+         * This method is made to give different background color for the vBox,
+         * ArrayList of String which adds different colors to the Arraylist.
+         * @return colorArrayList
+         */
+        public ArrayList<String> colorArrayList(){
+                ArrayList<String> colorArrayList= new ArrayList<>();
+                colorArrayList.add("-fx-background-color: #1687a7");
+                colorArrayList.add("-fx-background-color: #b34180");
+                colorArrayList.add("-fx-background-color: #af0069");
+                colorArrayList.add("-fx-background-color: #16c79a");
+                colorArrayList.add("-fx-background-color: #295939");
+                colorArrayList.add("-fx-background-color: #ff577f");
+                colorArrayList.add("-fx-background-color: #1687a7");
+                colorArrayList.add("-fx-background-color: #ffe227");
+                 return colorArrayList;
+        }
+
+        /**
+         * @author John Youte
+         * This method is  taking a group and a tableView as parameter.
+         * creating buttons and putting them on top of the tableView.
+         * @return hBox
+         */
         private HBox createButtonBar(Group group,TableView table){
             HBox hBox=new HBox();
             for (int i = 0; i < group.getTeams().size(); i++) {
