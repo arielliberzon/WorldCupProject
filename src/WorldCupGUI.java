@@ -125,7 +125,7 @@ public class WorldCupGUI extends Application {
 
         TabPane tabPane = new TabPane();
         Tab qualifierStageTab = new Tab("   Teams   ",new TeamsPane(height, width,simulator));
-        Tab groupStageTab = new Tab("   Group Stage   ",new GroupPane(height, width, simulator));
+        Tab groupStageTab = new Tab("   Group Stage   ",new GroupsPane(height, width, simulator));
         Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(height, width, simulator));
         groupStageTab.setClosable(false);
         knockoutStageTab.setClosable(false);
