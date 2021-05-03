@@ -337,7 +337,6 @@ public class Simulator {
      * @param spots The number of spots that allocated to them in the group stage
      * @return An ArrayList<Team> that contains the qualified teams
      */
-
     private ArrayList<Team> getQualified(ArrayList<Team> input, int spots){
         Collections.sort(input);
         ArrayList<Team> output = new ArrayList<>();
