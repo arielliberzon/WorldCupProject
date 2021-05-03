@@ -10,11 +10,11 @@ import java.util.*;
  * {@link #simulateQuarters()}
  * {@link #simulateSemis()}
  * {@link #simulateFinalAndThirdPlace()}
- * @author Saif Masoud, Michael Skuncik, Ariel Liberzon, Alexader Tang, and Samuel Hernandez
+ * @author Saif Masoud, and Samuel Hernandez
  */
 public class Simulator {
 
-    //The 8 groups with 4 teams each.
+    // 8 groups with 4 teams each.
     private ArrayList<Group> groups;
 
     // The 32 participating teams.
@@ -36,21 +36,13 @@ public class Simulator {
     private ArrayList<Game> finalAndThirdGames;
 
     /**
+     * TODO: When exception of team is figured out remove exception from constructor
      * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
      */
     public Simulator() {
         teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        setQualifiedTeams(teamInfo);                    // This loads  worldCupTeams field.
-        simulateGroups();
-    }
-
-    /**
-     * Parameter constructor: Builds a simulator with given qualified teams
-     * @param qualifiedTeams
-     */
-    public Simulator(ArrayList<Team> qualifiedTeams){
-        worldCupTeams = qualifiedTeams;
+        setQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
         simulateGroups();
     }
 
@@ -85,7 +77,7 @@ public class Simulator {
      * 32 teams sorted into 4 level bowls depending on their ranking.
      * So bowl one has top 1-8 teams, bowl two 9-16 and so on.
      * Then randomly teams are placed from each bowl into one group.
-     * Capability to change number of groups, or number of teams if it were to change.
+     * Capability to change number of groups, teams if it were to change.
      * @author Samuel Hernandez
      */
     private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups){
@@ -240,6 +232,19 @@ public class Simulator {
     public ArrayList<Team> getQualifiedTeams() {
         return worldCupTeams;
     }
+
+    @Override
+    public String toString() {
+        return "Simulator{" +
+                "groups=" + groups +
+                ", roundOf16Games=" + roundOf16Games +
+                ", quartersGames=" + quartersGames +
+                ", semisGames=" + semisGames +
+                ", finalAndThirdGames=" + finalAndThirdGames +
+                '}';
+    }
+
+    //Equals and setters do not make sense so they are not implemented on purpose
 
     /**
      * @author Alexander and Michael
@@ -396,27 +401,18 @@ public class Simulator {
             return tTwo;
     }
 
-    /**
-     * Method gets the qualified teams for a confederation.
-     * Calls recursive method {@link #getQualifiedRec(ArrayList, int, int, int)} to deal with the logic
-     * @param confTeams the confederation to get the qualified teams for
-     * @param spots the number of available spots
-     * @return the qualified list of teams
-     * @author Samuel Hernandez
-     */
     private ArrayList<Team>  setQualifiedTeams(ArrayList<Team> confTeams , int spots){
         return getQualifiedRec(confTeams,  spots, 0, (confTeams.size()-1));
-
     }
 
     /**
+     * @author Samuel Hernandez
      * Recursive method gets the qualified teams for a given confederation
      * Keeps shrinking the list matching the teams in the top vs the ones in the bottom until
      * the size fits the spots
      * @param confTeams the teams in the confederation
      * @param spots the number of spots in the team
-     * @return the qualified teams
-     * @author Samuel Hernandez
+     * @return
      */
     private ArrayList<Team> getQualifiedRec(ArrayList<Team> confTeams , int spots, int beginning, int end){
 
@@ -438,29 +434,9 @@ public class Simulator {
         return getQualifiedRec(confTeams, spots, beginning, end);
     }
 
-
     public HashMap<String, Team> getTeamMap() {
         return teamInfo.getTeamMap();
     }
-
-
-    /**
-     * Gets the string representation of object
-     * @return the string with information about simualtion
-     */
-    @Override
-    public String toString() {
-        return "Simulator{" +
-                "groups=" + groups +
-                ", roundOf16Games=" + roundOf16Games +
-                ", quartersGames=" + quartersGames +
-                ", semisGames=" + semisGames +
-                ", finalAndThirdGames=" + finalAndThirdGames +
-                '}';
-    }
-
-    //Equals and setters do not make sense so they are not implemented on purpose
-
 
 
 
