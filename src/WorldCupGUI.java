@@ -16,7 +16,6 @@ import javafx.stage.Stage;
  * application.
  */
 
-// TODO: Change class name to WorldCupGUI
 public class WorldCupGUI extends Application {
 
     private BorderPane rootPane = new BorderPane();
@@ -36,7 +35,6 @@ public class WorldCupGUI extends Application {
     }
 
     /**
-     * TODO: Add description
      * @author Harjit Singh
      * @param window
      */

@@ -179,7 +179,7 @@ public class TeamButton extends Button{
 
 
         pane.getChildren().add(test);
-
+        stage.getIcons().add(new Image("Images/logo2.png"));
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
