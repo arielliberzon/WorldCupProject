@@ -85,13 +85,16 @@ public class KnockoutPane extends BorderPane {
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
         verticalButtonBox.setAlignment(Pos.CENTER);
         Button help = new Button("Help");
-        help.setAlignment(Pos.CENTER_RIGHT);
-        //GridPane buttonPane = new GridPane();
-        //buttonPane.add(verticalButtonBox, 0, 0);
-        //buttonPane.add(help, 0, 1);
-        //buttonPane.getChildren().addAll(buttonPane);
-        //this.setTop(buttonPane);
-        this.setTop(verticalButtonBox);
+//        help.setAlignment(Pos.CENTER_RIGHT);
+        GridPane buttonPane = new GridPane();
+        buttonPane.add(verticalButtonBox, 1, 0);
+        buttonPane.add(help, 2, 0);
+        buttonPane.setHgap(100);
+        buttonPane.setPadding(new Insets(0,0,0,40));
+//        buttonPane.getChildren().addAll(buttonPane);
+        buttonPane.setAlignment(Pos.CENTER);
+        this.setTop(buttonPane);
+//        this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
         displaySixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
