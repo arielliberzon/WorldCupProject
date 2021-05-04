@@ -1,9 +1,9 @@
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -15,14 +15,14 @@ import java.util.ArrayList;
  * @author John Youte, Harjit Singh
  * A class that extends gridpane
  * This class is displaying informations for the eight groups in the group
- * stage tab. it take informations from the similator class and put these informations in a tableView.
+ * stage tab. it take information from the similator class and put these informations in a tableView.
  */
-        public class GroupPane extends GridPane {
+public class GroupPane extends GridPane {
         private Simulator simulator;
 
         public GroupPane(Double height, Double width, Simulator simulator) {
                 this.simulator = simulator;
-                this.stagemain();
+                this.createMainStage();
                 this.setMaxHeight(height);
                 this.setMaxWidth(width);
         }
@@ -33,10 +33,10 @@ import java.util.ArrayList;
          * Creates eight tableView with the group information.
          * @return a
          */
-        public GridPane stagemain(){
+        public GridPane createMainStage(){
 
-                GridPane a = new GridPane();
-                GridPane center = new GridPane();
+                GridPane mainPane = new GridPane();
+                GridPane centerPane = new GridPane();
                 ArrayList<Group> groupList = simulator.getGroups();
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
@@ -45,23 +45,23 @@ import java.util.ArrayList;
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
                         if (i % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
-                                center.add(vBox, 1, evenCount);
+                                centerPane.add(vBox, 1, evenCount);
                         } else {
-                                center.add(vBox, 2, evenCount);
+                                centerPane.add(vBox, 2, evenCount);
                                 evenCount++;
                         }
                 }
-                center.setHgap(5); //horizontal gap in pixels => that's what you are asking for
-                center.setVgap(5); //vertical gap in pixels
-                center.setPadding(new Insets(10, 10, 10, 10));
-                ScrollPane sp = new ScrollPane(center); //User friendly pane, for the users with a small screen resolution.
+                centerPane.setHgap(5); //horizontal gap in pixels => that's what you are asking for
+                centerPane.setVgap(5); //vertical gap in pixels
+                centerPane.setPadding(new Insets(10, 10, 10, 10));
+                ScrollPane scrollPane = new ScrollPane(centerPane); //User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
-                this.getChildren().addAll(sp);
-                return a;
+                this.getChildren().addAll(scrollPane);
+                return mainPane;
         }
 
         /**
-         * @author John Youte
+         * @author John Youte, Harjit Singh
          * This method is made to give different background color for the vBox,
          * ArrayList of String which adds different colors to the Arraylist.
          * @return colorArrayList
@@ -76,7 +76,7 @@ import java.util.ArrayList;
                 colorArrayList.add("-fx-background-color: #ff577f");
                 colorArrayList.add("-fx-background-color: #1687a7");
                 colorArrayList.add("-fx-background-color: #ffe227");
-                 return colorArrayList;
+                return colorArrayList;
         }
 
         /**
@@ -86,49 +86,28 @@ import java.util.ArrayList;
          * @return hBox
          */
         private HBox createButtonBar(Group group,TableView table){
-            HBox hBox=new HBox();
-            for (int i = 0; i < group.getTeams().size(); i++) {
-                    TeamButton teamButton = new TeamButton();
-                    teamButton.setTeam(group.getTeams().get(i));
-                    teamButton.removeName();
-                    hBox.getChildren().add(teamButton);
-                    hBox.setPrefWidth(5);
-            }
-            hBox.setSpacing(50);
-            hBox.setAlignment(Pos.CENTER);
+                HBox hBox=new HBox();
+                for (int i = 0; i < group.getTeams().size(); i++) {
+                        TeamButton teamButton = new TeamButton();
+                        teamButton.setTeam(group.getTeams().get(i));
+                        teamButton.removeName();
+                        hBox.getChildren().add(teamButton);
+                        hBox.setPrefWidth(5);
+                }
+                hBox.setSpacing(50);
+                hBox.setAlignment(Pos.CENTER);
 
-            return hBox;
+                return hBox;
         }
 
-        public static TableView groupTable(Group group, String c) {
-                TableView tableView = new TableView<>();
-                // Add the columns:
-                TableColumn<Team, String> groupname = new TableColumn<>(c);
-                groupname.getColumns().addAll(TableViewHelper.getGroupCountry(), TableViewHelper.getGroupWinsColumn(),
-                        TableViewHelper.getGroupDrawsColumn(), TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn()
-                        , TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(), TableViewHelper.getPointsColumn());
-                tableView.getColumns().addAll(groupname);
-                tableView.setFixedCellSize(20);
-                tableView.prefHeightProperty().bind(Bindings.size(tableView.getItems()).multiply(tableView.getFixedCellSize()).add(52));
-                tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-                // Add the teams
-                BackgroundFill background_fill = new BackgroundFill(Color.TRANSPARENT.invert(),
-                        CornerRadii.EMPTY, Insets.EMPTY);
-                Background background = new Background(background_fill);
-                tableView.setBackground(background);
 
-                for (Team team : group.getTeams())
-                        tableView.getItems().add(team);
-                return tableView;
-
-        }
 
 
         /**
-         * This one fixes the bug on Mac's check it out tell me what you don't like
+         * @author Harjit Singh
          * and we'll take it from there
          * @param group
-         * @return
+         * @return table
          */
         private TableView createGroupTable(Group group) {
                 TableView table = new TableView<>();
@@ -147,8 +126,23 @@ import java.util.ArrayList;
                 table.setFixedCellSize(25);
                 table.prefHeightProperty().bind(
                         Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
-
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                BackgroundFill background_fill = new BackgroundFill(Color.TRANSPARENT,
+                        CornerRadii.EMPTY, Insets.EMPTY);
+                Background background = new Background(background_fill);
+                table.setBackground(background);
+
+                table.setRowFactory(tableView -> new TableRow<Team>() {
+                        @Override
+                        public void updateItem(Team item, boolean empty) {
+                                super.updateItem(item, empty);
+
+                                if (getIndex() % 1 == 0) {
+                                        setStyle("-fx-background-color: #ffe227;");
+
+                                }
+                        }
+                });
 
                 return table;
         }
