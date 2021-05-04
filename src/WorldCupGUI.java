@@ -27,6 +27,9 @@ public class WorldCupGUI extends Application {
     private Simulator simulator;
     private VBox vBox;
     private Stage window;
+    //Holds the index of tab to show. Initial value = 2 (knockout pane). Then, stays where user was before resetting.
+    private int tabIndex = 2;
+    private TabPane tabs;
 
     @Override
     public void start(Stage primaryStage) {
@@ -86,13 +89,16 @@ public class WorldCupGUI extends Application {
      * shows the world cup tournament information It also creates the
      * simulator object and simulates the tournament. Method designed to
      * allow to reset the game without showing the welcome screen again.
+     * It also allows to reset and stay in the same window
      */
     private void initialize(){
         simulator = new Simulator();
         vBox = new VBox();
         HBox buttonBar = createButtonBar();
-        TabPane tabs = createTabPane(window.getHeight() - 100, window.getWidth());
-        tabs.getSelectionModel().select(1);
+        if(tabs != null)
+            tabIndex = tabs.getSelectionModel().getSelectedIndex();
+        tabs = createTabPane(window.getHeight() - 100, window.getWidth());
+        tabs.getSelectionModel().select(tabIndex);
         vBox.getChildren().addAll(buttonBar, tabs);
         rootPane.setTop(vBox);
     }
