@@ -73,6 +73,7 @@ public class WorldCupGUI extends Application {
 
         Button helpButton = new Button("Help");;
         Button resetButton = new Button("Reset");
+
         //Added by Samuel Hernandez
         resetButton.setOnAction(e -> initialize());
         helpButton.setOnAction(e -> help());
@@ -91,6 +92,7 @@ public class WorldCupGUI extends Application {
         vBox = new VBox();
         HBox buttonBar = createButtonBar();
         TabPane tabs = createTabPane(window.getHeight() - 100, window.getWidth());
+        tabs.getSelectionModel().select(1);
         vBox.getChildren().addAll(buttonBar, tabs);
         rootPane.setTop(vBox);
     }
