@@ -41,7 +41,7 @@ public class GroupPane extends GridPane {
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
-                        TableView groupTable = createGroupTable(group);
+                        TableView groupTable = createGroupTable(group, i);
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
                         if (i % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
@@ -109,7 +109,7 @@ public class GroupPane extends GridPane {
          * @param group
          * @return table
          */
-        private TableView createGroupTable(Group group) {
+        private TableView createGroupTable(Group group, int index) {
                 TableView table = new TableView<>();
                 TableColumn<Team, String> groupHeader = new TableColumn<>(group.toString());
 
@@ -138,12 +138,10 @@ public class GroupPane extends GridPane {
                                 super.updateItem(item, empty);
 
                                 if (getIndex() % 1 == 0) {
-                                        setStyle("-fx-background-color: #ffe227;");
-
+                                        setStyle(colorArrayList().get(index));
                                 }
                         }
                 });
-
                 return table;
         }
 }
