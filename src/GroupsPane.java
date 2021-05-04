@@ -1,8 +1,11 @@
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -41,6 +44,7 @@ import java.util.ArrayList;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
                         TableView groupTable = createGroupTable(group);
+                        addTableColors(groupTable, i);
                         VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
                         vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
                         if (i % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
@@ -67,15 +71,29 @@ import java.util.ArrayList;
          */
         public ArrayList<String> colorArrayList(){
                 ArrayList<String> colorArrayList= new ArrayList<>();
-                colorArrayList.add("-fx-background-color: #1687a7");
-                colorArrayList.add("-fx-background-color: #b34180");
-                colorArrayList.add("-fx-background-color: #af0069");
-                colorArrayList.add("-fx-background-color: #16c79a");
-                colorArrayList.add("-fx-background-color: #295939");
-                colorArrayList.add("-fx-background-color: #ff577f");
-                colorArrayList.add("-fx-background-color: #1687a7");
-                colorArrayList.add("-fx-background-color: #ffe227");
+                colorArrayList.add("-fx-background-color: #fde9d9");
+                colorArrayList.add("-fx-background-color: #e6b8b7");
+                colorArrayList.add("-fx-background-color: #dce6f1");
+                colorArrayList.add("-fx-background-color: #d8e4bc");
+                colorArrayList.add("-fx-background-color: #fabf8f");
+                colorArrayList.add("-fx-background-color: #6ba9ff");
+                colorArrayList.add("-fx-background-color: #ddd9c4");
+                colorArrayList.add("-fx-background-color: #e9c8fd");
                  return colorArrayList;
+        }
+
+        public ArrayList<String> colorArrayListEven(){
+                ArrayList<String> colorArrayList= new ArrayList<>();
+                //setStyle("-fx-background-color: #73affd");
+                colorArrayList.add("-fx-background-color: #f4e0d1");
+                colorArrayList.add("-fx-background-color: #deb2b1");
+                colorArrayList.add("-fx-background-color: #d4dde8");
+                colorArrayList.add("-fx-background-color: #d0dcb6");
+                colorArrayList.add("-fx-background-color: #f0b98a");
+                colorArrayList.add("-fx-background-color: #73affd");
+                colorArrayList.add("-fx-background-color: #d4d1bd");
+                colorArrayList.add("-fx-background-color: #e6bcff");
+                return colorArrayList;
         }
 
         /**
@@ -132,5 +150,35 @@ import java.util.ArrayList;
                 table.setBackground(background);
 
                 return table;
+        }
+
+        private void addTableColors(TableView table, int index) {
+                table.setRowFactory(tableView -> new TableRow<Team>() {
+                        @Override
+                        public void updateItem(Team item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (getIndex() % 2 == 0) {
+                                       setStyle(colorArrayList().get(index));
+                                }
+                                else {
+                                        setStyle(colorArrayListEven().get(index));
+                                }
+                        }
+                        @Override
+                        public void updateSelected(boolean empty) {
+                                super.updateSelected(empty);
+                                if (isSelected()) {
+                                        setStyle("");
+                                }
+                        }
+                });
+
+                // If a row is selected removes it's background so that it highlights properly
+                table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                                table.refresh();
+                        }
+                });
         }
 }

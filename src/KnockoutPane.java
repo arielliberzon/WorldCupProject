@@ -424,11 +424,4 @@ public class KnockoutPane extends BorderPane {
         this.addNamesToFinalsAndThirdPlace();
     }
 
-    
-
-        
-        
-
-
-    
 }
