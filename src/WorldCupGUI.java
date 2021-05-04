@@ -60,8 +60,6 @@ public class WorldCupGUI extends Application {
         startButton.setOnAction(e -> window.setScene(scene));
     }
 
-
-
     /**
      * @author Ariel Liberzon
      * A function which produces an HBox consisting of multple buttons
@@ -95,7 +93,7 @@ public class WorldCupGUI extends Application {
         simulator = new Simulator();
         vBox = new VBox();
         HBox buttonBar = createButtonBar();
-        if(tabs != null)
+        if(tabs != null)                                                            //If initializing after resetting
             tabIndex = tabs.getSelectionModel().getSelectedIndex();
         tabs = createTabPane(window.getHeight() - 100, window.getWidth());
         tabs.getSelectionModel().select(tabIndex);
