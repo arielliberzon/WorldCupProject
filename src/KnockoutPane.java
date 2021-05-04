@@ -75,6 +75,20 @@ public class KnockoutPane extends BorderPane {
         this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
+        int counter = 0;
+        char c = 65;
+        for(int i = 0; i < 16; i +=4){   
+            buttonList.get(counter).setText("Group " +  c + " Winner ");
+            c++;
+            buttonList.get(counter+1).setText("Group " + c + " Runner Up");
+            c--;  
+            buttonList.get(counter+23).setText("Group " + c + " Winner");
+            c++;
+            buttonList.get(counter+23+1).setText("Group " + c + " Runner Up");
+            c ++;
+            counter +=2;
+        }
+
         displaySixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
         displayEightGames.setOnAction(e -> addNamesOfTheEightGames());
         displayQuarterGames.setOnAction(e -> addNamesToQuaterGames());
