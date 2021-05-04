@@ -136,7 +136,7 @@ public class TeamButton extends Button{
                 //gameBox.setAlignment(Pos.CENTER);
                 for (int i = button.getGameOrder(); i > 0; i--) {
                    //Gives an arrayList, call the array List from +3, 
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getFinalScore());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getScoreDisplay());
                 }
                
                 Label groupLabel = new Label("\n Group Stage Games: \n");
@@ -145,7 +145,7 @@ public class TeamButton extends Button{
                 gameBox.getChildren().addAll(groupLabel);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3,  
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay());
                  }
                  this.showMessageDialogue(gameBox);
             }
@@ -157,7 +157,7 @@ public class TeamButton extends Button{
                 gameBox.getChildren().addAll(label);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3, 
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getFinalScore());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay());
                  }
                  this.showMessageDialogue(gameBox);
             }

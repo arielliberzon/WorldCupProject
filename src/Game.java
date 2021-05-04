@@ -19,8 +19,6 @@ import java.util.Random;
  */
 public class Game {
 
-    //TODO: Add comment to Ariel's method, and delete this line.
-
     //Holds team one
     private Team teamOne;
 
@@ -467,10 +465,12 @@ public class Game {
     }
 
     /**
-     * TODO: Add comments
-     * @return
+     * @author Ariel Liberzon
+     * A method that combines teams flags and the final score string into one
+     * Pane object. Team button uses this to display the games a team has played.
+     * @return Pane with score details, finish type, and team flags
      */
-    public Pane getFinalScore() {
+    public Pane getScoreDisplay() {
         BorderPane borderPane = new BorderPane();
 
         Label scoreLabel = new Label(toString());
