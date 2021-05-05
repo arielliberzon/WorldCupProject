@@ -1,13 +1,9 @@
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,19 +17,10 @@ import java.util.Map;
  */
 public class TeamsPane extends BorderPane {
 
-    private Map<String, Team> teamMap;
-    private Map<String, String> confInfo;
-    private TableView table;
+    private final Map<String, Team> teamMap;
+    private final Map<String, String> confInfo;
+    private TableView<Team> table;
     private HBox topButtonBar;
-    private Button allButton;
-    private Button uefaButton;
-    private Button conmebolButton;
-    private Button concacafButton;
-    private Button cafButton;
-    private Button afcButton;
-    private Button ofcButton;
-    private Button qualifiedButton;
-    private Button searchButton;
     private TextField searchField;
 
 
@@ -42,7 +29,7 @@ public class TeamsPane extends BorderPane {
      * All methods get called in the constructor itself
      * @param height set by WorldCupGUI
      * @param width set by WorldCupGUI
-     * @param simulator
+     * @param simulator the simulator used un the applicaiton
      */
     public TeamsPane(Double height, Double width, Simulator simulator) {
 
@@ -86,7 +73,11 @@ public class TeamsPane extends BorderPane {
      * Each button changes what's displayed in the table
      */
     private void createButtonBar() {
-        allButton = new Button("All confederations");
+        topButtonBar = new HBox();
+        topButtonBar.setPadding(new Insets(10, 10, 10, 10));
+        topButtonBar.setSpacing(10);
+
+        Button allButton = new Button("All confederations");
         allButton.setOnMouseClicked(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
@@ -94,61 +85,13 @@ public class TeamsPane extends BorderPane {
             table.sort();
         });
 
-        uefaButton = new Button("UEFA");
-        uefaButton.setTooltip(createToolTip("UEFA"));
-        uefaButton.setOnMouseClicked(mouseEvent -> {
-            table.getItems().clear();
-            searchField.setText("");
-            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "UEFA"));
-            table.sort();
-        });
+        topButtonBar.getChildren().add(allButton);
 
-        conmebolButton = new Button("CONMEBOL");
-        conmebolButton.setTooltip(createToolTip("CONMEBOL"));
-        conmebolButton.setOnAction(mouseEvent -> {
-            table.getItems().clear();
-            searchField.setText("");
-            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONMEBOL"));
-            table.sort();
-        });
+        // For loop to create confederation buttons
+        for (Map.Entry<String, String> entry : confInfo.entrySet())
+            topButtonBar.getChildren().add(createConfederationButton(entry.getKey()));
 
-        concacafButton = new Button("CONCACAF");
-        concacafButton.setTooltip(createToolTip("CONCACAF"));
-        concacafButton.setOnAction(mouseEvent -> {
-            table.getItems().clear();
-            searchField.setText("");
-            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CONCACAF"));
-            table.sort();
-        });
-
-        cafButton = new Button("CAF");
-        cafButton.setTooltip(createToolTip("CAF"));
-        cafButton.setOnAction(mouseEvent -> {
-            table.getItems().clear();
-            searchField.setText("");
-            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "CAF"));
-            table.sort();
-        });
-
-        afcButton = new Button("AFC");
-        afcButton.setTooltip(createToolTip("AFC"));
-        afcButton.setOnAction(mouseEvent -> {
-            table.getItems().clear();
-            searchField.setText("");
-            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "AFC"));
-            table.sort();
-        });
-
-        ofcButton = new Button("OFC");
-        ofcButton.setTooltip(createToolTip("OFC"));
-        ofcButton.setOnAction(mouseEvent -> {
-            table.getItems().clear();
-            searchField.setText("");
-            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, "OFC"));
-            table.sort();
-        });
-
-        qualifiedButton = new Button("Qualified Teams");
+        Button qualifiedButton = new Button("Qualified Teams");
         qualifiedButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
@@ -158,21 +101,31 @@ public class TeamsPane extends BorderPane {
 
         searchField = new TextField();
         searchField.setPromptText("Search");
-        searchButton = new Button("Search");
+        Button searchButton = new Button("Search");
         searchButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             table.getItems().addAll(TableViewHelper.getSearchTeamList(teamMap, searchField.getText()));
             table.sort();
         });
 
-        topButtonBar = new HBox();
-        topButtonBar.setPadding(new Insets(10, 10, 10, 10));
-        topButtonBar.setSpacing(10);
+        topButtonBar.getChildren().addAll(qualifiedButton,searchField,searchButton);
+    }
 
-        topButtonBar.getChildren().addAll(allButton, uefaButton, conmebolButton,
-               concacafButton, cafButton, afcButton, ofcButton, qualifiedButton, searchField,searchButton);
-
-
+    /**
+     * Helper method to create the buttons for each confederation
+     * @param confederation any confederation whose string matches the key in confInfo
+     * @return a button with proper a proper ToolTip and name
+     */
+    private Button createConfederationButton(String confederation) {
+        Button button = new Button(confederation);
+        button.setTooltip(createToolTip(confederation));
+        button.setOnAction(mouseEvent -> {
+            table.getItems().clear();
+            searchField.setText("");
+            table.getItems().addAll(TableViewHelper.getConfTeamList(teamMap, confederation));
+            table.sort();
+        });
+        return button;
     }
 
     /**
@@ -247,22 +200,17 @@ public class TeamsPane extends BorderPane {
         });
 
         // If a row is selected removes it's background so that it highlights properly
-        table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                table.refresh();
-            }
-        });
+        table.getSelectionModel().selectedItemProperty().addListener(
+                (ChangeListener) (observable, oldValue, newValue) -> table.refresh());
 
     }
 
     /**
      * Update teamMap by marking qualified teams
-     * @param qualifiedTeams
+     * @param qualifiedTeams teams that have qualified for the world cup (32 total)
      */
     private void updateTeamMap(ArrayList<Team> qualifiedTeams) {
-        for (int i = 0; i < qualifiedTeams.size(); i++) {
-            Team team = qualifiedTeams.get(i);
+        for (Team team : qualifiedTeams) {
             teamMap.get(team.getCountryCode()).setQualified(true);
         }
     }
