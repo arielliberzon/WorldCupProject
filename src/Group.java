@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -17,7 +18,7 @@ public class Group {
         this.teams = teams;
         simulate();
         // TODO: Handle tie-breakers when points are equal.
-        teams.sort(Comparator.comparing(Team::groupPoints).reversed());
+        Collections.sort(teams, Team.TeamGroupComparator);
     }
 
 
