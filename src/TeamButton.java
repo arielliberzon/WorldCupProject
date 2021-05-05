@@ -52,37 +52,25 @@ public class TeamButton extends Button{
         this.setOnMouseClicked(clicked);
     }
 
+    /**
+     * @author Ariel Liberzon and Shane Callahan
+     * The method to create the tooltip / information for the button
+     * @param button The button this tooltip will be assigned too, because it sets information in the tooltip
+     * @return Returns a custom tooltip to be  used in setTooltip()
+     */
     private Tooltip createToolTip(TeamButton button) {
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
             tooltip.setText(button.getTeam().toString());
             tooltip.setGraphic(button.getTeam().getFlag());           //THESE ARE REDUNDENT IF WE SHOW IT IN BUTTON NAME
         }
-        else if(button.getGame() != null){
-            tooltip.setText(button.getGame().getWinner().toString());
-            tooltip.setGraphic(button.getGame().getWinner().getFlag());
-        }
         return tooltip;
     }
 
-    private Tooltip createToolTip(TeamButton button, Boolean thirdPlaceWinner) {
-        Tooltip tooltip = new Tooltip();
-        if(button.getTeam() != null){
-            tooltip.setText(button.getTeam().toString());
-            tooltip.setGraphic(button.getTeam().getFlag());
-        }
-        else if(button.getGame() != null){
-            if(thirdPlaceWinner){
-            tooltip.setText(button.getGame().getWinner().toString());
-            tooltip.setGraphic(button.getGame().getWinner().getFlag());
-        }
-            else{
-                tooltip.setText(button.getGame().getLoser().toString()); 
-            }
-        }
-        return tooltip;
-    }
-
+    /**
+     * 
+     * @param team
+     */
     public void setTeam(Team team) {
         this.team = team;
         this.setFlag(team.getFlag().getImage());
@@ -105,7 +93,7 @@ public class TeamButton extends Button{
         this.team = game.getWinner();
         this.setFlag(game.getWinner().getFlag().getImage());
         this.setGraphic(flag);
-        this.setTooltip(createToolTip(this,true));
+        this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
         }
         else if(!thirdPlaceWinner){
@@ -113,7 +101,7 @@ public class TeamButton extends Button{
             this.team = game.getLoser();
             this.setFlag(game.getLoser().getFlag().getImage());
             this.setGraphic(flag);
-            this.setTooltip(createToolTip(this,false));
+            this.setTooltip(createToolTip(this));
             this.setText(game.getLoser().getCountry()); 
         }
     }
