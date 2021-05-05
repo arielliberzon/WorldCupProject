@@ -116,7 +116,24 @@ public class WorldCupGUI extends Application {
                 "\n-Search your team in the search-bar by country name or country code"+
                 "\n-Click on the \"Group Stage\" tab to see all 8 groups" +
                 "\n-Click on the \"Knockout Stage\" tab to simulate for the winner" +
-                "\n-Click on the \"Reset\" button to reset the simulator");
+                "\n-Click on the \"Reset\" button to reset the simulator" +
+                "\n\nTEAMS TAB:" +
+                "\n-Highlighted teams are the ones that have qualified" +
+                "\n-Click on the buttons at the top to switch between confederations" +
+                "\n-Search for any team in the search-bar using country name or country code" +
+                "\n\nGROUP STAGE TAB:" +
+                "\n-There are eight colored groups with the flags of each group above each table" +
+                "\n-Click on a flag to see all the group stage games for that team" +
+                "\n-The tables hold each team's results for the group stage:" +
+                "\n    GA(Goals Against) - total goals scored against this team" +
+                "\n    GF(Goals For) - total goals scored by this team" +
+                "\n    GD(Goal Difference) - GF minus GA" +
+                "\n    Points - teams get +3 for wins and +1 for ties" +
+                "\n\nKNOCKOUT STAGE TAB:" +
+                "\n-Click the buttons at the top to reveal teams on the bracket" +
+                "\n-Click on a team to show all of its knockout games up to that point on the bracket" +
+                "as well as all of its group stage games" +
+                "\n-Hold your cursor over a team to see a tooltip of the team's info");
 
         alert.show();
         return alert;

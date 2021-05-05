@@ -60,7 +60,7 @@ public class KnockoutPane extends BorderPane {
         quarterGames = sim.simulateQuarters();
         semiGames = sim.simulateSemis();
         finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
-        //this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
+        //this.setBackgrou6nd(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
         //this.setBackground(new Background(new BackgroundImage(new Image("Images/One.jpg"),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Image img = new Image("Images/grass.png");
         this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
