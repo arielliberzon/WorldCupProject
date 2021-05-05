@@ -19,7 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * TeamButton creates a special button that holds the Team object. It holds a game object as well, but it's mostly used for team.
+ * TeamButton creates a special button that holds the Team object.
+ * It holds a game object as well, but it's mostly used for team.
  * Sets the name and flag when setTeam() is called
  * 
  * @author Shane Callahan, Justin Valas, Ariel Liberzon
@@ -53,7 +54,7 @@ public class TeamButton extends Button{
      * @author Shane Callahan
      * The constructor that Button has; also applying the default click state
      * @param buttonName a string that will be the name the button displays
-     * @param node 
+     * @param node Necessary for this constructor from "Button"
      */
     public TeamButton(String buttonName, Node node){
         super(buttonName, node);
@@ -117,7 +118,7 @@ public class TeamButton extends Button{
         this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
         }
-        else if(!thirdPlaceWinner){
+        else {
             this.game = game;
             this.team = game.getLoser();
             this.setFlag(game.getLoser().getFlag().getImage());
@@ -129,7 +130,7 @@ public class TeamButton extends Button{
     /**
      * @author Shane Callahan
      * This sets the number of games the team has done, in order to be used in the displayTheGames event
-     * @param gameOrder 
+     * @param gameOrder number of games the team has partaken in
      */
     public void setGameOrder(int gameOrder) {
         this.gameOrder = gameOrder;
@@ -168,7 +169,7 @@ public class TeamButton extends Button{
      * Displays the teams that the team has done, also uses getGameOrder, ticking down to display the teams in the proper order, top being "most recent" game
      * Displays it using the method showMessageDialog, which opens up another stage, displaying the beatiful Pane that Ariel made
      */
-    private EventHandler<MouseEvent> displayTheGames = mouseEvent -> {
+    private final EventHandler<MouseEvent> displayTheGames = mouseEvent -> {
         TeamButton button = (TeamButton) mouseEvent.getSource();
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {//LEFT CLICK
             if(button.getGame() != null){
@@ -199,7 +200,8 @@ public class TeamButton extends Button{
                 gameBox.getChildren().addAll(label);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3, 
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay(button.getTeam()));
+                    gameBox.getChildren().addAll(
+                            button.getTeam().getGames().get(i).getScoreDisplay(button.getTeam()));
                  }
                  this.showMessageDialogue(gameBox);
             }

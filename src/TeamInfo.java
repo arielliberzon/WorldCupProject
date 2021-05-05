@@ -36,7 +36,8 @@ public class TeamInfo {
 
         try{
             // Added memory leak fix - A.L
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            try {
                 //reads first line given that it is not blank.
                 while ((firstLine = br.readLine()) != null) {
                     ranking = Integer.parseInt(firstLine);
@@ -53,6 +54,8 @@ public class TeamInfo {
                     //maps team country code with respective team object
                     teams.put(newTeam.getCountryCode(), newTeam);
                 }
+            } finally {
+                br.close();
             }
         }
         catch(IOException e) {
