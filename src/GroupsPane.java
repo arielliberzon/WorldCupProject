@@ -168,16 +168,8 @@ import java.util.ArrayList;
                         public void updateSelected(boolean empty) {
                                 super.updateSelected(empty);
                                 if (isSelected()) {
-                                        setStyle("");
+                                        updateSelected(false);
                                 }
-                        }
-                });
-
-                // If a row is selected removes it's background so that it highlights properly
-                table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                                table.refresh();
                         }
                 });
         }
