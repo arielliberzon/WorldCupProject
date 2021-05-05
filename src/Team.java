@@ -199,26 +199,6 @@ public class Team implements Comparable<Team> {
         return (this.getRanking().compareTo(o.getRanking()));
     }
 
-    public int compareGroupTie(Team o) {
-        if (this.groupPoints() > o.groupPoints())
-            return 1;
-        if (this.groupPoints() < o.groupPoints())
-            return -1;
-        if (groupGoalsDifference() > o.groupGoalsDifference())
-            return 1;
-        if (groupGoalsDifference() < o.groupGoalsDifference())
-            return -1;
-        if (groupGoalsFor() > o.groupGoalsFor())
-            return 1;
-        if (groupGoalsFor() < o.groupGoalsFor())
-            return -1;
-        if (groupGoalsAgainst() < o.groupGoalsAgainst())
-            return 1;
-        if (groupGoalsAgainst() > o.groupGoalsAgainst())
-            return -1;
-        return 1;
-    }
-
     @Override
     public String toString () {
         return "Country: " + country + "\nRNK: " + ranking + "\nTotal Points: "
