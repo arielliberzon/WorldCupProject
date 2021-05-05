@@ -40,6 +40,7 @@ public class Team implements Comparable<Team> {
 
     /**
      * @return Gets the number of wins in the group stage.
+     * @author Saif Masoud
      */
     public int getGroupWins () {
         int wins = 0;
@@ -51,6 +52,7 @@ public class Team implements Comparable<Team> {
     }
     /**
      * @return Gets the number of wins in the group stage.
+      @author Saif Masoud
      */
     public int getGroupDraws () {
         int draws = 0;
@@ -62,6 +64,7 @@ public class Team implements Comparable<Team> {
     }
     /**
      * @return Gets the number of wins in the group stage.
+      @author Saif Masoud
      */
     public int getGroupLosses () {
         int losses = 0;
@@ -75,6 +78,7 @@ public class Team implements Comparable<Team> {
 
     /**
      * @return goals scored during group-stage.
+      @author Saif Masoud
      */
     public int groupGoalsFor() {
         int goalsFor = 0;
@@ -90,6 +94,7 @@ public class Team implements Comparable<Team> {
     }
     /**
      * @return goals scored against this team during group-stage.
+      @author Saif Masoud
      */
     public int groupGoalsAgainst() {
         int goalsFor = 0;
@@ -106,11 +111,16 @@ public class Team implements Comparable<Team> {
 
     /**
      * @return difference between goals-scored and goals-against in groups.
+      @author Saif Masoud
      */
     public int groupGoalsDifference() {
         return groupGoalsFor() - groupGoalsAgainst();
     }
 
+    /**
+     * @return the points for this team in the group stage
+     * @author Saif Masoud
+     */
     public int groupPoints () {
         return 3 * getGroupWins() + 1 * getGroupDraws();
     }
