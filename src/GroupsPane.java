@@ -57,7 +57,7 @@ public class GroupsPane extends GridPane {
                 centerPane.setVgap(7); //vertical gap in pixels
                 centerPane.setPadding(new Insets(10, 10, 10, 10));
                 scrollPane = new ScrollPane(centerPane);
-                centerPane.setStyle("-fx-background-color: BLACK");//User friendly pane, for the users with a small screen resolution.
+                //centerPane.setStyle("-fx-background-color: BLACK");//User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
                 this.getChildren().addAll(scrollPane);
                 return mainPane;
