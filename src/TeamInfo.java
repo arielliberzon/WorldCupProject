@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+
 /**
  * @author Emolyn Tumwebaze
  * This class reads data from a text file and populates it in a hashmap
@@ -5,12 +10,7 @@
  * @loadFromFile
  * @getTeam
  * @getTeamMap
-**/
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-
+ **/
 public class TeamInfo {
     private HashMap<String, Team> teams; // creating a hashmap<String, Team>
 
@@ -32,7 +32,6 @@ public class TeamInfo {
         double totalPoints;
         String countryCode;
         String confederation;
-        String countryFlagID;
         String fileName= "teamInfo.txt";
 
         try{
@@ -44,8 +43,6 @@ public class TeamInfo {
                 totalPoints = Double.parseDouble(br.readLine());
                 countryCode = br.readLine();
                 confederation = br.readLine();
-                //countryFlagID = countryCode.toLowerCase()+".png";
-
 
                 Team newTeam = new Team(ranking, country, totalPoints, countryCode,
                         confederation);
