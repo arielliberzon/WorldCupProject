@@ -6,7 +6,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -37,8 +36,6 @@ public class GroupsPane extends GridPane {
          */
         public GridPane createMainStage(){
 
-                GridPane mainPane = new GridPane();
-                GridPane centerPane = new GridPane();
                 ArrayList<Group> groupList = simulator.getGroups();
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
@@ -104,8 +101,10 @@ public class GroupsPane extends GridPane {
 
         /**
          * @author Harjit Singh
-         * and we'll take it from there
-         * @param group
+         * Create the tableveiw for groups each time methods is called.
+         * and methods gets the info from the Team class.(country name, points,etc).
+         * Tableview column are been created in TableViewHelper Class.
+         * @param group , index
          * @return table
          */
         private TableView createGroupTable(Group group, int index) {
@@ -121,14 +120,13 @@ public class GroupsPane extends GridPane {
                         TableViewHelper.getPointsColumn());
 
                 table.getColumns().addAll(groupHeader);
-                table.setFocusTraversable(false);
-                table.setFixedCellSize(25);//cell size
+                 table.setFixedCellSize(25);//cell size
                 table.prefHeightProperty().bind(
                         Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                 table.setEditable(false);
+                table.setFocusTraversable(false);
                 table.setRowFactory(tableView -> new TableRow<Team>() {
-                        @Override
                         public void updateItem(Team item, boolean empty) {
                                 super.updateItem(item, empty);
 
