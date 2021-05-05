@@ -3,7 +3,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -15,7 +14,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -24,13 +22,13 @@ import javafx.scene.text.Font;
 
 import java.util.Random;
 import java.util.ArrayList;
-/** note for Zach (delete later):
- *   this class will create the pane for the knockout tab,
- *   Main is composed of this (I'm pretty sure)
- *      - Justin V
- */
-
-// TODO: Add comments and description
+ /**
+  * KnockoutPane creates a BorderPane to be displayed in WorldCupGUI. 
+  * it uses Simulator, taken from WorldCupGUI to get the information to display on the TeamButtons
+  * KnockoutPane draws the lines, to make a bracket; putting TeamButtons in the proper places to be used to display / get information the team class has.
+  * @author Justin Valas, Shane Callahan
+  * @editor Ariel Liberzon
+  */
 public class KnockoutPane extends BorderPane {
     private ArrayList<TeamButton> buttonList = new ArrayList<>();
     private GridPane masterKnockoutPane = new GridPane();
@@ -119,6 +117,7 @@ public class KnockoutPane extends BorderPane {
      * There's a lot of private variables that are explained inside of the method
      * 
      * @author Justin Valas and Shane Callahan
+     * @editor Zachary Lavoie
      * @return GridPane 
      */
     private GridPane createBracket(){
