@@ -236,22 +236,21 @@ public class Team implements Comparable<Team> {
      */
     public static Comparator<Team> TeamGroupComparator
             = (team1, team2) -> {
-        if (team1.groupPoints() > team2.groupPoints())
-            return 1;
-        if (team1.groupPoints() < team2.groupPoints())
-            return -1;
-        if (team1.groupGoalsDifference() > team2.groupGoalsDifference())
-            return 1;
-        if (team1.groupGoalsDifference() < team2.groupGoalsDifference())
-            return -1;
-        if (team1.groupGoalsFor() > team2.groupGoalsFor())
-            return 1;
-        if (team1.groupGoalsFor() < team2.groupGoalsFor())
-            return -1;
-        if (team1.groupGoalsAgainst() < team2.groupGoalsAgainst())
-            return 1;
-        if (team1.groupGoalsAgainst() > team2.groupGoalsAgainst())
-            return -1;
+
+        // Note: the order of team1,team2 is reversed in all the return statements
+        // In order to reverse the sorting (Greatest->Lowest.)
+        if (team1.groupPoints() != team2.groupPoints())
+            return Integer.compare(team2.groupPoints(), team1.groupPoints());
+
+        if (team1.groupGoalsDifference() != team2.groupGoalsDifference())
+            return Integer.compare(team2.groupGoalsDifference(), team1.groupGoalsDifference());
+
+        if (team1.groupGoalsFor() != team2.groupGoalsFor())
+            return Integer.compare(team2.groupGoalsFor(), team1.groupGoalsFor());
+
+        if (team1.groupGoalsAgainst() != team2.groupGoalsAgainst())
+            return Integer.compare(team2.groupGoalsAgainst(), team1.groupGoalsAgainst());
+
         return 1;
     };
 }
