@@ -56,6 +56,7 @@ public class Simulator {
 
     /**
      * Creates & simulates the 8 groups of the group-stage.
+     * @author Saif Masoud
      */
     public void simulateGroups() {
         groups = new ArrayList<>();
