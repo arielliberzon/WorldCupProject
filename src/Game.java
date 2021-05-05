@@ -476,6 +476,7 @@ public class Game {
             team = teamOne;
             teamOne = teamTwo;
             teamTwo = team;
+            //Added by Samuel Hernandez
             score = swapScores(score);
         }
         BorderPane borderPane = new BorderPane();
@@ -509,6 +510,7 @@ public class Game {
      * Swaps the scores of team one to team two to create score display with information in order.
      * @param score the score of the game
      * @return the swapped score array
+     * @author Samuel Hernandez
      */
     private int[][] swapScores(int[][] score) {
         int[][] swapped = new int[5][2];
