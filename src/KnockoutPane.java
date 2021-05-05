@@ -117,7 +117,7 @@ public class KnockoutPane extends BorderPane {
         displayQuarterGames.setOnAction(e -> addNamesToQuaterGames());
         displaySemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         displayFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
-        simulateAll.setOnAction(e -> simulateAll());
+        simulateAll.setOnAction(e -> displayAll());
 
         displayEightGames.setDisable(true);
         displayQuarterGames.setDisable(true);
@@ -127,9 +127,10 @@ public class KnockoutPane extends BorderPane {
 
     /**
      * The bread and butter of this class; creates the bracket.
-     * there's a scalingFactor variable, where the idea was to make it scale based off of your monitor resolution
+     * there's a scalingFactor variable, where the idea was to make it scale based off of your monitor resolution; but it never got implemented since I don't know how long the labels are, I can't put them in the center
+     * There's a lot of private variables that are explained inside of the method
      * 
-     * @author 
+     * @author Justin Valas and Shane Callahan
      * @return GridPane 
      */
     private GridPane createBracket(){
@@ -181,7 +182,7 @@ public class KnockoutPane extends BorderPane {
         knockoutPane.getChildren().addAll(title, winner, rect, thirdPlace);
         
 
-        for(int i = 1; i < 35; i++){
+        for(int i = 1; i < 35; i++){ //loop through each button, and since they all have different roles, they are used differently.
             int buttonX = (int)(x - buttonSizeX/2);
             int buttonY = (int)(y - buttonSizeY/2);
             TeamButton button = new TeamButton();
@@ -315,6 +316,16 @@ public class KnockoutPane extends BorderPane {
         return masterKnockoutPane;
     }
 
+    /**
+     * @author Justin Valas
+     * The method that draws the lines between each button
+     * @param x The starting x of the line
+     * @param y The starting y of the line
+     * @param isLeft a boolean if the line is moving left (true) or right (false)
+     * @param isUp a boolean if the line is moving up (true) or down (false)
+     * @param yLength the vertical length that it will draw, get's added (or subtracted) to  y, to determine the proper end y coordinate
+     * @param horizontalLength the horizontal length that it will draw, gets added (or subtracted) to x, to determine the proper end x coordinate
+     */
     private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength, int horizontalLength){
         Line line1;
         Line line2;
@@ -349,6 +360,10 @@ public class KnockoutPane extends BorderPane {
         knockoutPane.getChildren().addAll(line1, line2);
     }
 
+    /**
+     * @author Shane Callahan
+     * This just labels each button visually 1-34, it was only used in debugging and can be removed
+     */
     private void buttonNamesToNumbers(){
         //JUST A DEBUG BECAUSE COUNTING IS HARD
         for(int i = 0; i < buttonList.size(); i++){
@@ -356,6 +371,10 @@ public class KnockoutPane extends BorderPane {
         }
     }
 
+    /**
+     * @author Shane Callahan
+     * This adds the team names to the buttons, since the buttons are TeamButtons, it calls setTeam, which assigns the name, team, and flag
+     */
     private void addNamesOfSixteenTeams(){
         int counter = 0;
         for(int i = 0; i < 16; i +=4){   
@@ -373,6 +392,11 @@ public class KnockoutPane extends BorderPane {
         displaySixteenTeams.setDisable(true);
         displayEightGames.setDisable(false);
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the 8 games to the 8 respective buttons
+     */
     private void addNamesOfTheEightGames(){
         if(sixteenTeamsDisplayed == true){
             int counter = 0;
@@ -396,6 +420,11 @@ public class KnockoutPane extends BorderPane {
         eightGamesDisplayed = true;
         displayQuarterGames.setDisable(false);
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the 4 games to the 4 respective buttons
+     */
     private void addNamesToQuaterGames(){
         if(eightGamesDisplayed == true){
             int counter = 0;
@@ -412,6 +441,11 @@ public class KnockoutPane extends BorderPane {
         quarterGamesDisplayed = true;
         displaySemisGames.setDisable(false);
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the semis and third placements
+     */
     private void addNamesToSemisGamesAndThirdPlacePlacements(){
         if(quarterGamesDisplayed == true){
             buttonList.get(14).setGame(semiGames.get(0));
@@ -445,6 +479,11 @@ public class KnockoutPane extends BorderPane {
             }
         semisGamesAndThirdPlacementsDisplayed = true;
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the the finals and third place
+     */
     private void addNamesToFinalsAndThirdPlace(){
         if(semisGamesAndThirdPlacementsDisplayed == true){
             //buttonList.get(15).setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());
@@ -460,7 +499,12 @@ public class KnockoutPane extends BorderPane {
         simulateAll.setDisable(true);
     }
     
-    private void simulateAll(){
+
+    /**
+     * @author Shane Callahan
+     * This is just the method the display all button will use, executing them all in order
+     */
+    private void displayAll(){
         this.addNamesOfSixteenTeams();
         this.addNamesOfTheEightGames();
         this.addNamesToQuaterGames();

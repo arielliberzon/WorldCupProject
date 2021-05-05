@@ -22,15 +22,31 @@ public class TeamButton extends Button{
     private int gameOrder; //If it's 1, it's a game in the eight, 2 if quaterly, 3 if semi, or third place, 4 if winner or third place winner
     private ImageView flag;
 
+    /**
+     * @author Shane Callahan
+     * the default constructor for the Button, and then sets the default click state.
+     */
     public TeamButton(){
         super();
         this.setOnMouseClicked(clicked);
     }
+
+    /**
+     * @author Shane Callahan
+     * The constructor that Button has; also applying the default click state
+     * @param buttonName a string that will be the name the button displays
+     */
     public TeamButton(String buttonName){
         super(buttonName);
         this.setOnMouseClicked(clicked);
     }
 
+    /**
+     * @author Shane Callahan
+     * The constructor that Button has; also applying the default click state
+     * @param buttonName a string that will be the name the button displays
+     * @param node 
+     */
     public TeamButton(String buttonName, Node node){
         super(buttonName, node);
         this.setOnMouseClicked(clicked);
