@@ -1,10 +1,10 @@
 
 # WorldCupProject  
-###  *Built by* Ariel Liberzon, Justin Valas, Harjit Singh, Alexander Tang, Samuel Hernandez, John Youte, Zachary Lavoie, Saif Masound, Shane Callahan, Emolyn Tumwebaze and Michael Skuncik
+###  *Built by* - Ariel Liberzon, Justin Valas, Harjit Singh, Alexander Tang, Samuel Hernandez, John Youte, Zachary Lavoie, Saif Masoud, Shane Callahan, Emolyn Tumwebaze and Michael Skuncik
 
 ### What it does?
 
-**This application**  All the world’s 207 national teams are split up into six regions. Over a roughly two-year period, they compete in regional qualifying tournaments to earn one of the 32 spots at the World Cup. The host of the tournament receives an automatic spot, even if it does not have a particularly good team. 
+**In This application**  All the world’s 207 national teams are split up into six regions. Over a roughly two-year period, they compete in regional qualifying tournaments to earn one of the 32 spots at the World Cup. The host of the tournament receives an automatic spot, even if it does not have a particularly good team. 
 FIFA, football's (soccer) governing body, is made up of six semi-autonomous regional bodies that help govern their respective areas. These regional bodies administer the qualifying tournaments for the World Cup. FIFA gives regions with more and better national teams a greater number of spots. That is why the tournament has fewer teams from Asia or Africa than Europe.
 - Display Gui.
 - Teams tab , GroupStage tab and KnockoutStage tab.
