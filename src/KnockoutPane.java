@@ -9,7 +9,10 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -175,6 +178,7 @@ public class KnockoutPane extends BorderPane {
             button.setFont(Font.font("Arial Condensed",scalingFactor * 3 / 10));
             button.setTextFill(Color.WHITE);
             button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
+            button.setBorder(new Border(new BorderStroke(Color.WHITE,BorderStrokeStyle.SOLID, new CornerRadii(0),BorderStroke.THIN)));
 
             if(i < 15){
                 if(i % 2 == 1){//odd
@@ -309,6 +313,7 @@ public class KnockoutPane extends BorderPane {
      * @param yLength the vertical length that it will draw, get's added (or subtracted) to  y, to determine the proper end y coordinate
      * @param horizontalLength the horizontal length that it will draw, gets added (or subtracted) to x, to determine the proper end x coordinate
      */
+    //TODO: MAKE THIS SMALLER
     private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength, int horizontalLength){
         Line line1;
         Line line2;
@@ -469,12 +474,10 @@ public class KnockoutPane extends BorderPane {
      */
     private void addNamesToFinalsAndThirdPlace(){
         if(semisGamesAndThirdPlacementsDisplayed == true){
-            //buttonList.get(15).setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());
             buttonList.get(15).setGame(finalAndThirdPlaceGame.get(0));
             buttonList.get(15).setGameOrder(4);
             
 
-            //buttonList.get(33).setText(finalAndThirdPlaceGame.get(1).getWinner().getCountry());
             buttonList.get(33).setGame(finalAndThirdPlaceGame.get(1));
             buttonList.get(33).setGameOrder(4);
         }
