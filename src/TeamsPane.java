@@ -6,8 +6,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Ariel Liberzon
@@ -34,7 +35,7 @@ public class TeamsPane extends BorderPane {
     public TeamsPane(Double height, Double width, Simulator simulator) {
 
         // Map that has information for each confederation
-        confInfo = new HashMap<>();
+        confInfo = new LinkedHashMap<>();
 
         // gets the map from simulator
         teamMap = simulator.getTeamMap();
@@ -59,12 +60,12 @@ public class TeamsPane extends BorderPane {
      * Adds data to the confInfo Map
      */
     private void createConfMap() {
-        confInfo.put("UEFA", "EUROPE\n\n55 TEAMS\n\n13 PLACES");
-        confInfo.put("CONMEBOL", "SOUTH AMERICA\n\n10 TEAMS\n\n4.5 PLACES");
-        confInfo.put("CONCACAF", "NORTH AMERICA, CENTRAL AMERICA, CARIBBEAN\n\n35 TEAMS\n\n3.5 PLACES");
-        confInfo.put("CAF", "AFRICA\n\n53 TEAMS\n\n5 PLACES");
-        confInfo.put("AFC", "ASIA\n\n46 TEAMS\n\n4.5 PLACES");
-        confInfo.put("OFC", "OCEANIA\n\n9 TEAMS\n\n0.5 PLACES");
+        confInfo.put("UEFA", "EUROPE\n55 TEAMS\n13 PLACES");
+        confInfo.put("CONMEBOL", "SOUTH AMERICA\n10 TEAMS\n4.5 PLACES");
+        confInfo.put("CONCACAF", "NORTH AMERICA, CENTRAL AMERICA, CARIBBEAN\n35 TEAMS\n3.5 PLACES");
+        confInfo.put("CAF", "AFRICA\n53 TEAMS\n5 PLACES");
+        confInfo.put("AFC", "ASIA\n46 TEAMS\n4.5 PLACES");
+        confInfo.put("OFC", "OCEANIA\n9 TEAMS\n0.5 PLACES");
     }
 
 
