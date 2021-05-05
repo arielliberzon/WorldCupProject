@@ -68,8 +68,9 @@ public class TeamButton extends Button{
     }
 
     /**
-     * 
-     * @param team
+     * @author Shane Callahan
+     * This assigns the button to a team; and then also does the tooltip, text, flag
+     * @param team the team that the button will hold. Drives a *lot* of the functionality of the TeamButton
      */
     public void setTeam(Team team) {
         this.team = team;
@@ -79,6 +80,11 @@ public class TeamButton extends Button{
         this.setText(team.getCountry());
         this.setTextAlignment(TextAlignment.CENTER);
     }
+
+    /**
+     * @author 
+     * @param game
+     */
     public void setGame(Game game) {
         this.game = game;
         this.team = game.getWinner();
