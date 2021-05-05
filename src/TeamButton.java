@@ -82,7 +82,8 @@ public class TeamButton extends Button{
     }
 
     /**
-     * @author 
+     * @author Shane Callahan
+     * Since the game getss the 
      * @param game
      */
     public void setGame(Game game) {
