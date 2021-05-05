@@ -468,6 +468,7 @@ public class Game {
      * @author Ariel Liberzon
      * A method that combines teams flags and the final score string into one
      * Pane object. Team button uses this to display the games a team has played.
+     * @param team Team to compare it with
      * @return Pane with score details, finish type, and team flags
      */
     public Pane getScoreDisplay(Team team) {
