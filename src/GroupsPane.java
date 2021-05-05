@@ -56,8 +56,7 @@ public class GroupsPane extends GridPane {
                 centerPane.setHgap(9); //horizontal gap in pixels => that's what you are asking for
                 centerPane.setVgap(7); //vertical gap in pixels
                 centerPane.setPadding(new Insets(10, 10, 10, 10));
-                scrollPane = new ScrollPane(centerPane);
-                //centerPane.setStyle("-fx-background-color: BLACK");//User friendly pane, for the users with a small screen resolution.
+                scrollPane = new ScrollPane(centerPane);//User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
                 this.getChildren().addAll(scrollPane);
                 return mainPane;
@@ -122,7 +121,7 @@ public class GroupsPane extends GridPane {
                         TableViewHelper.getPointsColumn());
 
                 table.getColumns().addAll(groupHeader);
-
+                table.setFocusTraversable(false);
                 table.setFixedCellSize(25);//cell size
                 table.prefHeightProperty().bind(
                         Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
