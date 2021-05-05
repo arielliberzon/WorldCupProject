@@ -2,6 +2,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Objects;
 
 // TODO: Add description and comments
@@ -198,6 +199,26 @@ public class Team implements Comparable<Team> {
         return (this.getRanking().compareTo(o.getRanking()));
     }
 
+    public int compareGroupTie(Team o) {
+        if (this.groupPoints() > o.groupPoints())
+            return 1;
+        if (this.groupPoints() < o.groupPoints())
+            return -1;
+        if (groupGoalsDifference() > o.groupGoalsDifference())
+            return 1;
+        if (groupGoalsDifference() < o.groupGoalsDifference())
+            return -1;
+        if (groupGoalsFor() > o.groupGoalsFor())
+            return 1;
+        if (groupGoalsFor() < o.groupGoalsFor())
+            return -1;
+        if (groupGoalsAgainst() < o.groupGoalsAgainst())
+            return 1;
+        if (groupGoalsAgainst() > o.groupGoalsAgainst())
+            return -1;
+        return 1;
+    }
+
     @Override
     public String toString () {
         return "Country: " + country + "\nRNK: " + ranking + "\nTotal Points: "
@@ -217,5 +238,30 @@ public class Team implements Comparable<Team> {
     public int hashCode() {
         return Objects.hash(country);
     }
+
+    /**
+     * Compares ordering of teams in the group-stage. Breaking ties with
+     * Goal-Difference, Goals-For, and finally goals against.
+     * @author Saif Masoud
+     */
+    public static Comparator<Team> TeamGroupComparator
+            = (team1, team2) -> {
+
+        // Note: the order of team1,team2 is reversed in all the return statements
+        // In order to reverse the sorting (Greatest->Lowest.)
+        if (team1.groupPoints() != team2.groupPoints())
+            return Integer.compare(team2.groupPoints(), team1.groupPoints());
+
+        if (team1.groupGoalsDifference() != team2.groupGoalsDifference())
+            return Integer.compare(team2.groupGoalsDifference(), team1.groupGoalsDifference());
+
+        if (team1.groupGoalsFor() != team2.groupGoalsFor())
+            return Integer.compare(team2.groupGoalsFor(), team1.groupGoalsFor());
+
+        if (team1.groupGoalsAgainst() != team2.groupGoalsAgainst())
+            return Integer.compare(team2.groupGoalsAgainst(), team1.groupGoalsAgainst());
+
+        return 1;
+    };
 }
 
