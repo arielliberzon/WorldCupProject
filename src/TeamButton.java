@@ -28,51 +28,56 @@ public class TeamButton extends Button{
     private int gameOrder; //If it's 1, it's a game in the eight, 2 if quaterly, 3 if semi, or third place, 4 if winner or third place winner
     private ImageView flag;
 
+    /**
+     * @author Shane Callahan
+     * the default constructor for the Button, and then sets the default click state.
+     */
     public TeamButton(){
         super();
-        this.setOnMouseClicked(clicked);
+        this.setOnMouseClicked(displayTheGames);
     }
+
+    /**
+     * @author Shane Callahan
+     * The constructor that Button has; also applying the default click state
+     * @param buttonName a string that will be the name the button displays
+     */
     public TeamButton(String buttonName){
         super(buttonName);
-        this.setOnMouseClicked(clicked);
+        this.setOnMouseClicked(displayTheGames);
     }
 
+    /**
+     * @author Shane Callahan
+     * The constructor that Button has; also applying the default click state
+     * @param buttonName a string that will be the name the button displays
+     * @param node 
+     */
     public TeamButton(String buttonName, Node node){
         super(buttonName, node);
-        this.setOnMouseClicked(clicked);
+        this.setOnMouseClicked(displayTheGames);
     }
 
+    /**
+     * @author Ariel Liberzon and Shane Callahan
+     * The method to create the tooltip / information for the button
+     * @param button The button this tooltip will be assigned too, because it sets information in the tooltip
+     * @return Returns a custom tooltip to be  used in setTooltip()
+     */
     private Tooltip createToolTip(TeamButton button) {
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
             tooltip.setText(button.getTeam().toString());
             tooltip.setGraphic(button.getTeam().getFlag());           //THESE ARE REDUNDENT IF WE SHOW IT IN BUTTON NAME
         }
-        else if(button.getGame() != null){
-            tooltip.setText(button.getGame().getWinner().toString());
-            tooltip.setGraphic(button.getGame().getWinner().getFlag());
-        }
         return tooltip;
     }
 
-    private Tooltip createToolTip(TeamButton button, Boolean thirdPlaceWinner) {
-        Tooltip tooltip = new Tooltip();
-        if(button.getTeam() != null){
-            tooltip.setText(button.getTeam().toString());
-            tooltip.setGraphic(button.getTeam().getFlag());
-        }
-        else if(button.getGame() != null){
-            if(thirdPlaceWinner){
-            tooltip.setText(button.getGame().getWinner().toString());
-            tooltip.setGraphic(button.getGame().getWinner().getFlag());
-        }
-            else{
-                tooltip.setText(button.getGame().getLoser().toString()); 
-            }
-        }
-        return tooltip;
-    }
-
+    /**
+     * @author Shane Callahan
+     * This assigns the button to a team; and then also does the tooltip, text, flag
+     * @param team the team that the button will hold. Drives a *lot* of the functionality of the TeamButton
+     */
     public void setTeam(Team team) {
         this.team = team;
         this.setFlag(team.getFlag().getImage());
@@ -81,6 +86,12 @@ public class TeamButton extends Button{
         this.setText(team.getCountry());
         this.setTextAlignment(TextAlignment.CENTER);
     }
+
+    /**
+     * @author Shane Callahan
+     * Since the game has the team, we can set the game and the wining team from there.  
+     * @param game Game to get team to set it to the button
+     */
     public void setGame(Game game) {
         this.game = game;
         this.team = game.getWinner();
@@ -89,13 +100,19 @@ public class TeamButton extends Button{
         this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
     }
+    /**
+     * @author Shane Callahan
+     * Since the third place, one of them is a *loser* of a game, it's a special case, but functions the same as setGame(game) just if the third place is false, it will call the *loser* of the game
+     * @param game Game to get the teams from
+     * @param thirdPlaceWinner A boolean to check if the team is a winner, or loser; true = winner, false = loser
+     */
     public void setGame(Game game, Boolean thirdPlaceWinner){//Special case for third place
         if(thirdPlaceWinner){
         this.game = game;
         this.team = game.getWinner();
         this.setFlag(game.getWinner().getFlag().getImage());
         this.setGraphic(flag);
-        this.setTooltip(createToolTip(this,true));
+        this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
         }
         else if(!thirdPlaceWinner){
@@ -103,16 +120,26 @@ public class TeamButton extends Button{
             this.team = game.getLoser();
             this.setFlag(game.getLoser().getFlag().getImage());
             this.setGraphic(flag);
-            this.setTooltip(createToolTip(this,false));
+            this.setTooltip(createToolTip(this));
             this.setText(game.getLoser().getCountry()); 
         }
     }
+    /**
+     * @author Shane Callahan
+     * This sets the number of games the team has done, in order to be used in the displayTheGames event
+     * @param gameOrder 
+     */
     public void setGameOrder(int gameOrder) {
         this.gameOrder = gameOrder;
     }
+    /**
+     * @author Shane Callahan
+     * A method to set the imageView flag takes in an image
+     * @param flag sets the flag to be shown in the button; with a scale
+     */
     public void setFlag(Image flag) {
        this.flag = new ImageView(flag);
-       this.flag.setFitHeight(20);//change these values to change the scaling
+       this.flag.setFitHeight(20);  //change these values to change the scaling
        this.flag.setFitWidth(30);
     }
     public Team getTeam() {
@@ -130,7 +157,12 @@ public class TeamButton extends Button{
     }
     
 
-    private EventHandler<MouseEvent> clicked = mouseEvent -> {
+    /**
+     * @author Shane Callahan
+     * Displays the teams that the team has done, also uses getGameOrder, ticking down to display the teams in the proper order, top being "most recent" game
+     * Displays it using the method showMessageDialog, which opens up another stage, displaying the beatiful Pane that Ariel made
+     */
+    private EventHandler<MouseEvent> displayTheGames = mouseEvent -> {
         TeamButton button = (TeamButton) mouseEvent.getSource();
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {//LEFT CLICK
             if(button.getGame() != null){
@@ -139,7 +171,6 @@ public class TeamButton extends Button{
                 knockoutLabel.setFont(new Font(knockoutLabel.getFont().toString(),16));
                 gameBox.getChildren().addAll(knockoutLabel);
                 gameBox.setAlignment(Pos.CENTER);//makes everything inside the VBox centered
-                //gameBox.setAlignment(Pos.CENTER);
                 for (int i = button.getGameOrder(); i > 0; i--) {
                    //Gives an arrayList, call the array List from +3, 
                     gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getScoreDisplay());
@@ -147,7 +178,6 @@ public class TeamButton extends Button{
                
                 Label groupLabel = new Label("\n Group Stage Games: \n");
                 groupLabel.setFont(new Font(groupLabel.getFont().toString(),16));
-                //label.setAlignment(Pos.CENTER);
                 gameBox.getChildren().addAll(groupLabel);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3,  
@@ -174,17 +204,22 @@ public class TeamButton extends Button{
             }
         };
 
-    private void showMessageDialogue(Pane test) {
+        /**
+         * @author Justin Valas and Shane Callahan
+         * Takes a pane, and displays it in a stage as a pop up window
+         * @param paneToDisplay The pane that the pop up window will come to
+         */
+    private void showMessageDialogue(Pane paneToDisplay) {
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
-        stage.setTitle("Games"); // come back to
+        stage.setTitle("Game History"); // come back to
 
         Pane pane = new Pane();
 
 
-        pane.getChildren().add(test);
+        pane.getChildren().add(paneToDisplay);
         stage.getIcons().add(new Image("Images/logo2.png"));
         Scene scene = new Scene(pane);
         stage.setScene(scene);
