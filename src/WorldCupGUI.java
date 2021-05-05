@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -17,7 +19,6 @@ import javafx.stage.Stage;
  * application.
  */
 
-// TODO: Change class name to WorldCupGUI
 public class WorldCupGUI extends Application {
 
     private BorderPane rootPane = new BorderPane();
@@ -26,6 +27,9 @@ public class WorldCupGUI extends Application {
     private Simulator simulator;
     private VBox vBox;
     private Stage window;
+    //Holds the index of tab to show. Initial value = 2 (knockout pane). Then, stays where user was before resetting.
+    private int tabIndex = 2;
+    private TabPane tabs;
 
     @Override
     public void start(Stage primaryStage) {
@@ -37,7 +41,6 @@ public class WorldCupGUI extends Application {
     }
 
     /**
-     * TODO: Add description
      * @author Harjit Singh
      * @param window
      */
@@ -45,7 +48,10 @@ public class WorldCupGUI extends Application {
         Image img = new Image("Images/two.jpg");
         starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Button startButton = new Button("Start");
-        startButton.setStyle("-fx-background-color: LIGHTGREY");
+        startButton.setBackground(new Background(new BackgroundFill(Color.LIGHTSTEELBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        startButton.setFont(Font.font("Arial Black", 18));
+        startButton.setTextFill(Color.WHITE);
+        starterPane.setAlignment(Pos.CENTER);
         starterPane.add(startButton, 0, 1);
         starterPane.setAlignment(Pos.CENTER);
         //startButton.setTranslateX(800);
@@ -56,8 +62,6 @@ public class WorldCupGUI extends Application {
         initialize();
         startButton.setOnAction(e -> window.setScene(scene));
     }
-
-
 
     /**
      * @author Ariel Liberzon
@@ -73,6 +77,7 @@ public class WorldCupGUI extends Application {
 
         Button helpButton = new Button("Help");;
         Button resetButton = new Button("Reset");
+
         //Added by Samuel Hernandez
         resetButton.setOnAction(e -> initialize());
         helpButton.setOnAction(e -> help());
@@ -85,12 +90,16 @@ public class WorldCupGUI extends Application {
      * shows the world cup tournament information It also creates the
      * simulator object and simulates the tournament. Method designed to
      * allow to reset the game without showing the welcome screen again.
+     * It also allows to reset and stay in the same window
      */
     private void initialize(){
         simulator = new Simulator();
         vBox = new VBox();
         HBox buttonBar = createButtonBar();
-        TabPane tabs = createTabPane(window.getHeight() - 100, window.getWidth());
+        if(tabs != null)                                                            //If initializing after resetting
+            tabIndex = tabs.getSelectionModel().getSelectedIndex();
+        tabs = createTabPane(window.getHeight() - 100, window.getWidth());
+        tabs.getSelectionModel().select(tabIndex);
         vBox.getChildren().addAll(buttonBar, tabs);
         rootPane.setTop(vBox);
     }
@@ -110,7 +119,24 @@ public class WorldCupGUI extends Application {
                 "\n-Search your team in the search-bar by country name or country code"+
                 "\n-Click on the \"Group Stage\" tab to see all 8 groups" +
                 "\n-Click on the \"Knockout Stage\" tab to simulate for the winner" +
-                "\n-Click on the \"Reset\" button to reset the simulator");
+                "\n-Click on the \"Reset\" button to reset the simulator" +
+                "\n\nTEAMS TAB:" +
+                "\n-Highlighted teams are the ones that have qualified" +
+                "\n-Click on the buttons at the top to switch between confederations" +
+                "\n-Search for any team in the search-bar using country name or country code" +
+                "\n\nGROUP STAGE TAB:" +
+                "\n-There are eight colored groups with the flags of each group above each table" +
+                "\n-Click on a flag to see all the group stage games for that team" +
+                "\n-The tables hold each team's results for the group stage:" +
+                "\n    GA(Goals Against) - total goals scored against this team" +
+                "\n    GF(Goals For) - total goals scored by this team" +
+                "\n    GD(Goal Difference) - GF minus GA" +
+                "\n    Points - teams get +3 for wins and +1 for ties" +
+                "\n\nKNOCKOUT STAGE TAB:" +
+                "\n-Click the buttons at the top to reveal teams on the bracket" +
+                "\n-Click on a team to show all of its knockout games up to that point on the bracket" +
+                "as well as all of its group stage games" +
+                "\n-Hold your cursor over a team to see a tooltip of the team's info");
 
         alert.show();
         return alert;

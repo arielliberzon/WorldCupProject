@@ -10,11 +10,11 @@ import java.util.*;
  * {@link #simulateQuarters()}
  * {@link #simulateSemis()}
  * {@link #simulateFinalAndThirdPlace()}
- * @author Saif Masoud, and Samuel Hernandez
+ * @author Saif Masoud, Michael Skuncik, Ariel Liberzon, Alexader Tang, and Samuel Hernandez
  */
 public class Simulator {
 
-    // 8 groups with 4 teams each.
+    //The 8 groups with 4 teams each.
     private ArrayList<Group> groups;
 
     // The 32 participating teams.
@@ -36,13 +36,21 @@ public class Simulator {
     private ArrayList<Game> finalAndThirdGames;
 
     /**
-     * TODO: When exception of team is figured out remove exception from constructor
      * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
      */
     public Simulator() {
         teamInfo = new TeamInfo();
         worldCupTeams = new ArrayList<>();
-        setQualifiedTeams(teamInfo); // This loads  worldCupTeams field.
+        setQualifiedTeams(teamInfo);                    // This loads  worldCupTeams field.
+        simulateGroups();
+    }
+
+    /**
+     * Parameter constructor: Builds a simulator with given qualified teams
+     * @param qualifiedTeams the teams that qualified to thw world cup
+     */
+    public Simulator(ArrayList<Team> qualifiedTeams){
+        worldCupTeams = qualifiedTeams;
         simulateGroups();
     }
 
@@ -70,44 +78,6 @@ public class Simulator {
             groups.add(group);
             curGroupChar += 1;
         }
-    }
-
-    /**
-     * Method sorts qualified teams into groups like in the real world cup:
-     * 32 teams sorted into 4 level bowls depending on their ranking.
-     * So bowl one has top 1-8 teams, bowl two 9-16 and so on.
-     * Then randomly teams are placed from each bowl into one group.
-     * Capability to change number of groups, teams if it were to change.
-     * @author Samuel Hernandez
-     */
-    private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups){
-        Collections.sort(worldCupTeams);                            //Make sure world cup teams are sorted by rankings
-        ArrayList<Team> orderedList = new ArrayList<>();            //This array list will have the ordered list
-        ArrayList<ArrayList<Team>> bowls = new ArrayList();         //Holds all the bowls
-
-        //Create the right amount of bowls: : For 32 teams and 8 groups = 4 bowls
-        int numBowls = nTeams/nGroups;
-        for(int i = 0; i < numBowls; i++)
-            bowls.add(new ArrayList<>());
-
-        //Divide all the teams into bowls according to their ranking
-        int currentBowl = 0;
-        for(int i = 0; i < nTeams; i++){
-            Team team = worldCupTeams.get(i);
-            bowls.get(currentBowl).add(team);
-            if((i+1) % nGroups == 0)                                //Change bowl when it is complete
-                currentBowl++;
-        }
-
-        //Now all bowls have ranked teams. Randomly select one and add it to ordered list
-        Random rand = new Random();
-        for(int i = 0; i < nGroups; i++) {                          //Pick teams for each group
-            for(int j = 0; j < bowls.size(); j++) {                 //Pick a team from each bowl
-                int randomNum = rand.nextInt(bowls.get(j).size());
-                orderedList.add(bowls.get(j).remove(randomNum));
-            }
-        }
-        return orderedList;
     }
 
     /**
@@ -191,6 +161,44 @@ public class Simulator {
     }
 
     /**
+     * Method sorts qualified teams into groups like in the real world cup:
+     * 32 teams sorted into 4 level bowls depending on their ranking.
+     * So bowl one has top 1-8 teams, bowl two 9-16 and so on.
+     * Then randomly teams are placed from each bowl into one group.
+     * Capability to change number of groups, or number of teams if it were to change.
+     * @author Samuel Hernandez
+     */
+    private ArrayList<Team> sortTeamsIntoGroups(ArrayList<Team> worldCupTeams, int nTeams, int nGroups){
+        Collections.sort(worldCupTeams);                            //Make sure world cup teams are sorted by rankings
+        ArrayList<Team> orderedList = new ArrayList<>();            //This array list will have the ordered list
+        ArrayList<ArrayList<Team>> bowls = new ArrayList();         //Holds all the bowls
+
+        //Create the right amount of bowls: : For 32 teams and 8 groups = 4 bowls
+        int numBowls = nTeams/nGroups;
+        for(int i = 0; i < numBowls; i++)
+            bowls.add(new ArrayList<>());
+
+        //Divide all the teams into bowls according to their ranking
+        int currentBowl = 0;
+        for(int i = 0; i < nTeams; i++){
+            Team team = worldCupTeams.get(i);
+            bowls.get(currentBowl).add(team);
+            if((i+1) % nGroups == 0)                                //Change bowl when it is complete
+                currentBowl++;
+        }
+
+        //Now all bowls have ranked teams. Randomly select one and add it to ordered list
+        Random rand = new Random();
+        for(int i = 0; i < nGroups; i++) {                          //Pick teams for each group
+            for(int j = 0; j < bowls.size(); j++) {                 //Pick a team from each bowl
+                int randomNum = rand.nextInt(bowls.get(j).size());
+                orderedList.add(bowls.get(j).remove(randomNum));
+            }
+        }
+        return orderedList;
+    }
+
+    /**
      * Per requested by front end:
      * Method returns the teams in the order they should appear in the GUI:
      * Groups from left to right, top to bottom.
@@ -200,7 +208,6 @@ public class Simulator {
     public ArrayList<Team> getTeamsInOrderInRoundOfSixteen(){
         ArrayList<Team> teamsOnRoundOf16 = new ArrayList<>();
         for(int i = 0; i < 8; i++){
-
             //Add the team on top  of ranking team in current group
             Team leader = groups.get(i).getTeams().get(0);
 
@@ -226,25 +233,55 @@ public class Simulator {
     }
 
     /**
-     * Gets the teams that qualified to the world cup
-     * @return the list of qualified teams
+     * Gets the team map
+     * @return the map containing the teams
      */
-    public ArrayList<Team> getQualifiedTeams() {
-        return worldCupTeams;
+    public HashMap<String, Team> getTeamMap() {
+        return teamInfo.getTeamMap();
     }
 
-    @Override
-    public String toString() {
-        return "Simulator{" +
-                "groups=" + groups +
-                ", roundOf16Games=" + roundOf16Games +
-                ", quartersGames=" + quartersGames +
-                ", semisGames=" + semisGames +
-                ", finalAndThirdGames=" + finalAndThirdGames +
-                '}';
+
+    //Qualifier methods
+
+    /**
+     * Method gets the qualified teams for a confederation.
+     * Calls recursive method {@link #getQualifiedRec(ArrayList, int, int, int)} to deal with the logic
+     * @param confTeams the confederation to get the qualified teams for
+     * @param spots the number of available spots
+     * @return the qualified list of teams
+     * @author Samuel Hernandez
+     */
+    private ArrayList<Team>  setQualifiedTeams(ArrayList<Team> confTeams , int spots){
+        return getQualifiedRec(confTeams,  spots, 0, (confTeams.size()-1));
     }
 
-    //Equals and setters do not make sense so they are not implemented on purpose
+    /**
+     * Recursive method gets the qualified teams for a given confederation
+     * Keeps shrinking the list matching the teams in the top vs the ones in the bottom until
+     * the size fits the spots
+     * @param confTeams the teams in the confederation
+     * @param spots the number of spots in the team
+     * @return the qualified teams
+     * @author Samuel Hernandez
+     */
+    private ArrayList<Team> getQualifiedRec(ArrayList<Team> confTeams , int spots, int beginning, int end){
+        //Base case: When list fits the spots
+        if(confTeams.size() == spots){
+            return confTeams;
+        }
+
+        //Base case 2: Begging passes end
+        else if(beginning >= end) {
+            beginning = 0;
+        }
+
+        //Match the top vs the bottom (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        Team loser = getQualifierGameLoser(confTeams.get(beginning), confTeams.get(end));
+        confTeams.remove(loser);
+        beginning++;
+        end --;
+        return getQualifiedRec(confTeams, spots, beginning, end);
+    }
 
     /**
      * @author Alexander and Michael
@@ -400,44 +437,28 @@ public class Simulator {
             return tTwo;
     }
 
-    private ArrayList<Team>  setQualifiedTeams(ArrayList<Team> confTeams , int spots){
-        return getQualifiedRec(confTeams,  spots, 0, (confTeams.size()-1));
+    /**
+     * Gets the teams that qualified to the world cup
+     * @return the list of qualified teams
+     */
+    public ArrayList<Team> getQualifiedTeams() {
+        return worldCupTeams;
     }
 
     /**
-     * @author Samuel Hernandez
-     * Recursive method gets the qualified teams for a given confederation
-     * Keeps shrinking the list matching the teams in the top vs the ones in the bottom until
-     * the size fits the spots
-     * @param confTeams the teams in the confederation
-     * @param spots the number of spots in the team
-     * @return
+     * Gets the string representation of object
+     * @return the string with information about simualtion
      */
-    private ArrayList<Team> getQualifiedRec(ArrayList<Team> confTeams , int spots, int beginning, int end){
-
-        //Base case: When list fits the spots
-        if(confTeams.size() == spots){
-            return confTeams;
-        }
-
-        //Base case 2: Begging passes end
-        else if(beginning >= end) {
-            beginning = 0;
-        }
-
-        //Match the top vs the bottom (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-        Team loser = getQualifierGameLoser(confTeams.get(beginning), confTeams.get(end));
-        confTeams.remove(loser);
-        beginning++;
-        end --;
-        return getQualifiedRec(confTeams, spots, beginning, end);
+    @Override
+    public String toString() {
+        return "Simulator{" +
+                "groups=" + groups +
+                ", roundOf16Games=" + roundOf16Games +
+                ", quartersGames=" + quartersGames +
+                ", semisGames=" + semisGames +
+                ", finalAndThirdGames=" + finalAndThirdGames +
+                '}';
     }
 
-    public HashMap<String, Team> getTeamMap() {
-        return teamInfo.getTeamMap();
-    }
-
-
-
-
+    //Equals and rest of getters/setters do not make sense so they are not implemented on purpose
 }
