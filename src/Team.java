@@ -41,8 +41,7 @@ public class Team implements Comparable<Team> {
      */
     public void addGame (Game game) {
         Team t2 = game.getTeamTwo();
-        int[][] score = game.getScore();
-        score = swapScores(score);
+        int[][] score = swapScores(game.getScore());
 
         //Swap it only if in "incorrect order"
         games.add(t2.equals(this) ?
