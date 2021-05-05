@@ -1,6 +1,7 @@
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class TeamsPane extends BorderPane {
 
     private final Map<String, Team> teamMap;
-    private final Map<String, String> confInfo;
+    private final Map<String, String> infoMap;
     private TableView<Team> table;
     private HBox topButtonBar;
     private TextField searchField;
@@ -33,7 +34,7 @@ public class TeamsPane extends BorderPane {
     public TeamsPane(Double height, Double width, Simulator simulator) {
 
         // Map that has information for each confederation
-        confInfo = new LinkedHashMap<>();
+        infoMap = new LinkedHashMap<>();
 
         // gets the map from simulator
         teamMap = simulator.getTeamMap();
@@ -55,15 +56,15 @@ public class TeamsPane extends BorderPane {
 
 
     /**
-     * Adds data to the confInfo Map
+     * Adds data to the infoMap Map
      */
     private void createConfMap() {
-        confInfo.put("UEFA", "EUROPE\n55 TEAMS\n13 PLACES");
-        confInfo.put("CONMEBOL", "SOUTH AMERICA\n10 TEAMS\n4.5 PLACES");
-        confInfo.put("CONCACAF", "NORTH AMERICA, CENTRAL AMERICA, CARIBBEAN\n35 TEAMS\n3.5 PLACES");
-        confInfo.put("CAF", "AFRICA\n53 TEAMS\n5 PLACES");
-        confInfo.put("AFC", "ASIA\n46 TEAMS\n4.5 PLACES");
-        confInfo.put("OFC", "OCEANIA\n9 TEAMS\n0.5 PLACES");
+        infoMap.put("UEFA", "EUROPE\n55 TEAMS\n13 PLACES");
+        infoMap.put("CONMEBOL", "SOUTH AMERICA\n10 TEAMS\n4.5 PLACES");
+        infoMap.put("CONCACAF", "NORTH AMERICA, CENTRAL AMERICA, CARIBBEAN\n35 TEAMS\n3.5 PLACES");
+        infoMap.put("CAF", "AFRICA\n53 TEAMS\n5 PLACES");
+        infoMap.put("AFC", "ASIA\n46 TEAMS\n4.5 PLACES");
+        infoMap.put("OFC", "OCEANIA\n9 TEAMS\n0.5 PLACES");
     }
 
 
@@ -87,10 +88,12 @@ public class TeamsPane extends BorderPane {
         topButtonBar.getChildren().add(allButton);
 
         // For loop to create confederation buttons
-        for (Map.Entry<String, String> entry : confInfo.entrySet())
+        for (Map.Entry<String, String> entry : infoMap.entrySet())
             topButtonBar.getChildren().add(createConfederationButton(entry.getKey()));
 
         Button qualifiedButton = new Button("Qualified Teams");
+        qualifiedButton.setTooltip(createToolTip("cup",
+                "FIFA WORLD CUP\nQATAR 2022", false));
         qualifiedButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
@@ -112,12 +115,13 @@ public class TeamsPane extends BorderPane {
 
     /**
      * Helper method to create the buttons for each confederation
-     * @param confederation any confederation whose string matches the key in confInfo
+     * @param confederation any confederation whose string matches the key in infoMap
      * @return a button with proper a proper ToolTip and name
      */
     private Button createConfederationButton(String confederation) {
         Button button = new Button(confederation);
-        button.setTooltip(createToolTip(confederation));
+        button.setTooltip(createToolTip(confederation,
+                infoMap.get(confederation), true));
         button.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
@@ -130,17 +134,19 @@ public class TeamsPane extends BorderPane {
     /**
      * Creates a ToolTip with information and an icon
      * this data is based on the confederation and
-     * relates directly to the confInfo map
-     * @param confederation (ex: "UEFA")
+     * relates directly to the infoMap map
+     * @param key (ex: "UEFA")
      * @return Tooltip with custom text and graphic
      */
-    private Tooltip createToolTip(String confederation) {
+    private Tooltip createToolTip(String key, String value, boolean isConfederation) {
         Tooltip tooltip = new Tooltip();
-        tooltip.setText(confInfo.get(confederation));
+        tooltip.setText(value);
         try {
-            tooltip.setGraphic(new ImageView(
-                    this.getClass().getResource("Images/"+confederation+".png"
-                    ).toString()));
+            ImageView logo = new ImageView();
+             logo.setImage(new Image("Images/"+key+".png"));
+             logo.setPreserveRatio(true);
+             logo.setFitHeight(50);
+             tooltip.setGraphic(logo);
         } catch (Exception e) {
             tooltip.setText("Missing Logo!");
         }
