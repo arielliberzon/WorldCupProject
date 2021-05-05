@@ -41,14 +41,12 @@ public class Team implements Comparable<Team> {
      */
     public void addGame (Game game) {
         Team t2 = game.getTeamTwo();
-        Team t1 = game.getTeamOne();
-        boolean overTime = game.wasOverTimeUsed();
-        boolean penalties = game.penaltyKicksReached();
         int[][] score = game.getScore();
         score = swapScores(score);
 
         //Swap it only if in "incorrect order"
-        games.add(t2.equals(this) ? new Game(t2, t1, score, overTime, penalties): game);
+        games.add(t2.equals(this) ?
+                new Game(t2, game.getTeamOne(), score, game.wasOverTimeUsed(), game.penaltyKicksReached()) : game);
     }
 
     /**
