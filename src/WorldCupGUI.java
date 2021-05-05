@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -106,6 +107,7 @@ public class WorldCupGUI extends Application {
 
     /**
      * @author Harjit Singh
+     * @editor Justin Valas
      * Displays Alert message to Help the user and them
      * user-friendly experience
      * @return alert
@@ -114,6 +116,10 @@ public class WorldCupGUI extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
+        ImageView graphic = new ImageView(new Image("Images/logo2.png"));
+        graphic.setFitHeight(60);
+        graphic.setFitWidth(60);
+        alert.setGraphic(graphic);
         alert.setContentText("WE ARE HERE TO HELP YOU" +
                 "\n-Click on the \"Teams\" tab to see all confederations" +
                 "\n-Search your team in the search-bar by country name or country code"+
