@@ -476,6 +476,8 @@ public class Game {
             team = teamOne;
             teamOne = teamTwo;
             teamTwo = team;
+            //Added by Samuel Hernandez
+            score = swapScores(score);
         }
         BorderPane borderPane = new BorderPane();
 
@@ -502,6 +504,21 @@ public class Game {
         BorderPane.setAlignment(borderPane.getBottom(), Pos.CENTER);
 
         return borderPane;
+    }
+
+    /**
+     * Swaps the scores of team one to team two to create score display with information in order.
+     * @param score the score of the game
+     * @return the swapped score array
+     * @author Samuel Hernandez
+     */
+    private int[][] swapScores(int[][] score) {
+        int[][] swapped = new int[5][2];
+        for(int i = 0; i < score.length; i++){
+            swapped[i][0] = score[i][1];
+            swapped[i][1] = score[i][0];
+        }
+        return swapped;
     }
 
     /**
