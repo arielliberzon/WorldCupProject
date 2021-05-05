@@ -586,6 +586,5 @@ public class Game {
                 Objects.equals(teamTwo, game.teamTwo) &&
                 Arrays.equals(score, game.score);
     }
-
     //Rest of setters and getters do not make sense, so are not included
 }
