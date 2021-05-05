@@ -55,6 +55,7 @@ public class TeamInfo {
                 teams.put(newTeam.getCountryCode(), newTeam);  //maps team country code with respective team object
             }
 
+            // TODO : move
             br.close();
 
         }

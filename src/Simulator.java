@@ -56,6 +56,7 @@ public class Simulator {
 
     /**
      * Creates & simulates the 8 groups of the group-stage.
+     * @author Saif Masoud
      */
     public void simulateGroups() {
         groups = new ArrayList<>();
@@ -288,6 +289,7 @@ public class Simulator {
      * This method is used to simulate the Qualifiers. Each confederation will have their respective number of group
      * stage slots. Each arraylist is filled up by the method getQualified().
      * @return An ArrayList<Team> that contains 32 teams that will move on to the group stage.
+     * TODO: condense
      */
     public void setQualifiedTeams(TeamInfo teamInfo) {
 
@@ -309,7 +311,7 @@ public class Simulator {
 
         //Looping through the teams and assigning them to their respective confederation team lists
         for(Team t : teamInfo.getTeamMap().values()){
-            //Since England is the host country, they are later added in automatically
+            //Since Qatar is the host country, they are later added in automatically
             if(t.getConfederation().equals("UEFA")) //13 Spots
                 UEFA.add(t);
             if(t.getConfederation().equals("CONMEBOL")) //4.5 Spots

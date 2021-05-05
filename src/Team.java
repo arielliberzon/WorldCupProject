@@ -2,6 +2,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Objects;
 
 // TODO: Add description and comments
@@ -40,6 +41,7 @@ public class Team implements Comparable<Team> {
 
     /**
      * @return Gets the number of wins in the group stage.
+     * @author Saif Masoud
      */
     public int getGroupWins () {
         int wins = 0;
@@ -51,6 +53,7 @@ public class Team implements Comparable<Team> {
     }
     /**
      * @return Gets the number of wins in the group stage.
+      @author Saif Masoud
      */
     public int getGroupDraws () {
         int draws = 0;
@@ -62,6 +65,7 @@ public class Team implements Comparable<Team> {
     }
     /**
      * @return Gets the number of wins in the group stage.
+      @author Saif Masoud
      */
     public int getGroupLosses () {
         int losses = 0;
@@ -75,6 +79,7 @@ public class Team implements Comparable<Team> {
 
     /**
      * @return goals scored during group-stage.
+      @author Saif Masoud
      */
     public int groupGoalsFor() {
         int goalsFor = 0;
@@ -90,6 +95,7 @@ public class Team implements Comparable<Team> {
     }
     /**
      * @return goals scored against this team during group-stage.
+      @author Saif Masoud
      */
     public int groupGoalsAgainst() {
         int goalsFor = 0;
@@ -106,11 +112,16 @@ public class Team implements Comparable<Team> {
 
     /**
      * @return difference between goals-scored and goals-against in groups.
+      @author Saif Masoud
      */
     public int groupGoalsDifference() {
         return groupGoalsFor() - groupGoalsAgainst();
     }
 
+    /**
+     * @return the points for this team in the group stage
+     * @author Saif Masoud
+     */
     public int groupPoints () {
         return 3 * getGroupWins() + 1 * getGroupDraws();
     }
@@ -217,5 +228,30 @@ public class Team implements Comparable<Team> {
     public int hashCode() {
         return Objects.hash(country);
     }
+
+    /**
+     * Compares ordering of teams in the group-stage. Breaking ties with
+     * Goal-Difference, Goals-For, and finally goals against.
+     * @author Saif Masoud
+     */
+    public static Comparator<Team> TeamGroupComparator
+            = (team1, team2) -> {
+
+        // Note: the order of team1,team2 is reversed in all the return statements
+        // In order to reverse the sorting (Greatest->Lowest.)
+        if (team1.groupPoints() != team2.groupPoints())
+            return Integer.compare(team2.groupPoints(), team1.groupPoints());
+
+        if (team1.groupGoalsDifference() != team2.groupGoalsDifference())
+            return Integer.compare(team2.groupGoalsDifference(), team1.groupGoalsDifference());
+
+        if (team1.groupGoalsFor() != team2.groupGoalsFor())
+            return Integer.compare(team2.groupGoalsFor(), team1.groupGoalsFor());
+
+        if (team1.groupGoalsAgainst() != team2.groupGoalsAgainst())
+            return Integer.compare(team2.groupGoalsAgainst(), team1.groupGoalsAgainst());
+
+        return 1;
+    };
 }
 
