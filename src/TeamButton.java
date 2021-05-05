@@ -68,7 +68,7 @@ public class TeamButton extends Button{
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
             tooltip.setText(button.getTeam().toString());
-            tooltip.setGraphic(button.getTeam().getFlag());           //THESE ARE REDUNDENT IF WE SHOW IT IN BUTTON NAME
+            tooltip.setGraphic(button.getTeam().getLogo());           //THESE ARE REDUNDENT IF WE SHOW IT IN BUTTON NAME
         }
         return tooltip;
     }

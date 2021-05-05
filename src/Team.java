@@ -28,10 +28,14 @@ public class Team implements Comparable<Team> {
         this.totalPoints = totalPoints;
         this.countryCode = countryCode;
         this.confederation = confederation;
+
         flag.setFitHeight(30);
         flag.setFitWidth(45);
         flag.setImage(new Image("TeamFlags/" +countryCode.toLowerCase()+".png"));
+
         logo.setImage(new Image("TeamLogos/" +countryCode.toLowerCase()+".png"));
+        logo.setPreserveRatio(true);
+        logo.setFitHeight(80);
         games = new ArrayList<>();
         qualified = false;
     }
@@ -183,7 +187,13 @@ public class Team implements Comparable<Team> {
         this.flag = flag;
     }
 
+    public ImageView getLogo() {
+        return logo;
+    }
 
+    public void setLogo(ImageView logo) {
+        this.logo = logo;
+    }
 
     public boolean isQualified() {
         return qualified;

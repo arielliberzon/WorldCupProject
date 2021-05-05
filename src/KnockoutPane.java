@@ -29,8 +29,7 @@ import java.util.ArrayList;
   * KnockoutPane creates a BorderPane to be displayed in WorldCupGUI. 
   * it uses Simulator, taken from WorldCupGUI to get the information to display on the TeamButtons
   * KnockoutPane draws the lines, to make a bracket; putting TeamButtons in the proper places to be used to display / get information the team class has.
-  * @author Justin Valas, Shane Callahan
-  * @editor Ariel Liberzon
+  * @author Justin Valas, Shane Callahan, Ariel Liberzon
   */
 public class KnockoutPane extends BorderPane {
     private ArrayList<TeamButton> buttonList = new ArrayList<>();
@@ -45,8 +44,8 @@ public class KnockoutPane extends BorderPane {
     private boolean eightGamesDisplayed = false;
     private boolean quarterGamesDisplayed = false;
     private boolean semisGamesAndThirdPlacementsDisplayed = false;
-    private int lineWidth = 2;
-    private Color lineColor = Color.WHITE;
+    private final int lineWidth = 2;
+    private final Color lineColor = Color.WHITE;
 
     private Button displaySixteenTeams = new Button("Display 16");
     private Button displayEightGames = new Button("Display 8");
@@ -103,7 +102,7 @@ public class KnockoutPane extends BorderPane {
 
         displaySixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
         displayEightGames.setOnAction(e -> addNamesOfTheEightGames());
-        displayQuarterGames.setOnAction(e -> addNamesToQuaterGames());
+        displayQuarterGames.setOnAction(e -> addNamesToQuarterGames());
         displaySemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         displayFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
         simulateAll.setOnAction(e -> displayAll());
@@ -119,8 +118,7 @@ public class KnockoutPane extends BorderPane {
      * there's a scalingFactor variable, where the idea was to make it scale based off of your monitor resolution; but it never got implemented since I don't know how long the labels are, I can't put them in the center
      * There's a lot of private variables that are explained inside of the method
      * 
-     * @author Justin Valas and Shane Callahan
-     * @editor Zachary Lavoie
+     * @author Justin Valas, Shane Callahan, Zachary Lavoie
      * @return GridPane 
      */
     private GridPane createBracket(){
@@ -181,15 +179,13 @@ public class KnockoutPane extends BorderPane {
             button.setBorder(new Border(new BorderStroke(Color.WHITE,BorderStrokeStyle.SOLID, new CornerRadii(0),BorderStroke.THIN)));
 
             if(i < 15){
+                button.setLayoutX(buttonX);
+                button.setLayoutY(buttonY);//even
                 if(i % 2 == 1){//odd
-                    button.setLayoutX(buttonX);
-                    button.setLayoutY(buttonY);
                     drawLines(x, y, false, false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                 }
                 else{
-                    button.setLayoutX(buttonX);//even
-                    button.setLayoutY(buttonY);
                     drawLines(x, y, false, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                     if(i == 8){
@@ -241,10 +237,10 @@ public class KnockoutPane extends BorderPane {
                 y = yCordsAtTierTwo;                                    
                 yLength -= yIncrementIncrease/2;
             }
-            else if(i > 17 && i < 32){
+            else if(i < 32){
+                button.setLayoutX(buttonX);
+                button.setLayoutY(buttonY);
                 if(i % 2 == 1){
-                    button.setLayoutX(buttonX);
-                    button.setLayoutY(buttonY);
                     drawLines(x, y, true, true, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                     if(i == 19){
@@ -261,8 +257,6 @@ public class KnockoutPane extends BorderPane {
                     }
                 }
                 else{
-                    button.setLayoutX(buttonX);
-                    button.setLayoutY(buttonY);
                     drawLines(x, y, true, false, (int)(((yIncrement)/2)-(buttonSizeY)/2), horizontalLength);
                     y += yIncrement;
                 }
@@ -323,40 +317,24 @@ public class KnockoutPane extends BorderPane {
 
         if(isLeft){
             x_length = x - horizontalLength;
-            line1 = new Line(x, y, x_length, y);
-            line1.setStrokeWidth(lineWidth);
-            line1.setStroke(lineColor);
         }
         else{
             x_length = x + horizontalLength;
-            line1 = new Line(x, y, x_length, y);
-            line1.setStrokeWidth(lineWidth);
-            line1.setStroke(lineColor);
         }
+        line1 = new Line(x, y, x_length, y);
+        line1.setStrokeWidth(lineWidth);
+        line1.setStroke(lineColor);
         if(isUp){
             line2 = new Line(x_length, y, x_length, y - yLength);
-            line2.setStrokeWidth(lineWidth);
-            line2.setStroke(lineColor);
         }
         else{
             line2 = new Line(x_length, y, x_length, y + yLength);
-            line2.setStrokeWidth(lineWidth);
-            line2.setStroke(lineColor);
 
         }
+        line2.setStrokeWidth(lineWidth);
+        line2.setStroke(lineColor);
 
         knockoutPane.getChildren().addAll(line1, line2);
-    }
-
-    /**
-     * @author Shane Callahan
-     * This just labels each button visually 1-34, it was only used in debugging and can be removed
-     */
-    private void buttonNamesToNumbers(){
-        //JUST A DEBUG BECAUSE COUNTING IS HARD
-        for(int i = 0; i < buttonList.size(); i++){
-            buttonList.get(i).setText(Integer.toString(i));
-        }
     }
 
     /**
@@ -386,7 +364,7 @@ public class KnockoutPane extends BorderPane {
      * This adds the winner of the 8 games to the 8 respective buttons
      */
     private void addNamesOfTheEightGames(){
-        if(sixteenTeamsDisplayed == true){
+        if(sixteenTeamsDisplayed){
             int counter = 0;
             for(int i = 8; i < 11; i += 2){
                 buttonList.get(i).setGame(eightGames.get(counter));  
@@ -413,8 +391,8 @@ public class KnockoutPane extends BorderPane {
      * @author Shane Callahan
      * This adds the winner of the 4 games to the 4 respective buttons
      */
-    private void addNamesToQuaterGames(){
-        if(eightGamesDisplayed == true){
+    private void addNamesToQuarterGames(){
+        if(eightGamesDisplayed){
             int counter = 0;
             for(int i = 12; i < 14; i++){
                 buttonList.get(i).setGame(quarterGames.get(counter));
@@ -435,32 +413,19 @@ public class KnockoutPane extends BorderPane {
      * This adds the winner of the semis and third placements
      */
     private void addNamesToSemisGamesAndThirdPlacePlacements(){
-        if(quarterGamesDisplayed == true){
+        if(quarterGamesDisplayed){
             buttonList.get(14).setGame(semiGames.get(0));
             buttonList.get(14).setGameOrder(3);   
 
             buttonList.get(16).setGame(semiGames.get(1));
             buttonList.get(16).setGameOrder(3);   
             Random random = new Random();
-            if(semisGamesAndThirdPlacementsDisplayed == false){
+            if(!semisGamesAndThirdPlacementsDisplayed){
             int randomNumber = random.nextInt(2);
-                if(randomNumber == 0){
-                    buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), true);
-                    buttonList.get(31).setGameOrder(3);   
-                }
-                else{
-                    buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), false);
-                    buttonList.get(31).setGameOrder(3);
-                } 
-                if(randomNumber == 0){
-                    buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), false);
-                    buttonList.get(32).setGameOrder(3);
-                }
-                else{
-                    buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), true);
-                    buttonList.get(32).setGameOrder(3);
-                    
-                }
+                buttonList.get(31).setGame(finalAndThirdPlaceGame.get(1), randomNumber == 0);
+                buttonList.get(31).setGameOrder(3);
+                buttonList.get(32).setGame(finalAndThirdPlaceGame.get(1), randomNumber != 0);
+                buttonList.get(32).setGameOrder(3);
             }
             displaySemisGames.setDisable(true);
             displayFinalAndThird.setDisable(false);
@@ -473,7 +438,7 @@ public class KnockoutPane extends BorderPane {
      * This adds the winner of the the finals and third place
      */
     private void addNamesToFinalsAndThirdPlace(){
-        if(semisGamesAndThirdPlacementsDisplayed == true){
+        if(semisGamesAndThirdPlacementsDisplayed){
             buttonList.get(15).setGame(finalAndThirdPlaceGame.get(0));
             buttonList.get(15).setGameOrder(4);
             
@@ -493,7 +458,7 @@ public class KnockoutPane extends BorderPane {
     private void displayAll(){
         this.addNamesOfSixteenTeams();
         this.addNamesOfTheEightGames();
-        this.addNamesToQuaterGames();
+        this.addNamesToQuarterGames();
         this.addNamesToSemisGamesAndThirdPlacePlacements();
         this.addNamesToFinalsAndThirdPlace();
     }
