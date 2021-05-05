@@ -5,6 +5,8 @@
 
 **This application**  All the world’s 207 national teams are split up into six regions. Over a roughly two-year period, they compete in regional qualifying tournaments to earn one of the 32 spots at the World Cup. The host of the tournament receives an automatic spot, even if it does not have a particularly good team. 
 FIFA, football's (soccer) governing body, is made up of six semi-autonomous regional bodies that help govern their respective areas. These regional bodies administer the qualifying tournaments for the World Cup. FIFA gives regions with more and better national teams a greater number of spots. That is why the tournament has fewer teams from Asia or Africa than Europe.
+- Display Gui.
+- Teams tab , GroupStage tab and KnockoutStage tab.
 - The qualifying 32 teams are divided into eight groups of four — labeled Groups A through H — by a random, though seeded, draw. 
 - Once the group stage begins, the teams compete in a round-robin format, where each country plays the other three in the group just once.  A win is worth 3 points; a tie, 1 point; and a loss, 0. 
 - In the group stage, a team could tie a game, or even lose, but still play on. However, in the knockout rounds (games played after group stage), the losing team is eliminated from the entire tournament while the winner goes to the next round.
@@ -13,10 +15,6 @@ FIFA, football's (soccer) governing body, is made up of six semi-autonomous regi
 - The winning teams from group stage move on to round of 16, which then turns into a quarterfinal, which leads to semifinal, and ultimately leading to the biggest game: The World Cup final. 
 - The losers of the two semifinal games play each other before the final to determine who comes in third place. 
 
-- Display Gui.
-- Teams tab , GroupStage tab and KnockoutStage tab.
-- A list of teams.
-- KnockoutStage to see prediction.
 
 ## This is  how the GUI looks:
 
