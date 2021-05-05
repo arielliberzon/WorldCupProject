@@ -129,8 +129,8 @@ public class KnockoutPane extends BorderPane {
         int x = (int) buttonSizeX/2;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
         int y = 0;                    
        
-        int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
-        int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.  **MIGHT GET REMOVED // TWEAKED since the scaling isn't 100% with it.**
+        int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape.
+        int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.
         int yIncrement = scalingFactor*2;       //How much will the next tier bracket be moved down. 
         int yCordsAtTierZero = y;               //Since we change the y cord, we're setting base y at tierZero          
         int yCordsAtTierOne = yCordsAtTierZero + scalingFactor; //Tier zero gets used by the scalingFactor to produce the proper y cords for the tier 
