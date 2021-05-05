@@ -470,7 +470,12 @@ public class Game {
      * Pane object. Team button uses this to display the games a team has played.
      * @return Pane with score details, finish type, and team flags
      */
-    public Pane getScoreDisplay() {
+    public Pane getScoreDisplay(Team team) {
+        if (!team.getCountry().equals(teamOne.getCountry())) {
+            team = teamOne;
+            teamOne = teamTwo;
+            teamTwo = team;
+        }
         BorderPane borderPane = new BorderPane();
 
         Label scoreLabel = new Label(toString());

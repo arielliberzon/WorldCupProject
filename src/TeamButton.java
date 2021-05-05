@@ -173,7 +173,7 @@ public class TeamButton extends Button{
                 gameBox.setAlignment(Pos.CENTER);//makes everything inside the VBox centered
                 for (int i = button.getGameOrder(); i > 0; i--) {
                    //Gives an arrayList, call the array List from +3, 
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getScoreDisplay());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getScoreDisplay(button.getTeam()));
                 }
                
                 Label groupLabel = new Label("\n Group Stage Games: \n");
@@ -181,7 +181,7 @@ public class TeamButton extends Button{
                 gameBox.getChildren().addAll(groupLabel);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3,  
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay(button.getTeam()));
                  }
                  this.showMessageDialogue(gameBox);
             }
@@ -193,7 +193,7 @@ public class TeamButton extends Button{
                 gameBox.getChildren().addAll(label);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3, 
-                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay());
+                    gameBox.getChildren().addAll(button.getTeam().getGames().get(i).getScoreDisplay(button.getTeam()));
                  }
                  this.showMessageDialogue(gameBox);
             }
