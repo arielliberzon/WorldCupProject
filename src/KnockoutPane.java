@@ -81,11 +81,10 @@ public class KnockoutPane extends BorderPane {
             buttonList.get(counter).setText("Group " +  c + " Winner ");
             c++;
             buttonList.get(counter+1).setText("Group " + c + " Runner Up");
-            c--;  
             buttonList.get(counter+23).setText("Group " + c + " Winner");
-            c++;
+            c--;
             buttonList.get(counter+23+1).setText("Group " + c + " Runner Up");
-            c ++;
+            c +=2;
             counter +=2;
         }
 
