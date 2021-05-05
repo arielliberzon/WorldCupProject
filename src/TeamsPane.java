@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-// TODO: Change name to TeamsPane
+/**
+ * @author Ariel Liberzon
+ * This is a custom BorderPane that contains an HBox for Buttons at the top
+ * and a TableView in the center that displays teams. Each Button affects
+ * what is displayed inside the table. Qualified teams are highlighted.
+ */
 public class TeamsPane extends BorderPane {
 
     private Map<String, Team> teamMap;
@@ -33,11 +37,24 @@ public class TeamsPane extends BorderPane {
     private TextField searchField;
 
 
+    /**
+     * Constructor used by application.
+     * All methods get called in the constructor itself
+     * @param height set by WorldCupGUI
+     * @param width set by WorldCupGUI
+     * @param simulator
+     */
     public TeamsPane(Double height, Double width, Simulator simulator) {
+
+        // Map that has information for each confederation
         confInfo = new HashMap<>();
 
+        // gets the map from simulator
         teamMap = simulator.getTeamMap();
+
+        // updates the map used by table to show qualified teams
         updateTeamMap(simulator.getQualifiedTeams());
+
 
         createTable();
         setCenter(table);
@@ -46,12 +63,15 @@ public class TeamsPane extends BorderPane {
         createButtonBar();
         setTop(topButtonBar);
 
-        this.setMinHeight(height);
-        this.setMinWidth(width);
+        setMinHeight(height);
+        setMinWidth(width);
     }
 
+
+    /**
+     * Adds data to the confInfo Map
+     */
     private void createConfMap() {
-        //HashMap<String,String> confInfo = new HashMap<>();
         confInfo.put("UEFA", "EUROPE\n\n55 TEAMS\n\n13 PLACES");
         confInfo.put("CONMEBOL", "SOUTH AMERICA\n\n10 TEAMS\n\n4.5 PLACES");
         confInfo.put("CONCACAF", "NORTH AMERICA, CENTRAL AMERICA, CARIBBEAN\n\n35 TEAMS\n\n3.5 PLACES");
@@ -61,6 +81,10 @@ public class TeamsPane extends BorderPane {
     }
 
 
+    /**
+     * creates buttons and adds them to an HBox
+     * Each button changes what's displayed in the table
+     */
     private void createButtonBar() {
         allButton = new Button("All confederations");
         allButton.setOnMouseClicked(mouseEvent -> {
@@ -151,6 +175,13 @@ public class TeamsPane extends BorderPane {
 
     }
 
+    /**
+     * Creates a ToolTip with information and an icon
+     * this data is based on the confederation and
+     * relates directly to the confInfo map
+     * @param confederation (ex: "UEFA")
+     * @return Tooltip with custom text and graphic
+     */
     private Tooltip createToolTip(String confederation) {
         Tooltip tooltip = new Tooltip();
         tooltip.setText(confInfo.get(confederation));
@@ -164,10 +195,12 @@ public class TeamsPane extends BorderPane {
         return tooltip;
     }
 
+    /**
+     * Creates a table by calling the TableViewHelper class
+     */
     private void createTable() {
         // Create a TableView with a list of teams
         table = new TableView<>();
-        //table.setPadding(new Insets(0, 0, 50, 0));
 
         // Add rows to the TableView
         table.getItems().addAll(TableViewHelper.getFullTeamList(teamMap));
@@ -187,6 +220,7 @@ public class TeamsPane extends BorderPane {
 
         table.setEditable(false);
 
+        // Change color of qualified teams rows (alternate colors)
         table.setRowFactory(tableView -> new TableRow<Team>() {
             @Override
             public void updateItem(Team item, boolean empty) {
@@ -212,6 +246,7 @@ public class TeamsPane extends BorderPane {
             }
         });
 
+        // If a row is selected removes it's background so that it highlights properly
         table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -221,10 +256,14 @@ public class TeamsPane extends BorderPane {
 
     }
 
-    public void updateTeamMap(ArrayList<Team> updatedTeamMap) {
-        for (int i = 0; i < updatedTeamMap.size(); i++) {
-            Team temp = updatedTeamMap.get(i);
-            teamMap.get(temp.getCountryCode()).setQualified(true);
+    /**
+     * Update teamMap by marking qualified teams
+     * @param qualifiedTeams
+     */
+    private void updateTeamMap(ArrayList<Team> qualifiedTeams) {
+        for (int i = 0; i < qualifiedTeams.size(); i++) {
+            Team team = qualifiedTeams.get(i);
+            teamMap.get(team.getCountryCode()).setQualified(true);
         }
     }
 }

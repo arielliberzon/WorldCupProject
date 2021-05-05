@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,7 +20,6 @@ import javafx.stage.Stage;
  * application.
  */
 
-// TODO: Change class name to WorldCupGUI
 public class WorldCupGUI extends Application {
 
     private BorderPane rootPane = new BorderPane();
@@ -33,33 +33,41 @@ public class WorldCupGUI extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("World Cup");
-        primaryStage.getIcons().add(new Image("Images/logo2.png"));
+        try {
+            primaryStage.getIcons().add(new Image("Images/logo2.png"));
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
         showIntroScene(primaryStage);
         primaryStage.setMaximized(true);
     }
 
     /**
-     * TODO: Add description
      * @author Harjit Singh
      * @param window
      */
     private void showIntroScene(Stage window) {
-        Image img = new Image("Images/two.jpg");
-        starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        try {
+            Image img = new Image("Images/two.jpg");
+            starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
         Button startButton = new Button("Start");
         startButton.setBackground(new Background(new BackgroundFill(Color.LIGHTSTEELBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         startButton.setFont(Font.font("Arial Black", 18));
         startButton.setTextFill(Color.WHITE);
         starterPane.setAlignment(Pos.CENTER);
         starterPane.add(startButton, 0, 1);
+        starterPane.setAlignment(Pos.CENTER);
         window.setScene(new Scene(starterPane));
         window.setMaximized(true);
         window.show();
         initialize();
         startButton.setOnAction(e -> window.setScene(scene));
     }
-
-
 
     /**
      * @author Ariel Liberzon
@@ -70,11 +78,15 @@ public class WorldCupGUI extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        //buttonBar.setStyle("-fx-background-color: #589257ff");
-        buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
-
+        try {
+            buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
         Button helpButton = new Button("Help");;
         Button resetButton = new Button("Reset");
+
         //Added by Samuel Hernandez
         resetButton.setOnAction(e -> initialize());
         helpButton.setOnAction(e -> help());
@@ -99,6 +111,7 @@ public class WorldCupGUI extends Application {
 
     /**
      * @author Harjit Singh
+     * @editor Justin Valas
      * Displays Alert message to Help the user and them
      * user-friendly experience
      * @return alert
@@ -107,20 +120,48 @@ public class WorldCupGUI extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
+        try {
+            ImageView graphic = new ImageView(new Image("Images/logo2.png"));
+            graphic.setFitHeight(60);
+            graphic.setFitWidth(60);
+            alert.setGraphic(graphic);
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
+
+
         alert.setContentText("WE ARE HERE TO HELP YOU" +
                 "\n-Click on the \"Teams\" tab to see all confederations" +
                 "\n-Search your team in the search-bar by country name or country code"+
                 "\n-Click on the \"Group Stage\" tab to see all 8 groups" +
                 "\n-Click on the \"Knockout Stage\" tab to simulate for the winner" +
-                "\n-Click on the \"Reset\" button to reset the simulator");
+                "\n-Click on the \"Reset\" button to reset the simulator" +
+                "\n\nTEAMS TAB:" +
+                "\n-Highlighted teams are the ones that have qualified" +
+                "\n-Click on the buttons at the top to switch between confederations" +
+                "\n-Search for any team in the search-bar using country name or country code" +
+                "\n\nGROUP STAGE TAB:" +
+                "\n-There are eight colored groups with the flags of each group above each table" +
+                "\n-Click on a flag to see all the group stage games for that team" +
+                "\n-The tables hold each team's results for the group stage:" +
+                "\n    GA(Goals Against) - total goals scored against this team" +
+                "\n    GF(Goals For) - total goals scored by this team" +
+                "\n    GD(Goal Difference) - GF minus GA" +
+                "\n    Points - teams get +3 for wins and +1 for ties" +
+                "\n\nKNOCKOUT STAGE TAB:" +
+                "\n-Click the buttons at the top to reveal teams on the bracket" +
+                "\n-Click on a team to show all of its knockout games up to that point on the bracket" +
+                "as well as all of its group stage games" +
+                "\n-Hold your cursor over a team to see a tooltip of the team's info");
 
         alert.show();
         return alert;
     }
 
     /**
-     * TODO: description
      * @author Harjit Singh
+     * Method to create the tab for Teams, Group Stage and Knockout Stage
      * @param height
      * @param width
      * @return tabPane
@@ -136,6 +177,29 @@ public class WorldCupGUI extends Application {
         qualifierStageTab.setClosable(false);
         tabPane.getTabs().addAll(qualifierStageTab,groupStageTab,knockoutStageTab);
         return tabPane;
+    }
+
+    /**
+     * @author Harjit Singh
+     * The Exception handler
+     * Displays a error message to the user
+     * and if the error is bad enough closes the program
+     * @param fatal true if the program should exit. false otherwise
+     */
+    private void showError(Exception e,boolean fatal){
+        String msg=e.getMessage();
+        if(fatal){
+            msg=msg+" \n\nthe program will now close";
+        }
+        Alert alert = new Alert(Alert.AlertType.ERROR,msg);
+        alert.setResizable(true);
+        alert.getDialogPane().setMinWidth(420);
+        alert.setTitle("Error");
+        alert.setHeaderText("something went wrong");
+        alert.showAndWait();
+        if(fatal){
+            System.exit(666);
+        }
     }
 
     public static void main(String[] args) {

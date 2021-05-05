@@ -22,13 +22,13 @@ import javafx.scene.text.Font;
 
 import java.util.Random;
 import java.util.ArrayList;
-/** note for Zach (delete later):
- *   this class will create the pane for the knockout tab,
- *   Main is composed of this (I'm pretty sure)
- *      - Justin V
- */
-
-// TODO: Add comments and description
+ /**
+  * KnockoutPane creates a BorderPane to be displayed in WorldCupGUI. 
+  * it uses Simulator, taken from WorldCupGUI to get the information to display on the TeamButtons
+  * KnockoutPane draws the lines, to make a bracket; putting TeamButtons in the proper places to be used to display / get information the team class has.
+  * @author Justin Valas, Shane Callahan
+  * @editor Ariel Liberzon
+  */
 public class KnockoutPane extends BorderPane {
     private ArrayList<TeamButton> buttonList = new ArrayList<>();
     private GridPane masterKnockoutPane = new GridPane();
@@ -52,7 +52,18 @@ public class KnockoutPane extends BorderPane {
     private Button displayFinalAndThird = new Button("Display Final and Third");
     private Button simulateAll = new Button("Display All Rounds");
 
-
+    /**
+     * Constructor for Knockout pane. 
+     * the Array lists hold the values from simulator; this might not actually matter, but at the time was neater.
+     * The HBox holds the buttons to display the teams, (vertical box too for style)
+     * each of the display buttons get their events
+     * The boolean is there to dictate the status of the buttons, to enable and disable when it can or can't be pressed.
+     *
+     * @author Justin Valas and Shane Callahan
+     * @param height height of the pane
+     * @param width width of the pane. the reason these exist is to help scale the knockout pane. although it proved much trickier than I thought due to font
+     * @param sim the simulator object, to be the same through out the whole project
+     */
     public KnockoutPane(Double height, Double width, Simulator sim){
         //this.sim = sim;
         sixteenTeams = sim.getTeamsInOrderInRoundOfSixteen();
@@ -60,8 +71,6 @@ public class KnockoutPane extends BorderPane {
         quarterGames = sim.simulateQuarters();
         semiGames = sim.simulateSemis();
         finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
-        //this.setBackground(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
-        //this.setBackground(new Background(new BackgroundImage(new Image("Images/One.jpg"),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Image img = new Image("Images/grass.png");
         this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
         HBox buttonBox = new HBox();
@@ -70,17 +79,31 @@ public class KnockoutPane extends BorderPane {
         buttonBox.setSpacing(10);
         buttonBox.getChildren().addAll(displaySixteenTeams,displayEightGames, displayQuarterGames,displaySemisGames,displayFinalAndThird);
         VBox verticalButtonBox = new VBox();
-        verticalButtonBox.setAlignment(Pos.CENTER);
+        simulateAll.setAlignment(Pos.CENTER);
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
+        verticalButtonBox.setAlignment(Pos.CENTER);
         this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
+
+        int counter = 0;
+        char c = 65;
+        for(int i = 0; i < 16; i +=4){   
+            buttonList.get(counter).setText("Group " +  c + " Winner ");
+            c++;
+            buttonList.get(counter+1).setText("Group " + c + " Runner Up");
+            buttonList.get(counter+23).setText("Group " + c + " Winner");
+            c--;
+            buttonList.get(counter+23+1).setText("Group " + c + " Runner Up");
+            c +=2;
+            counter +=2;
+        }
 
         displaySixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
         displayEightGames.setOnAction(e -> addNamesOfTheEightGames());
         displayQuarterGames.setOnAction(e -> addNamesToQuaterGames());
         displaySemisGames.setOnAction(e -> addNamesToSemisGamesAndThirdPlacePlacements());
         displayFinalAndThird.setOnAction(e -> addNamesToFinalsAndThirdPlace());
-        simulateAll.setOnAction(e -> simulateAll());
+        simulateAll.setOnAction(e -> displayAll());
 
         displayEightGames.setDisable(true);
         displayQuarterGames.setDisable(true);
@@ -88,6 +111,15 @@ public class KnockoutPane extends BorderPane {
         displayFinalAndThird.setDisable(true);
     }
 
+    /**
+     * The bread and butter of this class; creates the bracket.
+     * there's a scalingFactor variable, where the idea was to make it scale based off of your monitor resolution; but it never got implemented since I don't know how long the labels are, I can't put them in the center
+     * There's a lot of private variables that are explained inside of the method
+     * 
+     * @author Justin Valas and Shane Callahan
+     * @editor Zachary Lavoie
+     * @return GridPane 
+     */
     private GridPane createBracket(){
         int scalingFactor = 40;      // Z.L. (modified value in "scalingFactor" from 50 to 40.)   //Scaling factor of the bracket, increase = bigger
         double buttonSizeX = scalingFactor * 3;                                    //Button sizes, more convenient
@@ -96,8 +128,8 @@ public class KnockoutPane extends BorderPane {
         int x = (int) buttonSizeX/2;          // Z.L. (modified value in "x" variable from 100 to 120.)      //The initial X cord of the top left bracket;
         int y = 0;                    
        
-        int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape. **MIGHT GET REMOVED / TWEAKED since the scaling doesn't 100% fit with it.**
-        int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.  **MIGHT GET REMOVED // TWEAKED since the scaling isn't 100% with it.**
+        int yLength = scalingFactor/2;          //The length of the line going up and down on the L shape.
+        int horizontalLength = scalingFactor*4;            //The length of the line going left and right on the L shape.
         int yIncrement = scalingFactor*2;       //How much will the next tier bracket be moved down. 
         int yCordsAtTierZero = y;               //Since we change the y cord, we're setting base y at tierZero          
         int yCordsAtTierOne = yCordsAtTierZero + scalingFactor; //Tier zero gets used by the scalingFactor to produce the proper y cords for the tier 
@@ -110,13 +142,10 @@ public class KnockoutPane extends BorderPane {
         title.setTextFill(Color.rgb(255,255,255));
         title.setFont(Font.font("Arial Black", 25));
         
-        //title.setBackground(new Background(new BackgroundFill(Color.rgb(105,105,105), CornerRadii.EMPTY, Insets.EMPTY)));
         
 
         Label winner = new Label("    WORLD\nCUP WINNER");
         winner.setFont(Font.font("Arial Black", 20));
-        //winner.setTextFill(Color.rgb(255,244,32));
-        //winner.setBackground(new Background(new BackgroundFill(Color.rgb(105,105,105), CornerRadii.EMPTY, Insets.EMPTY)));
         winner.setTextFill(Color.rgb(255,244,32));
         
 
@@ -131,13 +160,12 @@ public class KnockoutPane extends BorderPane {
         Label thirdPlace = new Label("3rd Place");
         thirdPlace.setFont(Font.font("Arial Black", 18));
         thirdPlace.setTextFill(Color.rgb(255,244,32));
-        //thirdPlace.setBackground(new Background(new BackgroundFill(Color.rgb(105,105,105), CornerRadii.EMPTY, Insets.EMPTY)));
         
 
         knockoutPane.getChildren().addAll(title, winner, rect, thirdPlace);
         
 
-        for(int i = 1; i < 35; i++){
+        for(int i = 1; i < 35; i++){ //loop through each button, and since they all have different roles, they are used differently.
             int buttonX = (int)(x - buttonSizeX/2);
             int buttonY = (int)(y - buttonSizeY/2);
             TeamButton button = new TeamButton();
@@ -271,6 +299,16 @@ public class KnockoutPane extends BorderPane {
         return masterKnockoutPane;
     }
 
+    /**
+     * @author Justin Valas
+     * The method that draws the lines between each button
+     * @param x The starting x of the line
+     * @param y The starting y of the line
+     * @param isLeft a boolean if the line is moving left (true) or right (false)
+     * @param isUp a boolean if the line is moving up (true) or down (false)
+     * @param yLength the vertical length that it will draw, get's added (or subtracted) to  y, to determine the proper end y coordinate
+     * @param horizontalLength the horizontal length that it will draw, gets added (or subtracted) to x, to determine the proper end x coordinate
+     */
     private void drawLines(int x, int y, boolean isLeft, boolean isUp, int yLength, int horizontalLength){
         Line line1;
         Line line2;
@@ -305,6 +343,10 @@ public class KnockoutPane extends BorderPane {
         knockoutPane.getChildren().addAll(line1, line2);
     }
 
+    /**
+     * @author Shane Callahan
+     * This just labels each button visually 1-34, it was only used in debugging and can be removed
+     */
     private void buttonNamesToNumbers(){
         //JUST A DEBUG BECAUSE COUNTING IS HARD
         for(int i = 0; i < buttonList.size(); i++){
@@ -312,6 +354,10 @@ public class KnockoutPane extends BorderPane {
         }
     }
 
+    /**
+     * @author Shane Callahan
+     * This adds the team names to the buttons, since the buttons are TeamButtons, it calls setTeam, which assigns the name, team, and flag
+     */
     private void addNamesOfSixteenTeams(){
         int counter = 0;
         for(int i = 0; i < 16; i +=4){   
@@ -329,6 +375,11 @@ public class KnockoutPane extends BorderPane {
         displaySixteenTeams.setDisable(true);
         displayEightGames.setDisable(false);
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the 8 games to the 8 respective buttons
+     */
     private void addNamesOfTheEightGames(){
         if(sixteenTeamsDisplayed == true){
             int counter = 0;
@@ -352,6 +403,11 @@ public class KnockoutPane extends BorderPane {
         eightGamesDisplayed = true;
         displayQuarterGames.setDisable(false);
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the 4 games to the 4 respective buttons
+     */
     private void addNamesToQuaterGames(){
         if(eightGamesDisplayed == true){
             int counter = 0;
@@ -368,6 +424,11 @@ public class KnockoutPane extends BorderPane {
         quarterGamesDisplayed = true;
         displaySemisGames.setDisable(false);
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the semis and third placements
+     */
     private void addNamesToSemisGamesAndThirdPlacePlacements(){
         if(quarterGamesDisplayed == true){
             buttonList.get(14).setGame(semiGames.get(0));
@@ -401,6 +462,11 @@ public class KnockoutPane extends BorderPane {
             }
         semisGamesAndThirdPlacementsDisplayed = true;
     }
+
+    /**
+     * @author Shane Callahan
+     * This adds the winner of the the finals and third place
+     */
     private void addNamesToFinalsAndThirdPlace(){
         if(semisGamesAndThirdPlacementsDisplayed == true){
             //buttonList.get(15).setText(finalAndThirdPlaceGame.get(0).getWinner().getCountry());
@@ -416,19 +482,16 @@ public class KnockoutPane extends BorderPane {
         simulateAll.setDisable(true);
     }
     
-    private void simulateAll(){
+
+    /**
+     * @author Shane Callahan
+     * This is just the method the display all button will use, executing them all in order
+     */
+    private void displayAll(){
         this.addNamesOfSixteenTeams();
         this.addNamesOfTheEightGames();
         this.addNamesToQuaterGames();
         this.addNamesToSemisGamesAndThirdPlacePlacements();
         this.addNamesToFinalsAndThirdPlace();
     }
-
-    
-
-        
-        
-
-
-    
 }

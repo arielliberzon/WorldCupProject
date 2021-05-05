@@ -16,6 +16,7 @@ import java.util.Map;
 public class TableViewHelper {
 
     /**
+     * @author Ariel Liberzon
      * Returns an observable list of teams from the given Map
      * @param teamMap Map of teams
      * @return ObservableList of teams
@@ -26,6 +27,7 @@ public class TableViewHelper {
     }
 
     /**
+     * @author Ariel Liberzon
      * Returns an observable list of teams from the given Map.
      * Only returns teams that match the given confederation
      * @param teamMap Map of teams
@@ -43,6 +45,7 @@ public class TableViewHelper {
     }
 
     /**
+     * @author Ariel Liberzon
      * Returns an observable list of teams from the given Map.
      * Only returns teams that have are marked as "qualified"
      * @param teamMap Map of teams
@@ -59,7 +62,7 @@ public class TableViewHelper {
     }
 
     /**
-     * @author Harjit Singh
+     * @author Ariel Liberzon, Harjit Singh
      * Returns an observable list of teams from the given Map.
      * Only returns teams that contain the search parameter in
      * either their team name or country code.
@@ -85,11 +88,19 @@ public class TableViewHelper {
         return FXCollections.<Team>observableArrayList(teamArrayList);
     }
 
+    /**
+     * @author Ariel Liberzon
+     * Returns an observable list of teams from the given group.
+     * @param group Group of teams
+     * @return ObservableList of teams
+     */
     public static ObservableList<Team> getGroupList(Group group) {
         ArrayList<Team> groupList = group.getTeams();
         return FXCollections.<Team>observableArrayList(groupList);
     }
+
     /**
+     * @author Ariel Liberzon
      * @return "Rank" TableColumn
      */
     public static TableColumn<Team, Integer> getTeamRankingColumn() {
@@ -103,7 +114,7 @@ public class TableViewHelper {
     }
 
     /**
-     *
+     * @author Ariel Liberzon
      * @return "Team" TableColumn
      */
     public static TableColumn<Team, String> getCountryNameColumn() {
@@ -116,7 +127,7 @@ public class TableViewHelper {
     }
 
     /**
-     *
+     * @author Ariel Liberzon
      * @return "Total Points" TableColumn
      */
     public static TableColumn<Team, Double> getTotalPointsColumn() {
@@ -129,7 +140,7 @@ public class TableViewHelper {
     }
 
     /**
-     *
+     * @author Ariel Liberzon
      * @return "Country Code" TableColumn
      */
     public static TableColumn<Team, String> getCodeColumn() {
@@ -142,7 +153,7 @@ public class TableViewHelper {
     }
 
     /**
-     *
+     * @author Ariel Liberzon
      * @return "Flag" TableColumn
      */
     public static TableColumn<Team, ImageView> getFlagColumn() {
@@ -156,7 +167,7 @@ public class TableViewHelper {
     }
 
     /**
-     *
+     * @author Ariel Liberzon
      * @return "Confederation" TableColumn
      */
     public static TableColumn<Team, String> getTeamConfColumn() {
@@ -170,7 +181,7 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "Country" TableColumn
      */
     public static TableColumn<Team, String> getGroupCountry() {
     TableColumn<Team, String> countryCol = new TableColumn<>("Country");
@@ -180,7 +191,7 @@ public class TableViewHelper {
     }
     /**
      * @author Harjit Singh
-     * @return
+     * @return "Wins" TableColumn
      */
     public static TableColumn<Team, String> getGroupWinsColumn() {
         TableColumn<Team, String> groupWinsColumn = new TableColumn<>("Wins");
@@ -191,7 +202,7 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "Draws" TableColumn
      */
     public static TableColumn<Team, String> getGroupDrawsColumn() {
         TableColumn<Team, String> groupDrawsColumn = new TableColumn<>("Draws");
@@ -202,7 +213,7 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "Losses" TableColumn
      */
     public static TableColumn<Team, String> getGroupLossesColumn() {
         TableColumn<Team, String> groupLossesColumn = new TableColumn<>("Losses");
@@ -214,7 +225,7 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "GF" TableColumn
      */
     public static TableColumn<Team, String> getGFColumn() {
         TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
@@ -226,7 +237,7 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "GD" TableColumn
      */
     public static TableColumn<Team, String> getGDColumn() {
         TableColumn<Team, String> goalDifferenceColumn = new TableColumn<>("GD");
@@ -237,19 +248,18 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "GA" TableColumn
      */
     public static TableColumn<Team, String> getGAColumn() {
         TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
         goalsAgainstColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsAgainst())));
-
         return goalsAgainstColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return
+     * @return "Points" TableColumn
      */
     public static TableColumn<Team, String> getPointsColumn() {
         TableColumn<Team, String> totalPointsColumn = new TableColumn<>("Points");

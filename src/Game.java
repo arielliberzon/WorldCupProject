@@ -1,40 +1,38 @@
-//import com.sun.javafx.tools.ant.Info;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Stores game data and simulates an individual match.
+ * Game class is the class in charge of simulating each individual game in between two teams.
+ * A game is simulated by calculating the chance of scoring per minute. If a goal is to
+ * happen in that given minute (using random) the game then decides who scores that goal depending
+ * on a random number (but dividing the chance proportionally depending on FIFA rankings).
+ * This calculation repeats for the first 90 minutes and if can not be drawn then in extra time,
+ * and if needed it is guaranteed to finish in penalties.
+ * @author Alexander Tang, Ariel Liberzon, Zachary Lavoie, Saif Masoud and Samuel Hernandez
  */
 public class Game {
-
-    //TODO: fix the naming of some methods and boolean variables (no integers and shorter)
-
-    private int id;
 
     //Holds team one
     private Team teamOne;
 
     //Hold team two
     private Team teamTwo;
-    private static AtomicInteger idCounter = new AtomicInteger(); // generates IDs.
 
     //Stores whether the game can be drawn or not
     private boolean canBeDraw;
 
     //Stores the score of the game for each part of the game. Multidimensional array.
-    private int[][] score;
+    private int[][] score = new int[5][2];
 
     //Chance to score per minute (Average goals per minute = 0.03) so 3%
-    private final int chancePerMinute = 3;
+    private int chancePerMinute = 3;
 
     //Holds the winner of the game
     private Team winner;
@@ -61,7 +59,6 @@ public class Game {
      * @param canBeDraw whether or not a game can be drawn
      */
     public Game(Team t1, Team t2, boolean canBeDraw) {
-        this.id = idCounter.getAndIncrement();
         this.teamOne = t1;
         this.teamTwo = t2;
         this.score = new int[5][2];
@@ -71,6 +68,19 @@ public class Game {
         teamTwo.addGame(this);
     }
 
+    /**
+     * Default constructor: Constructs a default game object.
+     */
+    public Game() {
+        canBeDraw = true;
+    }
+
+    /**
+     * Gets the way the game finished in a string
+     * @return Regular Time  if game finished at 90minutes, Extra Time if 120, or Penalties if game
+     * finished on penalties.
+     * @author Saif Masoud
+     */
     public String getFinishType() {
         if (!overTimeUsed)
             return "Regular Time";
@@ -80,20 +90,7 @@ public class Game {
             return "Penalties";
     }
 
-    public int getId() {
-        return id;
-    }
-
-    //Just for testing purposes
-    public static Game dummyGame(boolean canBeDraw) {
-        Team t1 = new Team(1, "ARG", 0, "ARG", "SA");
-        Team t2 = new Team(2, "bra", 0, "ARG", "da");
-        Game game = new Game(t1, t2, canBeDraw);
-        return game;
-    }
-
     /**
-     * @author Alexander Tang and Samuel Hernandez
      * This method simulates the game in between two teams. If the game can be drawn the game will always
      * end after 90minutes. If the game can not be drawn the game will go to over time if it is drawn at the
      * end of the regular 90 minutes. If after the over time it is still tied it will go to penalties and
@@ -105,11 +102,12 @@ public class Game {
      *
      * Method sets various fields so that methods can access information about the result of the game.
      * Sets up the winner, the loser, or if the game was tied set the game as tied. Also where the game ended.
+     * @author Alexander Tang and Samuel Hernandez
      */
     public void simulateGame(){
         //Calculating chances a team has of scoring against each other
-        double sum = teamOne.getTotalPoints() + teamTwo.getTotalPoints();  //Total amount of points
-        teamOneChance = teamOne.getTotalPoints() * 100/ sum;  //Chance of team one of scoring per
+        double sum = teamOne.getTotalPoints() + teamTwo.getTotalPoints();       //Total amount of points
+        teamOneChance = teamOne.getTotalPoints() * 100/ sum;                    //Chance of team one of scoring per
 
         //Update chance to show more realistic scores
         teamOneChance += teamOne.getTotalPoints() > teamTwo.getTotalPoints()? 25 : -25;
@@ -120,7 +118,7 @@ public class Game {
 
         //If game was not tied
         if(score[1][0] != score[1][1]){
-            declareWinnerAndLoser(score[1][0], score[1][1]);        //Declare winner
+            declareWinnerNLoser(score[1][0], score[1][1]);        //Declare winner
             return;                                                 //No need to go any further
         }
 
@@ -139,13 +137,12 @@ public class Game {
                 if(score[3][0] == score[3][1])                                 //If still tied go to penalty kicks
                     simulatePenaltyKicks();
                 else                                                                   //Else: not tied anymore
-                    declareWinnerAndLoser(score[3][0], score[3][1]);                    //Declare winner and loser
+                    declareWinnerNLoser(score[3][0], score[3][1]);                    //Declare winner and loser
             }
         }
     }
 
     /**
-     * @author Alexander Tang, Samuel Hernandez
      * This is a helper method to simulate the time given by {@link #simulateGame()}
      * This method will first determine randomly, but taking chances into consideration, if a goal will happen
      * for every minute.
@@ -155,6 +152,7 @@ public class Game {
      *
      * @param time the time to simulate
      * @param section the section played (First half = 0, second half = 1, first over time = 2 last over time = 3)
+     * @author Alexander Tang, Samuel Hernandez
      */
     private void simulateSection(int time, int section) {
         Random randomNum = new Random();
@@ -187,13 +185,13 @@ public class Game {
     }
 
     /**
-     * @author Ariel Liberzon, Samuel Hernandez
      * This method determines who wins in the penalty kicks. The chance of one team winning is random but still
      * takes into consideration the team difference as follows:
      * The average success of a penalty kick is 70%
      * The difference is divided by a 100 and then added to the team with the highest raking and subtracted
      * from the team with the lowest ranking.
      * Example: T1 score = 1800. T2 score = 1600. Difference/100 = 2 -> So T1 chance = 72%. T2 chance = 68%
+     * @author Ariel Liberzon, Samuel Hernandez
      */
     private void simulatePenaltyKicks() {
         penaltyKicksReached = true;                                             //Mark game reached penalty kicks
@@ -215,25 +213,25 @@ public class Game {
         }
 
         //Shoot first 5 penalty kicks
-        boolean resolved = shootFirst5PenaltyKicks(teamOneScoreChance, teamTwoScoreChance);
+        boolean resolved = shoot5PenaltyKicks(teamOneScoreChance, teamTwoScoreChance);
 
         if (!resolved)                          //If first 5 kicks were not enough go to sudden death to declare winner
             suddenDeathKicks(teamOneScoreChance, teamTwoScoreChance);
 
         //Record penalty kick score and declare a winner
-        declareWinnerAndLoser(score[4][0], score[4][1]);
+        declareWinnerNLoser(score[4][0], score[4][1]);
     }
 
 
     /**
-     * @author Ariel Liberzon, Samuel Hernandez
      * Method shoots the first 5 penalty kicks unless there is an unrecoverable difference in which case it
      * just stops at that point.
      * @return true if first 5 kicks solved tie (there is a winner), else false
      * @param teamOneScoreChance the chance of scoring for team one
      * @param teamTwoScoreChance the chance of scoring for team two
+     * @author Ariel Liberzon, Samuel Hernandez
      */
-    private boolean shootFirst5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
+    private boolean shoot5PenaltyKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         for(int i = 0; i < 5; i++){
             boolean t1Scored = shootPenalty(teamOneScoreChance);       //Team one shoots
             boolean t2Scored = shootPenalty(teamTwoScoreChance);       //Team two shoots
@@ -246,6 +244,7 @@ public class Game {
             if(unrecoverableDifference(i+1, i+1))                               //Check if difference is unrecoverable
                 return true;                                                    //If so, there is a winner
         }
+
         //After the first 5 shots.
         if(score[4][0] != score[4][1])                                          //If there is a winner
             return true;
@@ -254,10 +253,10 @@ public class Game {
     }
 
     /**
-     * @author Ariel Liberzon, Samuel Hernandez
      * Method will keep shooting kicks until one team scores and the other team misses
      * @param teamOneScoreChance the chance of scoring for team one
      * @param teamTwoScoreChance the chance of scoring for team two
+     * @author Ariel Liberzon, Samuel Hernandez
      */
     private void suddenDeathKicks(int teamOneScoreChance, int teamTwoScoreChance) {
         boolean notDone = true;
@@ -274,13 +273,13 @@ public class Game {
     }
 
     /**
-     * @author Ariel Liberzon, Samuel Hernandez
      * This method checks if a team can still recover from the scoring difference
      * Example: Team 1 scored first 3 shots. Team two misses first 3 shots.
      * Even if team two scores the remaining 2 shots the difference is unrecoverable.
      * @param roundT1 rounds already shot by Team One
      * @param roundT2 rounds already shot by Team Two
      * @return true if difference is unrecoverable. Else false
+     * @author Ariel Liberzon, Samuel Hernandez
      */
     private boolean unrecoverableDifference(int roundT1, int roundT2) {
         //Check if it is possible for a team to recover
@@ -300,11 +299,11 @@ public class Game {
     }
 
     /**
-     * @author Samuel Hernandez
      * Method simulates penalty kick and returns whether the penalty was scored or not.
      * Method takes into consideration the chance but is also random (if random <= team chance)
      * @param teamChance the chance of scoring (calculated by Fifa score differences)
      * @return true if goal scored else false
+     * @author Samuel Hernandez
      */
     private boolean shootPenalty(int teamChance) {
         Random randomNum = new Random();
@@ -316,13 +315,13 @@ public class Game {
     }
 
     /**
-     * @author Samuel Hernandez
      * Helper method to determine the winner and loser
      * Sets the winner and loser depending on the scores passed.
      * @param teamOneScore score of team 1
      * @param teamTwoScore score of team 2
+     * @author Samuel Hernandez
      */
-    private void declareWinnerAndLoser(int teamOneScore, int teamTwoScore){
+    private void declareWinnerNLoser(int teamOneScore, int teamTwoScore){
         if(teamOneScore > teamTwoScore){                           //If team one wins
             winner = teamOne;
             loser = teamTwo;
@@ -334,12 +333,12 @@ public class Game {
     }
 
     /**
-     * @author Samuel Hernandez
      * Method gets the result as a string for the first 45 minutes
      * @return the score at 45 minutes
+     * @author Samuel Hernandez
      */
-    public String getFirst45ScoreString(){
-        return new String(teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
+    public String get45minScore(){
+        return (teamOne.getCountry()+" "+score[0][0]+ "-" + score[0][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -347,47 +346,47 @@ public class Game {
      * @return the score at 90 minutes
      * @author Samuel Hernandez
      */
-    public String getSecond45ScoreString(){
-        return new String(teamOne.getCountry()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getCountry());
+    public String get90minScore(){
+        return (teamOne.getCountry()+" "+score[1][0]+ "-" + score[1][1] +" " + teamTwo.getCountry());
     }
 
     /**
-     * @author Samuel Hernandez
      * Method gets the result as a string for the first over time 15 minutes
      * @return the score at 105 minutes or if not played specify why
+     * @author Samuel Hernandez
      */
-    public String getFirst15ScoreString(){
+    public String get105minScore(){
         if(!overTimeUsed) {
             return "Overtime was not used ";
         }
         else
-            return new String(teamOne.getCountry()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getCountry());
+            return (teamOne.getCountry()+" "+score[2][0]+ "-" + score[2][1] +" " + teamTwo.getCountry());
     }
 
     /**
-     * @author Samuel Hernandez
      * Method gets the result as a string for the second over time 15 minutes
      * @return the score at 120 minutes or if not played specify why
+     * @author Samuel Hernandez
      */
-    public String getSecond15ScoreString(){
+    public String get120minScore(){
         if(!overTimeUsed) {
             return "Overtime was not used ";
         }
         else
-            return new String(teamOne.getCountry()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getCountry());
+            return (teamOne.getCountry()+" "+score[3][0]+ "-" + score[3][1] +" " + teamTwo.getCountry());
     }
 
     /**
-     * @author Samuel Hernandez
      * Method gets the result of the penalty kicks
      * @return the scores of the penalty kicks
+     * @author Samuel Hernandez
      */
-    public String getPenaltiesScoreString(){
+    public String getPenaltiesScore(){
         if(!penaltyKicksReached) {
             return "Penalty kicks were not reached";
         }
         else
-            return new String(teamOne.getCountry()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getCountry());
+            return (teamOne.getCountry()+" "+score[4][0]+ "-" + score[4][1] +" " + teamTwo.getCountry());
     }
 
     /**
@@ -400,10 +399,10 @@ public class Game {
     }
 
     /**
-     * @author Alexander Tang, Samuel Hernandez
      * Returns the team that lost
      * @return the team that lost, if any.
      * @throws UnsupportedOperationException if loser is null
+     * @author Alexander Tang, Samuel Hernandez
      */
     public Team getLoser(){
         if(loser != null)
@@ -413,47 +412,47 @@ public class Game {
     }
 
     /**
-     * @author Alexander Tang, Samuel Hernandez
      * Returns the team that won
      * @return the team that won, if any, otherwise null.
+     * @author Alexander Tang, Samuel Hernandez
      */
     public Team getWinner() {
         return winner;
     }
 
     /**
-     * @author Samuel Hernandez
      * Method returns the final score of the game regardless of the way it happened
      * @return the final score represented in a string
+     * @author Samuel Hernandez
      */
     public String getFinalScoreString(){
         if(overTimeUsed){
             if(penaltyKicksReached) {
-                return new String(teamOne.getCountry() + " " + score[3][0] + "(" +
-                       score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+") " + teamTwo.getCountry());
+                return (teamOne.getCountry() + " " + score[3][0] + "(" +
+                        score[4][0]+ ") - " +score[3][1] + "("+score[4][1]+") " + teamTwo.getCountry());
             }
             else
-                return getSecond15ScoreString();
+                return get120minScore();
         }
         else
-            return getSecond45ScoreString();
+            return get90minScore();
     }
 
     /**
-     * @author Samuel Hernandez
      * Method gets whether or not over time was used
      * @return true if over time was used, else false
+     * @author Samuel Hernandez
      */
     public boolean wasOverTimeUsed() {
         return overTimeUsed;
     }
 
     /**
-     * @author Samuel Hernandez
      * Method gets whether or not penalty kicks were reached
      * @return true if reached, else false
+     * @author Samuel Hernandez
      */
-    public boolean werePenaltyKicksReached() {
+    public boolean penaltyKicksReached() {
         return penaltyKicksReached;
     }
 
@@ -466,20 +465,20 @@ public class Game {
     }
 
     /**
-     * @author Samuel Hernandez
-     * Gets the game information as a string
-     * @return string representation of the game
+     * @author Ariel Liberzon
+     * A method that combines teams flags and the final score string into one
+     * Pane object. Team button uses this to display the games a team has played.
+     * @param team Team to compare it with
+     * @return Pane with score details, finish type, and team flags
      */
-    @Override
-    public String toString() {
-        return getFinalScoreString();
-    }
-
-    /** @author Ariel Liberzon
-     * TODO: Add comments
-     * @return
-     */
-    public Pane getFinalScore() {
+    public Pane getScoreDisplay(Team team) {
+        if (!team.getCountry().equals(teamOne.getCountry())) {
+            team = teamOne;
+            teamOne = teamTwo;
+            teamTwo = team;
+            //Added by Samuel Hernandez
+            score = swapScores(score);
+        }
         BorderPane borderPane = new BorderPane();
 
         Label scoreLabel = new Label(toString());
@@ -489,12 +488,12 @@ public class Game {
         finishTypeLabel.setFont(new Font(finishTypeLabel.getFont().toString(), 8));
 
         ImageView teamOneFlag = new ImageView(teamOne.getFlag().getImage());
-        teamOneFlag.setFitHeight(30);
-        teamOneFlag.setFitWidth(45);
+        teamOneFlag.setFitHeight(20);
+        teamOneFlag.setFitWidth(30);
 
         ImageView teamTwoFlag = new ImageView(teamTwo.getFlag().getImage());
-        teamTwoFlag.setFitHeight(30);
-        teamTwoFlag.setFitWidth(45);
+        teamTwoFlag.setFitHeight(20);
+        teamTwoFlag.setFitWidth(30);
 
         borderPane.setLeft(teamOneFlag);
         borderPane.setRight(teamTwoFlag);
@@ -508,31 +507,107 @@ public class Game {
     }
 
     /**
+     * Swaps the scores of team one to team two to create score display with information in order.
+     * @param score the score of the game
+     * @return the swapped score array
      * @author Samuel Hernandez
+     */
+    private int[][] swapScores(int[][] score) {
+        int[][] swapped = new int[5][2];
+        for(int i = 0; i < score.length; i++){
+            swapped[i][0] = score[i][1];
+            swapped[i][1] = score[i][0];
+        }
+        return swapped;
+    }
+
+    /**
+     * Method gets team one
+     * @return team number one
+     */
+    public Team getTeamOne() {
+        return teamOne;
+    }
+
+    /**
+     * Method gets team two
+     * @return team number two
+     */
+    public Team getTeamTwo() {
+        return teamTwo;
+    }
+
+    /**
+     * Gets whether or not a game can be drawn
+     * @return true if can be draw, else false
+     */
+    public boolean canBeDraw() {
+        return canBeDraw;
+    }
+    /**
+     * Sets whether or not a game can be drawn
+     * @param canBeDraw true if can be draw, else false
+     */
+    public void setCanBeDraw(boolean canBeDraw) {
+        this.canBeDraw = canBeDraw;
+    }
+
+    /**
+     * Gets the chance of scoring per minute
+     * @return the number representing the percentage of chance to score
+     */
+    public int getChancePerMinute() {
+        return chancePerMinute;
+    }
+
+    /**
+     * Sets the chance of scoring per minute
+     * @param chancePerMinute the number representing the percentage of chance to score
+     */
+    public void setChancePerMinute(int chancePerMinute) {
+        this.chancePerMinute = chancePerMinute;
+    }
+
+    /**
+     * Sets team one
+     * @param teamOne the team to set as team one
+     */
+    public void setTeamOne(Team teamOne) {
+        this.teamOne = teamOne;
+    }
+
+    /**
+     * Sets team two
+     * @param teamTwo the team to set as team two
+     */
+    public void setTeamTwo(Team teamTwo) {
+        this.teamTwo = teamTwo;
+    }
+
+    /**
+     * Gets the game information as a string
+     * @return string representation of the game
+     * @author Samuel Hernandez
+     */
+    @Override
+    public String toString() {
+        return getFinalScoreString();
+    }
+
+    /**
      * Compares two games to see if they are equal
      * @param o object to test for equality
      * @return true if equal, else false.
+     * @author Samuel Hernandez
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Game)) return false;
         Game game = (Game) o;
-        return id == game.id &&
-                Objects.equals(teamOne, game.teamOne) &&
+        return  Objects.equals(teamOne, game.teamOne) &&
                 Objects.equals(teamTwo, game.teamTwo) &&
                 Arrays.equals(score, game.score);
     }
-
-
-    public Team getTeamOne() {
-        return teamOne;
-    }
-
-    public Team getTeamTwo() {
-        return teamTwo;
-    }
-
-
-
+    //Rest of setters and getters do not make sense, so are not included
 }

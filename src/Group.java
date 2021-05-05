@@ -9,11 +9,11 @@ import java.util.HashMap;
  */
 public class Group {
 
-    private char name;
+    private char groupChar;
     private ArrayList<Team> teams;
 
-    public Group(char name, ArrayList<Team> teams) {
-        this.name = name;
+    public Group(char groupChar, ArrayList<Team> teams) {
+        this.groupChar = groupChar;
         this.teams = teams;
         simulate();
         // TODO: Handle tie-breakers when points are equal.
@@ -36,8 +36,8 @@ public class Group {
         }
     }
 
-    public char getName() {
-        return name;
+    public char getGroupChar() {
+        return groupChar;
     }
 
     public ArrayList<Team> getTeams() {
@@ -46,12 +46,12 @@ public class Group {
 
     /**
      * Gets the game information as a string
-     * @return string representation of the group
+     * @return Full group name (ex: "Group A")
      * @author Samuel Hernandez
      */
     @Override
     public String toString() {
-        return "Group " + name;//"\n" +teams.toString()+"\n";
+        return "Group " + groupChar;
 
     }
 }
