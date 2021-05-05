@@ -16,6 +16,12 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * TeamButton creates a special button that holds the Team object. It holds a game object as well, but it's mostly used for team.
+ * Sets the name and flag when setTeam() is called
+ * 
+ * @author Shane Callahan, Justin Valas, Ariel Liberzon
+ */
 public class TeamButton extends Button{
     private Team team;
     private Game game; //the point of this class, to store the information that the button is going to display
