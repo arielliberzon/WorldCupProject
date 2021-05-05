@@ -1,5 +1,5 @@
 
-## WorldCupProject  - Built by Ariel Liberzon, Justin Valas, Harjit Singh, Alexander Tang and Samuel Hernandez
+## WorldCupProject  - Built by Ariel Liberzon, Justin Valas, Harjit Singh, Alexander Tang, Samuel Hernandez, John Youte, Zachary Lavoie, Saif Masound, Shane Callahan, Emolyn Tumwebaze and Michael Skuncik
 
 ### What it does?
 
