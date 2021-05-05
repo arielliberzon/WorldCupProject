@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -152,6 +154,10 @@ public class TeamButton extends Button{
         return gameOrder;
     }
 
+    public ImageView getFlag() {
+        return flag;
+    }
+
     public void removeName(){
         this.setText("");
     }
@@ -225,5 +231,33 @@ public class TeamButton extends Button{
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    /**
+     * Compares two TeamButtons to see if they are equal, I copied Samuels equals
+     * @param o object to test for equality
+     * @return true if equal, else false.
+     * @author Samuel Hernandez, Shane Callahan
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TeamButton)) return false;
+        TeamButton button = (TeamButton) o;
+        return  Objects.equals(team, button.getTeam()) &&
+                Objects.equals(game, button.getGame()) &&
+                Objects.equals(gameOrder, button.getGameOrder()) &&
+                Objects.equals(flag, button.getFlag());
+    }
+
+    /**
+     * Typical to string, get's the information that the buttons will most likely have; a team and a team order
+     * @author Shane Callahan
+     */
+    @Override
+    public String toString() {
+        String s;
+        s = "This button's team is: " + this.getTeam() + " and it's Game Order is: " + this.getGameOrder();
+        return s;
     }
 }
