@@ -34,8 +34,35 @@ public class Team implements Comparable<Team> {
         qualified = false;
     }
 
+    /**
+     * Adds a game to the history of games played in the order it would be wanted to be displayed:
+     * This team being listed first than the rival
+     * @param game the game to add to history
+     */
     public void addGame (Game game) {
-        games.add(game);
+        Team t2 = game.getTeamTwo();
+        Team t1 = game.getTeamOne();
+        boolean overTime = game.wasOverTimeUsed();
+        boolean penalties = game.penaltyKicksReached();
+        int[][] score = game.getScore();
+        score = swapScores(score);
+
+        //Swap it only if in "incorrect order"
+        games.add(t2.equals(this) ? new Game(t2, t1, score, overTime, penalties): game);
+    }
+
+    /**
+     * Swaps the scores of team one to team two to create new game object with ordered information.
+     * @param score the score of the game
+     * @return the swapped score array
+     */
+    private int[][] swapScores(int[][] score) {
+        int[][] swapped = new int[5][2];
+        for(int i = 0; i < score.length; i++){
+            swapped[i][0] = score[i][1];
+            swapped[i][1] = score[i][0];
+        }
+        return swapped;
     }
 
     /**

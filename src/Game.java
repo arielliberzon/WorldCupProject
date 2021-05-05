@@ -76,6 +76,21 @@ public class Game {
     }
 
     /**
+     * Constructs a game with given teams and score. Used to display history information
+     * with consistent order. (Team that wants to display information first)
+     * @param t1 team one
+     * @param t2 team two
+     * @param score the scores of the game
+     */
+    public Game(Team t1, Team t2, int score[][], boolean extraTimeUsed, boolean penaltiesUsed) {
+        this.teamOne = t1;
+        this.teamTwo = t2;
+        this.score = score;
+        overTimeUsed = extraTimeUsed;
+        penaltyKicksReached = penaltiesUsed;
+    }
+
+    /**
      * Gets the way the game finished in a string
      * @return Regular Time  if game finished at 90minutes, Extra Time if 120, or Penalties if game
      * finished on penalties.
