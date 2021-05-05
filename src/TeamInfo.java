@@ -6,13 +6,13 @@ import java.util.HashMap;
 /**
  * @author Emolyn Tumwebaze
  * This class reads data from a text file and populates it in a hashmap
- * The methods in the class are;
- * @loadFromFile
- * @getTeam
- * @getTeamMap
+ * The methods in the class are:
+ * loadFromFile
+ * getTeam
+ * getTeamMap
  **/
 public class TeamInfo {
-    private HashMap<String, Team> teams; // creating a hashmap<String, Team>
+    private final HashMap<String, Team> teams; // creating a hashmap<String, Team>
 
     // Default constructor
     public TeamInfo() {
@@ -35,23 +35,25 @@ public class TeamInfo {
         String fileName= "teamInfo.txt";
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            // Added memory leak fix - A.L
+            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+                //reads first line given that it is not blank.
+                while ((firstLine = br.readLine()) != null) {
+                    ranking = Integer.parseInt(firstLine);
+                    country = br.readLine();
+                    totalPoints = Double.parseDouble(br.readLine());
+                    countryCode = br.readLine();
+                    confederation = br.readLine();
 
-            while((firstLine = br.readLine()) != null){ //reads first line given that it is not blank.
-                ranking = Integer.parseInt(firstLine);
-                country = br.readLine();
-                totalPoints = Double.parseDouble(br.readLine());
-                countryCode = br.readLine();
-                confederation = br.readLine();
+                    Team newTeam = new Team(ranking, country, totalPoints, countryCode,
+                            confederation);
 
-                Team newTeam = new Team(ranking, country, totalPoints, countryCode,
-                        confederation);
+                    br.readLine(); //reads empty line between team info.
 
-                br.readLine(); //reads empty line between team info.
-
-                teams.put(newTeam.getCountryCode(), newTeam);  //maps team country code with respective team object
+                    //maps team country code with respective team object
+                    teams.put(newTeam.getCountryCode(), newTeam);
+                }
             }
-
         }
         catch(IOException e) {
            System.out.println("Error "+ fileName +" could not be found");

@@ -288,7 +288,6 @@ public class Simulator {
      * @author Alexander and Michael
      * This method is used to simulate the Qualifiers. Each confederation will have their respective number of group
      * stage slots. Each arraylist is filled up by the method getQualified().
-     * @return An ArrayList<Team> that contains 32 teams that will move on to the group stage.
      * TODO: condense
      */
     public void setQualifiedTeams(TeamInfo teamInfo) {
@@ -296,12 +295,12 @@ public class Simulator {
         ArrayList<Team> output = new ArrayList<>();
 
         //Create a list for each confederation
-        ArrayList<Team> UEFA = new ArrayList<Team>();
-        ArrayList<Team> CONMEBOL = new ArrayList<Team>();
-        ArrayList<Team> CONCACAF = new ArrayList<Team>();
-        ArrayList<Team> CAF = new ArrayList<>();
-        ArrayList<Team> AFC = new ArrayList<>();
-        ArrayList<Team> OFC = new ArrayList<>();
+        ArrayList<Team> europeTeams = new ArrayList<Team>();
+        ArrayList<Team> southAmericaTeams = new ArrayList<Team>();
+        ArrayList<Team> northAmericaTeams = new ArrayList<Team>();
+        ArrayList<Team> africaTeams = new ArrayList<>();
+        ArrayList<Team> asiaTeams = new ArrayList<>();
+        ArrayList<Team> oceaniaTeams = new ArrayList<>();
 
         /* For the confederations that are allocated a different number of teams every year, they are added to a
          * list that 'simulate' games between those teams in order to determine who makes it out of qualifiers
@@ -313,41 +312,41 @@ public class Simulator {
         for(Team t : teamInfo.getTeamMap().values()){
             //Since Qatar is the host country, they are later added in automatically
             if(t.getConfederation().equals("UEFA")) //13 Spots
-                UEFA.add(t);
+                europeTeams.add(t);
             if(t.getConfederation().equals("CONMEBOL")) //4.5 Spots
-                CONMEBOL.add(t);
+                southAmericaTeams.add(t);
             if(t.getConfederation().equals("CONCACAF")) //3.5 Spots
-                CONCACAF.add(t);
+                northAmericaTeams.add(t);
             if(t.getConfederation().equals("CAF")) //5 Spots
-                CAF.add(t);
+                africaTeams.add(t);
             if(t.getConfederation().equals("AFC") && !t.getCountry().equals("Qatar")) //4.5 Spots
-                AFC.add(t);
+                asiaTeams.add(t);
             if(t.getConfederation().equals("OFC")) //0.5 Spots
-                OFC.add(t);
+                oceaniaTeams.add(t);
         }
 
         //Set each list to the qualified list that is produced from the helper method.
-        UEFA = getQualified(UEFA, 13);
-        Collections.sort(UEFA);
-        CONMEBOL = getQualified(CONMEBOL, 5);
-        Collections.sort(CONMEBOL);
-        CONCACAF = getQualified(CONCACAF, 4);
-        Collections.sort(CONCACAF);
-        CAF = getQualified(CAF, 5);
-        Collections.sort(CAF);
-        AFC = getQualified(AFC, 5);
-        Collections.sort(AFC);
-        OFC = getQualified(OFC, 1);
+        getQualified(europeTeams, 13);
+        Collections.sort(europeTeams);
+        getQualified(southAmericaTeams, 5);
+        Collections.sort(southAmericaTeams);
+        getQualified(northAmericaTeams, 4);
+        Collections.sort(northAmericaTeams);
+        getQualified(africaTeams, 5);
+        Collections.sort(africaTeams);
+        getQualified(asiaTeams, 5);
+        Collections.sort(asiaTeams);
+        getQualified(oceaniaTeams, 1);
 
         //Adding the extra teams to the extra list then removing them from their respective lists
-        OCvSA.add(CONMEBOL.get(4));
-        CONMEBOL.remove(4);
-        NAvAsia.add(CONCACAF.get(3));
-        CONCACAF.remove(3);
-        NAvAsia.add(AFC.get(4));
-        AFC.remove(4);
-        OCvSA.add(OFC.get(0));
-        OFC.remove(OFC.get(0));
+        OCvSA.add(southAmericaTeams.get(4));
+        southAmericaTeams.remove(4);
+        NAvAsia.add(northAmericaTeams.get(3));
+        northAmericaTeams.remove(3);
+        NAvAsia.add(asiaTeams.get(4));
+        asiaTeams.remove(4);
+        OCvSA.add(oceaniaTeams.get(0));
+        oceaniaTeams.remove(oceaniaTeams.get(0));
 
         //Add all the teams to the output arraylist
         output.add(teamInfo.getTeam("QAT"));
@@ -356,12 +355,12 @@ public class Simulator {
         output.addAll(OCvSA);
         NAvAsia.remove(getQualifierGameLoser(NAvAsia.get(0), NAvAsia.get(1)));
         output.addAll(NAvAsia);
-        output.addAll(UEFA);
-        output.addAll(CONMEBOL);
-        output.addAll(CONCACAF);
-        output.addAll(AFC);
-        output.addAll(OFC);
-        output.addAll(CAF);
+        output.addAll(europeTeams);
+        output.addAll(southAmericaTeams);
+        output.addAll(northAmericaTeams);
+        output.addAll(asiaTeams);
+        output.addAll(oceaniaTeams);
+        output.addAll(africaTeams);
 
         worldCupTeams = output;
     }
@@ -371,41 +370,35 @@ public class Simulator {
      * Helper function to the setQualifiedTeams() method. This returns an arraylist that contains the teams that qualify to
      * group stage. Using the Java.util Random(), it will determine which team will qualify to the group stage with the
      * higher seeded team having a greater chance.
-     * @param input Confederation team list
+     * @param teams Confederation team list
      * @param spots The number of spots that allocated to them in the group stage
-     * @return An ArrayList<Team> that contains the qualified teams
      */
-    private ArrayList<Team> getQualified(ArrayList<Team> input, int spots){
-        Collections.sort(input);
-        ArrayList<Team> output = new ArrayList<>();
+    private void getQualified(ArrayList<Team> teams, int spots){
+        Collections.sort(teams);
         Team teamOne, teamTwo;
         int evenSpots = spots;
         if (evenSpots % 2 == 1)
             evenSpots++;
 
-        if (input.size() % 2 == 1) {
-            teamOne = input.get(0);
-            teamTwo = input.get(input.size() - 1);
-            input.remove(getQualifierGameLoser(teamOne, teamTwo));
-            Collections.sort(input);
+        if (teams.size() % 2 == 1) {
+            teamOne = teams.get(0);
+            teamTwo = teams.get(teams.size() - 1);
+            teams.remove(getQualifierGameLoser(teamOne, teamTwo));
+            Collections.sort(teams);
         }
 
-        int indexTop = 0;
-        int indexBottom = input.size() -1;
-
-        setQualifiedTeams(input, evenSpots);
+        setQualifiedTeams(teams, evenSpots);
 
         if (spots % 2 == 1) {
-            teamOne = input.get(0);
-            teamTwo = input.get(input.size() - 1);
-            input.remove(getQualifierGameLoser(teamOne, teamTwo));
-            Collections.sort(input);
+            teamOne = teams.get(0);
+            teamTwo = teams.get(teams.size() - 1);
+            teams.remove(getQualifierGameLoser(teamOne, teamTwo));
+            Collections.sort(teams);
         }
-        return input;
     }
 
     /**
-     * ALEX's method
+     * TODO: ALEX's method add description
      * @param tOne The first team to play
      * @param tTwo The second team to play
      * @return The team that loses three games out of five games. (This helps with our algorithm).

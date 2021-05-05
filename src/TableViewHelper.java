@@ -22,8 +22,8 @@ public class TableViewHelper {
      * @return ObservableList of teams
      */
     public static ObservableList<Team> getFullTeamList(Map<String, Team> teamMap) {
-        ArrayList<Team> teamArrayList = new ArrayList<Team>(teamMap.values());
-        return FXCollections.<Team>observableArrayList(teamArrayList);
+        ArrayList<Team> teamArrayList = new ArrayList<>(teamMap.values());
+        return FXCollections.observableArrayList(teamArrayList);
     }
 
     /**
@@ -41,7 +41,7 @@ public class TableViewHelper {
             if(temp.getConfederation().equals(conf))
                 teamArrayList.add(temp);
         }
-        return FXCollections.<Team>observableArrayList(teamArrayList);
+        return FXCollections.observableArrayList(teamArrayList);
     }
 
     /**
@@ -58,7 +58,7 @@ public class TableViewHelper {
             if(temp.isQualified())
                 teamArrayList.add(temp);
         }
-        return FXCollections.<Team>observableArrayList(teamArrayList);
+        return FXCollections.observableArrayList(teamArrayList);
     }
 
     /**
@@ -68,7 +68,7 @@ public class TableViewHelper {
      * either their team name or country code.
      * @param teamMap Map of teams
      * @param search Search parameter (ex: "Island")
-     * @return
+     * @return ObservableList containing only teams that meet the search parameter
      */
     public static ObservableList<Team> getSearchTeamList(Map<String, Team> teamMap, String search) {
         ArrayList<Team> teamArrayList = new ArrayList<>();
@@ -76,16 +76,16 @@ public class TableViewHelper {
             Team temp = entry.getValue();
             String lowerCaseFilterString = search.toLowerCase();
 
-            if (temp.getCountry().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            if (temp.getCountry().toLowerCase().contains(lowerCaseFilterString)) {
                 teamArrayList.add(temp); // Filter matches first name.
             } else {
-                if (temp.getCountryCode().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+                if (temp.getCountryCode().toLowerCase().contains(lowerCaseFilterString)) {
                     teamArrayList.add(temp);
                 }
             }
 
         }
-        return FXCollections.<Team>observableArrayList(teamArrayList);
+        return FXCollections.observableArrayList(teamArrayList);
     }
 
     /**
@@ -96,7 +96,7 @@ public class TableViewHelper {
      */
     public static ObservableList<Team> getGroupList(Group group) {
         ArrayList<Team> groupList = group.getTeams();
-        return FXCollections.<Team>observableArrayList(groupList);
+        return FXCollections.observableArrayList(groupList);
     }
 
     /**

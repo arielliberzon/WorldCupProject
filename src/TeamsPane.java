@@ -4,11 +4,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author Ariel Liberzon
@@ -30,7 +28,7 @@ public class TeamsPane extends BorderPane {
      * All methods get called in the constructor itself
      * @param height set by WorldCupGUI
      * @param width set by WorldCupGUI
-     * @param simulator the simulator used un the applicaiton
+     * @param simulator the simulator used un the application
      */
     public TeamsPane(Double height, Double width, Simulator simulator) {
 
