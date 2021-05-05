@@ -28,7 +28,7 @@ public class TeamButton extends Button{
      */
     public TeamButton(){
         super();
-        this.setOnMouseClicked(clicked);
+        this.setOnMouseClicked(displayTheGames);
     }
 
     /**
@@ -38,7 +38,7 @@ public class TeamButton extends Button{
      */
     public TeamButton(String buttonName){
         super(buttonName);
-        this.setOnMouseClicked(clicked);
+        this.setOnMouseClicked(displayTheGames);
     }
 
     /**
@@ -49,7 +49,7 @@ public class TeamButton extends Button{
      */
     public TeamButton(String buttonName, Node node){
         super(buttonName, node);
-        this.setOnMouseClicked(clicked);
+        this.setOnMouseClicked(displayTheGames);
     }
 
     /**
@@ -83,8 +83,8 @@ public class TeamButton extends Button{
 
     /**
      * @author Shane Callahan
-     * Since the game getss the 
-     * @param game
+     * Since the game has the team, we can set the game and the wining team from there.  
+     * @param game Game to get team to set it to the button
      */
     public void setGame(Game game) {
         this.game = game;
@@ -94,6 +94,12 @@ public class TeamButton extends Button{
         this.setTooltip(createToolTip(this));
         this.setText(game.getWinner().getCountry());
     }
+    /**
+     * @author Shane Callahan
+     * Since the third place, one of them is a *loser* of a game, it's a special case, but functions the same as setGame(game) just if the third place is false, it will call the *loser* of the game
+     * @param game Game to get the teams from
+     * @param thirdPlaceWinner A boolean to check if the team is a winner, or loser; true = winner, false = loser
+     */
     public void setGame(Game game, Boolean thirdPlaceWinner){//Special case for third place
         if(thirdPlaceWinner){
         this.game = game;
@@ -112,12 +118,22 @@ public class TeamButton extends Button{
             this.setText(game.getLoser().getCountry()); 
         }
     }
+    /**
+     * @author Shane Callahan
+     * This sets the number of games the team has done, in order to be used in the displayTheGames event
+     * @param gameOrder 
+     */
     public void setGameOrder(int gameOrder) {
         this.gameOrder = gameOrder;
     }
+    /**
+     * @author Shane Callahan
+     * A method to set the imageView flag takes in an image
+     * @param flag sets the flag to be shown in the button; with a scale
+     */
     public void setFlag(Image flag) {
        this.flag = new ImageView(flag);
-       this.flag.setFitHeight(20);//change these values to change the scaling
+       this.flag.setFitHeight(20);  //change these values to change the scaling
        this.flag.setFitWidth(30);
     }
     public Team getTeam() {
@@ -135,7 +151,12 @@ public class TeamButton extends Button{
     }
     
 
-    private EventHandler<MouseEvent> clicked = mouseEvent -> {
+    /**
+     * @author Shane Callahan
+     * Displays the teams that the team has done, also uses getGameOrder, ticking down to display the teams in the proper order, top being "most recent" game
+     * Displays it using the method showMessageDialog, which opens up another stage, displaying the beatiful Pane that Ariel made
+     */
+    private EventHandler<MouseEvent> displayTheGames = mouseEvent -> {
         TeamButton button = (TeamButton) mouseEvent.getSource();
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {//LEFT CLICK
             if(button.getGame() != null){
@@ -144,7 +165,6 @@ public class TeamButton extends Button{
                 knockoutLabel.setFont(new Font(knockoutLabel.getFont().toString(),16));
                 gameBox.getChildren().addAll(knockoutLabel);
                 gameBox.setAlignment(Pos.CENTER);//makes everything inside the VBox centered
-                //gameBox.setAlignment(Pos.CENTER);
                 for (int i = button.getGameOrder(); i > 0; i--) {
                    //Gives an arrayList, call the array List from +3, 
                     gameBox.getChildren().addAll(button.getTeam().getGames().get(i+2).getScoreDisplay());
@@ -152,7 +172,6 @@ public class TeamButton extends Button{
                
                 Label groupLabel = new Label("\n Group Stage Games: \n");
                 groupLabel.setFont(new Font(groupLabel.getFont().toString(),16));
-                //label.setAlignment(Pos.CENTER);
                 gameBox.getChildren().addAll(groupLabel);
                 for (int i = 2; i >= 0; i--) {
                     //Gives an arrayList, call the array List from 0 - 3,  
@@ -180,20 +199,21 @@ public class TeamButton extends Button{
         };
 
         /**
-         * @author Justin Valas
-         * @param test
+         * @author Justin Valas and Shane Callahan
+         * Takes a pane, and displays it in a stage as a pop up window
+         * @param paneToDisplay The pane that the pop up window will come to
          */
-    private void showMessageDialogue(Pane test) {
+    private void showMessageDialogue(Pane paneToDisplay) {
 
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
-        stage.setTitle("Games"); // come back to
+        stage.setTitle("Game History"); // come back to
 
         Pane pane = new Pane();
 
 
-        pane.getChildren().add(test);
+        pane.getChildren().add(paneToDisplay);
         stage.getIcons().add(new Image("Images/logo2.png"));
         Scene scene = new Scene(pane);
         stage.setScene(scene);

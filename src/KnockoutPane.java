@@ -73,8 +73,6 @@ public class KnockoutPane extends BorderPane {
         quarterGames = sim.simulateQuarters();
         semiGames = sim.simulateSemis();
         finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
-        //this.setBackgrou6nd(new Background(new BackgroundFill(Color.rgb(88,146,87), CornerRadii.EMPTY, Insets.EMPTY)));
-        //this.setBackground(new Background(new BackgroundImage(new Image("Images/One.jpg"),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         Image img = new Image("Images/grass.png");
         this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
         HBox buttonBox = new HBox();
@@ -87,29 +85,6 @@ public class KnockoutPane extends BorderPane {
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
         verticalButtonBox.setAlignment(Pos.CENTER);
         this.setTop(verticalButtonBox);
-
-        //BACK UP IF MAIN HELP BUTTON DIES IN A HORRIBLE FIRE
-        /*Button help = new Button("Help");
-//      help.setAlignment(Pos.CENTER_RIGHT);
-        GridPane test2 = new GridPane();
-        test2.add(help,0 ,0);
-        //test2.setAlignment(Pos.CENTER_RIGHT);
-        test2.setPadding(new Insets(10,20,10,10));
-        BorderPane buttonPane = new BorderPane();
-        buttonPane.setCenter(verticalButtonBox);
-        buttonPane.setRight(test2);
-        GridPane test3 = new GridPane();
-        test3.add(new Button("Help"),0,0);
-        test3.setPadding(new Insets(10,20,10,10));
-        test3.setVisible(false);
-        buttonPane.setLeft(test3);
-        //
-        //buttonPane.setHgap(100);
-        //buttonPane.setPadding(new Insets(0,0,0,40));
-        //buttonPane.getChildren().addAll(buttonPane);
-        //buttonPane.setAlignment(Pos.CENTER);
-        this.setTop(buttonPane);*/
-        //END OF BACKUP
         this.setCenter(this.createBracket());
 
         int counter = 0;
@@ -168,13 +143,10 @@ public class KnockoutPane extends BorderPane {
         title.setTextFill(Color.rgb(255,255,255));
         title.setFont(Font.font("Arial Black", 25));
         
-        //title.setBackground(new Background(new BackgroundFill(Color.rgb(105,105,105), CornerRadii.EMPTY, Insets.EMPTY)));
         
 
         Label winner = new Label("    WORLD\nCUP WINNER");
         winner.setFont(Font.font("Arial Black", 20));
-        //winner.setTextFill(Color.rgb(255,244,32));
-        //winner.setBackground(new Background(new BackgroundFill(Color.rgb(105,105,105), CornerRadii.EMPTY, Insets.EMPTY)));
         winner.setTextFill(Color.rgb(255,244,32));
         
 
@@ -189,7 +161,6 @@ public class KnockoutPane extends BorderPane {
         Label thirdPlace = new Label("3rd Place");
         thirdPlace.setFont(Font.font("Arial Black", 18));
         thirdPlace.setTextFill(Color.rgb(255,244,32));
-        //thirdPlace.setBackground(new Background(new BackgroundFill(Color.rgb(105,105,105), CornerRadii.EMPTY, Insets.EMPTY)));
         
 
         knockoutPane.getChildren().addAll(title, winner, rect, thirdPlace);
