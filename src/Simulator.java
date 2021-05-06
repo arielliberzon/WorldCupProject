@@ -398,6 +398,7 @@ public class Simulator {
     }
 
     /**
+     * @author Alexander and Michael
      * This is a helper method to getQualified(). We put two teams up against each other and they 'play' 200 games.
      * Since we do not need to save any of the information about the games we do not use the
      * Game.class's method (SimulateGame()).
