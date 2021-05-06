@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 
 /**
+ * @author TODO: Add authors! (first and last name add the top of the method)
  * Class to represent groups (A,B,C,...) in group stage.
- * TODO: Add authors! (first and last name add the top of the method)
  */
 public class Group {
 

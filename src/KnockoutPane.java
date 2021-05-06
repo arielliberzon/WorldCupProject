@@ -26,10 +26,13 @@ import javafx.scene.text.Font;
 import java.util.Random;
 import java.util.ArrayList;
  /**
-  * KnockoutPane creates a BorderPane to be displayed in WorldCupGUI. 
-  * it uses Simulator, taken from WorldCupGUI to get the information to display on the TeamButtons
-  * KnockoutPane draws the lines, to make a bracket; putting TeamButtons in the proper places to be used to display / get information the team class has.
   * @author Justin Valas, Shane Callahan, Ariel Liberzon
+  * KnockoutPane creates a BorderPane to be displayed in WorldCupGUI. 
+  * it uses Simulator, taken from WorldCupGUI to get the information
+  * to display on the TeamButtons. KnockoutPane draws the lines, to
+  * make a bracket; putting TeamButtons in the proper places to be
+  * used to display / get information the team class has.
+  *
   */
 public class KnockoutPane extends BorderPane {
     private ArrayList<TeamButton> buttonList = new ArrayList<>();
