@@ -398,10 +398,12 @@ public class Simulator {
     }
 
     /**
-     * TODO: ALEX's method add description
+     * This is a helper method to getQualified(). We put two teams up against each other and they 'play' 200 games.
+     * Since we do not need to save any of the information about the games we do not use the
+     * Game.class's method (SimulateGame()).
      * @param tOne The first team to play
      * @param tTwo The second team to play
-     * @return The team that loses three games out of five games. (This helps with our algorithm).
+     * @return The team that loses the most games out of 200 simulated 'games'.(This helps with our algorithm).
      */
     private Team getQualifierGameLoser(Team tOne, Team tTwo) {
         Random random = new Random();
