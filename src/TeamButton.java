@@ -69,8 +69,12 @@ public class TeamButton extends Button{
     private Tooltip createToolTip(TeamButton button) {
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
+            ImageView logo = new ImageView();
+            logo.setImage(new Image("TeamLogos/" +getTeam().getCountryCode().toLowerCase()+".png"));
+            logo.setPreserveRatio(true);
+            logo.setFitHeight(80);
             tooltip.setText(button.getTeam().toString());
-            tooltip.setGraphic(button.getTeam().getLogo());           //THESE ARE REDUNDENT IF WE SHOW IT IN BUTTON NAME
+            tooltip.setGraphic(logo);
         }
         return tooltip;
     }
@@ -144,12 +148,15 @@ public class TeamButton extends Button{
        this.flag.setFitHeight(20);  //change these values to change the scaling
        this.flag.setFitWidth(30);
     }
+
     public Team getTeam() {
         return team;
     }
+
     public Game getGame() {
         return game;
     }
+
     public int getGameOrder() {
         return gameOrder;
     }
