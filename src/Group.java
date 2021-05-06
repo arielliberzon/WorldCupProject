@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class Group {
 
-    private char groupChar;
+    private final char groupChar;
     private ArrayList<Team> teams;
 
     public Group(char groupChar, ArrayList<Team> teams) {
@@ -32,7 +32,7 @@ public class Group {
             Team currentTeam = teams.get(i);
             for (int j = i + 1; j < teams.size(); j++) {
                 Team rival = teams.get(j);
-                Game game = new Game(currentTeam, rival, true); // This simulates the game.
+                new Game(currentTeam, rival, true); // This simulates the game.
             }
         }
     }

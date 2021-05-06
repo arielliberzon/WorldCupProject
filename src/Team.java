@@ -15,6 +15,7 @@ public class Team implements Comparable<Team> {
     private String countryCode;
     private String confederation;
     private ImageView flag = new ImageView();
+    private Image logo;
     private boolean qualified;
 
     // The order of games matters, first 3 are group stage, followed by 16,quarters,semis,final/3rdPlace.
@@ -31,6 +32,8 @@ public class Team implements Comparable<Team> {
         flag.setFitHeight(30);
         flag.setFitWidth(45);
         flag.setImage(new Image("TeamFlags/" +countryCode.toLowerCase()+".png"));
+
+        logo = new Image("TeamLogos/" +countryCode.toLowerCase()+".png");
 
         games = new ArrayList<>();
         qualified = false;
@@ -181,6 +184,14 @@ public class Team implements Comparable<Team> {
 
     public void setFlag(ImageView flag) {
         this.flag = flag;
+    }
+
+    public Image getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Image logo) {
+        this.logo = logo;
     }
 
     public boolean isQualified() {
