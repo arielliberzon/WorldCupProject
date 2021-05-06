@@ -9,13 +9,13 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
+ * @author Alexander Tang, Ariel Liberzon, Zachary Lavoie, Saif Masoud, Samuel Hernandez
  * Game class is the class in charge of simulating each individual game in between two teams.
  * A game is simulated by calculating the chance of scoring per minute. If a goal is to
  * happen in that given minute (using random) the game then decides who scores that goal depending
  * on a random number (but dividing the chance proportionally depending on FIFA rankings).
  * This calculation repeats for the first 90 minutes and if can not be drawn then in extra time,
  * and if needed it is guaranteed to finish in penalties.
- * @author Alexander Tang, Ariel Liberzon, Zachary Lavoie, Saif Masoud and Samuel Hernandez
  */
 public class Game {
 

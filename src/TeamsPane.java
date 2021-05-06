@@ -93,7 +93,7 @@ public class TeamsPane extends BorderPane {
 
         Button qualifiedButton = new Button("Qualified Teams");
         qualifiedButton.setTooltip(createToolTip("cup",
-                "FIFA WORLD CUP\nQATAR 2022", false));
+                "FIFA WORLD CUP\nQATAR 2022"));
         qualifiedButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
@@ -121,7 +121,7 @@ public class TeamsPane extends BorderPane {
     private Button createConfederationButton(String confederation) {
         Button button = new Button(confederation);
         button.setTooltip(createToolTip(confederation,
-                infoMap.get(confederation), true));
+                infoMap.get(confederation)));
         button.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");
@@ -132,13 +132,12 @@ public class TeamsPane extends BorderPane {
     }
 
     /**
-     * Creates a ToolTip with information and an icon
-     * this data is based on the confederation and
-     * relates directly to the infoMap map
+     * Creates a ToolTip by setting the text and graphic
+     * based on a key value pair
      * @param key (ex: "UEFA")
      * @return Tooltip with custom text and graphic
      */
-    private Tooltip createToolTip(String key, String value, boolean isConfederation) {
+    private Tooltip createToolTip(String key, String value) {
         Tooltip tooltip = new Tooltip();
         tooltip.setText(value);
         try {

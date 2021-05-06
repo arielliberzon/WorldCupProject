@@ -45,7 +45,7 @@ public class WorldCupGUI extends Application {
 
     /**
      * @author Harjit Singh
-     * @param window
+     * @param window Stage
      */
     private void showIntroScene(Stage window) {
         try {
