@@ -70,7 +70,7 @@ public class TeamButton extends Button{
         Tooltip tooltip = new Tooltip();
         if(button.getTeam() != null){
             ImageView logo = new ImageView();
-            logo.setImage(new Image("TeamLogos/" +getTeam().getCountryCode().toLowerCase()+".png"));
+            logo.setImage(team.getLogo());
             logo.setPreserveRatio(true);
             logo.setFitHeight(80);
             tooltip.setText(button.getTeam().toString());

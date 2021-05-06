@@ -93,7 +93,7 @@ public class TeamsPane extends BorderPane {
 
         Button qualifiedButton = new Button("Qualified Teams");
         qualifiedButton.setTooltip(createToolTip("cup",
-                "FIFA WORLD CUP\nQATAR 2022"));
+                "FIFA WORLD CUP\nQATAR 2022\n32 TEAMS"));
         qualifiedButton.setOnAction(mouseEvent -> {
             table.getItems().clear();
             searchField.setText("");

@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
 
 /**
  * @author TODO: Add authors! (first and last name add the top of the method)
@@ -7,8 +10,7 @@ import java.util.Collections;
  */
 public class Group {
 
-
-    private char groupChar;
+    private final char groupChar;
     private ArrayList<Team> teams;
 
     public Group(char groupChar, ArrayList<Team> teams) {
@@ -30,7 +32,7 @@ public class Group {
             Team currentTeam = teams.get(i);
             for (int j = i + 1; j < teams.size(); j++) {
                 Team rival = teams.get(j);
-                Game game = new Game(currentTeam, rival, true); // This simulates the game.
+                new Game(currentTeam, rival, true); // This simulates the game.
             }
         }
     }
@@ -51,5 +53,6 @@ public class Group {
     @Override
     public String toString() {
         return "Group " + groupChar;
+
     }
 }
