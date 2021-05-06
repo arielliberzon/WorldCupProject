@@ -36,6 +36,8 @@ public class Team implements Comparable<Team> {
     // The order of games matters, first 3 are group stage, followed by 16,quarters,semis,final/3rdPlace.
     private ArrayList<Game> games;
 
+    private Image logo;
+
     /**
      * Constructs a team object with parameters passed
      * @param ranking the ranking of the team
@@ -57,6 +59,7 @@ public class Team implements Comparable<Team> {
         flag.setFitHeight(30);
         flag.setFitWidth(45);
         flag.setImage(new Image("TeamFlags/" +countryCode.toLowerCase()+".png"));
+        logo = new Image("TeamLogos/" +countryCode.toLowerCase()+".png");
     }
 
     /**
@@ -161,6 +164,14 @@ public class Team implements Comparable<Team> {
      */
     public int groupPoints () {
         return 3 * getGroupWins() + 1 * getGroupDraws();
+    }
+
+    public Image getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Image logo) {
+        this.logo = logo;
     }
 
     //Getters and setters
