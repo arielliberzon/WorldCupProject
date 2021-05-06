@@ -15,7 +15,7 @@ import java.util.Random;
  * happen in that given minute (using random) the game then decides who scores that goal depending
  * on a random number (but dividing the chance proportionally depending on FIFA rankings).
  * This calculation repeats for the first 90 minutes and if can not be drawn then in extra time,
- * and if needed it is guaranteed to finish in penalties.
+ * and if still needed it goes to penalties, wheree it is guaranteed to break the tie.
  */
 public class Game {
 

@@ -1,7 +1,5 @@
 import java.util.*;
 
-// TODO: Rearrange methods so they make sense chronologically (ex: qualifiers, group, knockout)
-// TODO: Add @author at the top of each comment that relates to YOU
 /**
  * @author Saif Masoud, Michael Skuncik, Ariel Liberzon, Alexader Tang, Samuel Hernandez
  * Simulator class is designed to simulate the world cup in phases so that they can be simulated by steps by the GUI

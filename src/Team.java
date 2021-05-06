@@ -1,41 +1,76 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
+/**
+ * Team class represents each individual team from a country. The class main responsibility is holding the information
+ * about each team and keeping track of the games that each team has played.
+ */
 // TODO: Add description and comments
 // TODO: Add authors! (first and last name add the top of the method)
 public class Team implements Comparable<Team> {
 
+    //The teams ranking in the FIFA world ranking
     private Integer ranking;
+
+    //The name of the country
     private String country;
+
+    //The total points in the FIFA world ranking
     private double totalPoints;
+
+    //The FIFA code for the country
     private String countryCode;
+
+    //The FIFA confederation the team belongs to
     private String confederation;
+
+    //The flag of the team's country
     private ImageView flag = new ImageView();
+
+    //Whether or not the the team qualified to the world cup
     private boolean qualified;
 
     // The order of games matters, first 3 are group stage, followed by 16,quarters,semis,final/3rdPlace.
     private ArrayList<Game> games;
 
-    public Team(int ranking, String country,double totalPoints, String countryCode,
-                String confederation) {
+    /**
+     * Constructs a team object with parameters passed
+     * @param ranking the ranking of the team
+     * @param country the country of the team
+     * @param totalPoints the total amount of points
+     * @param countryCode the code for the team
+     * @param confederation the confederation it belongs to
+     */
+    public Team(int ranking, String country,double totalPoints, String countryCode, String confederation) {
         this.ranking = ranking;
         this.country = country;
         this.totalPoints = totalPoints;
         this.countryCode = countryCode;
         this.confederation = confederation;
+        games = new ArrayList<>();
+        qualified = false;
 
+        //Set up image
         flag.setFitHeight(30);
         flag.setFitWidth(45);
         flag.setImage(new Image("TeamFlags/" +countryCode.toLowerCase()+".png"));
+    }
 
+    /**
+     * Default constructor. Constructs a team with initial values for games and qualified.
+     */
+    public Team() {
         games = new ArrayList<>();
         qualified = false;
     }
 
+    /**
+     * Adds a game to the games the team has played
+     * @param game the game to add
+     */
     public void addGame (Game game) {
         games.add(game);
     }
@@ -94,6 +129,7 @@ public class Team implements Comparable<Team> {
         }
         return goalsFor;
     }
+
     /**
      * @return goals scored against this team during group-stage.
       @author Saif Masoud
@@ -127,22 +163,44 @@ public class Team implements Comparable<Team> {
         return 3 * getGroupWins() + 1 * getGroupDraws();
     }
 
+    //Getters and setters
+
+    /**
+     * Method to get team's ranking
+     * @return ranking of the team
+     */
     public Integer getRanking() {
         return ranking;
     }
 
+    /**
+     * Method to set team's ranking
+     * @param ranking the ranking of the team
+     */
     public void setRanking(int ranking) {
         this.ranking = ranking;
     }
 
+    /**
+     * Method to get team's country
+     * @return the name of the country
+     */
     public String getCountry() {
         return country;
     }
 
+    /**
+     * Method to set team's country
+     * @param country the name of the country
+     */
     public void setCountry(String country) {
         this.country = country;
     }
 
+    /**
+     * Method to get team's points
+     * @return the total points for the team
+     */
     public double getTotalPoints() {
         return totalPoints;
     }

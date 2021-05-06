@@ -1,14 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
 
 /**
  * @author TODO: Add authors! (first and last name add the top of the method)
  * Class to represent groups (A,B,C,...) in group stage.
  */
 public class Group {
+
 
     private char groupChar;
     private ArrayList<Team> teams;
@@ -53,6 +51,5 @@ public class Group {
     @Override
     public String toString() {
         return "Group " + groupChar;
-
     }
 }
