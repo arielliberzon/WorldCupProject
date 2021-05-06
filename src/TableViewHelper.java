@@ -181,7 +181,8 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return "Country" TableColumn
+     * Method to create Country Name column in the GroupsPane class
+     * @return countryCol
      */
     public static TableColumn<Team, String> getGroupCountry() {
     TableColumn<Team, String> countryCol = new TableColumn<>("Country");
@@ -191,7 +192,8 @@ public class TableViewHelper {
     }
     /**
      * @author Harjit Singh
-     * @return "Wins" TableColumn
+     * Method to create wins column in the GroupsPane class
+     * @return groupWinsColumn
      */
     public static TableColumn<Team, String> getGroupWinsColumn() {
         TableColumn<Team, String> groupWinsColumn = new TableColumn<>("Wins");
@@ -202,7 +204,8 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return "Draws" TableColumn
+     * Method to create Draws column in the GroupsPane class
+     * @return groupDrawsColumn
      */
     public static TableColumn<Team, String> getGroupDrawsColumn() {
         TableColumn<Team, String> groupDrawsColumn = new TableColumn<>("Draws");
@@ -213,31 +216,32 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return "Losses" TableColumn
+     * Method to create Losses column in the GroupsPane class
+     * @return groupLossesColumn
      */
     public static TableColumn<Team, String> getGroupLossesColumn() {
         TableColumn<Team, String> groupLossesColumn = new TableColumn<>("Losses");
         groupLossesColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().getGroupLosses())));
-
         return groupLossesColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return "GF" TableColumn
+     * Method to create Goal For column in the GroupsPane class
+     * @return goalsForColumn
      */
     public static TableColumn<Team, String> getGFColumn() {
         TableColumn<Team, String> goalsForColumn = new TableColumn<>("GF");
         goalsForColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(Integer.toString(data.getValue().groupGoalsFor())));
-
         return goalsForColumn;
     }
 
     /**
      * @author Harjit Singh
-     * @return "GD" TableColumn
+     * Method to create Goal Differnce column in the GroupsPane class
+     * @return goalDifferenceColumn
      */
     public static TableColumn<Team, String> getGDColumn() {
         TableColumn<Team, String> goalDifferenceColumn = new TableColumn<>("GD");
@@ -248,7 +252,8 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return "GA" TableColumn
+     * Method to create Goalagainst column in the GroupsPane class
+     * @return goalsAgainstColumn
      */
     public static TableColumn<Team, String> getGAColumn() {
         TableColumn<Team, String> goalsAgainstColumn = new TableColumn<>("GA");
@@ -259,7 +264,8 @@ public class TableViewHelper {
 
     /**
      * @author Harjit Singh
-     * @return "Points" TableColumn
+     * Method to create points column in the GroupsPane class
+     * @return totalPointsColumn
      */
     public static TableColumn<Team, String> getPointsColumn() {
         TableColumn<Team, String> totalPointsColumn = new TableColumn<>("Points");

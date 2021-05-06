@@ -227,7 +227,7 @@ public class TeamButton extends Button{
 
 
         pane.getChildren().add(paneToDisplay);
-        stage.getIcons().add(new Image("Images/logo2.png"));
+        stage.getIcons().add(new Image("Images/logo2.png"));// added by Harjit Singh
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();

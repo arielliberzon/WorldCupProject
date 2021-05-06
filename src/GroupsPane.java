@@ -104,7 +104,8 @@ public class GroupsPane extends GridPane {
          * Create the tableveiw for groups each time methods is called.
          * and methods gets the info from the Team class.(country name, points,etc).
          * Tableview column are been created in TableViewHelper Class.
-         * @param group , index
+         * @param group
+         * @param index
          * @return table
          */
         private TableView createGroupTable(Group group, int index) {

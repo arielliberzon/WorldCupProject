@@ -33,7 +33,7 @@ public class WorldCupGUI extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("World Cup");
-        try {
+        try { // Try and catch added by Harjit Singh
             primaryStage.getIcons().add(new Image("Images/logo2.png"));
         }
         catch (Exception e) {
@@ -45,10 +45,12 @@ public class WorldCupGUI extends Application {
 
     /**
      * @author Harjit Singh
-     * @param window Stage
+     * Welcome scene with the Background Start button.
+     * Create the scene with the TabPane.
+     * @param window
      */
     private void showIntroScene(Stage window) {
-        try {
+        try { // Try and catch added by Harjit Singh
             Image img = new Image("Images/two.jpg");
             starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         }
@@ -70,6 +72,26 @@ public class WorldCupGUI extends Application {
     }
 
     /**
+     * @author Harjit Singh
+     * Method to create the tab for Teams, Group Stage and Knockout Stage
+     * @param height
+     * @param width
+     * @return tabPane
+     */
+    private TabPane createTabPane(Double height, Double width){
+
+        TabPane tabPane = new TabPane();
+        Tab qualifierStageTab = new Tab("   Teams   ",new TeamsPane(height, width,simulator));
+        Tab groupStageTab = new Tab("   Group Stage   ",new GroupsPane(height, width, simulator));
+        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(height, width, simulator));
+        groupStageTab.setClosable(false);
+        knockoutStageTab.setClosable(false);
+        qualifierStageTab.setClosable(false);
+        tabPane.getTabs().addAll(qualifierStageTab,groupStageTab,knockoutStageTab);
+        return tabPane;
+    }
+
+    /**
      * @author Ariel Liberzon
      * A function which produces an HBox consisting of multple buttons
      * @return HBox ButtonBar
@@ -78,7 +100,7 @@ public class WorldCupGUI extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        try {
+        try {  // Try and catch added by Harjit Singh
             buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
         }
         catch (Exception e) {
@@ -93,6 +115,7 @@ public class WorldCupGUI extends Application {
         buttonBar.getChildren().addAll(helpButton, resetButton);
         return buttonBar;
     }
+
     /**
      * @author Samuel Hernandez
      * Method sets up and starts the buttons, tab and pane that holds and
@@ -120,7 +143,7 @@ public class WorldCupGUI extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        try {
+        try {  // Try and catch added by Harjit Singh
             ImageView graphic = new ImageView(new Image("Images/logo2.png"));
             graphic.setFitHeight(60);
             graphic.setFitWidth(60);
@@ -157,26 +180,6 @@ public class WorldCupGUI extends Application {
 
         alert.show();
         return alert;
-    }
-
-    /**
-     * @author Harjit Singh
-     * Method to create the tab for Teams, Group Stage and Knockout Stage
-     * @param height
-     * @param width
-     * @return tabPane
-     */
-    private TabPane createTabPane(Double height, Double width){
-
-        TabPane tabPane = new TabPane();
-        Tab qualifierStageTab = new Tab("   Teams   ",new TeamsPane(height, width,simulator));
-        Tab groupStageTab = new Tab("   Group Stage   ",new GroupsPane(height, width, simulator));
-        Tab knockoutStageTab = new Tab("   Knockout Stage  ",new KnockoutPane(height, width, simulator));
-        groupStageTab.setClosable(false);
-        knockoutStageTab.setClosable(false);
-        qualifierStageTab.setClosable(false);
-        tabPane.getTabs().addAll(qualifierStageTab,groupStageTab,knockoutStageTab);
-        return tabPane;
     }
 
     /**
