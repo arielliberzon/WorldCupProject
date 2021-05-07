@@ -8,7 +8,6 @@ import java.util.Objects;
  * Team class represents each individual team from a country. The class main responsibility is holding the information
  * about each team and keeping track of the games that each team has played.
  */
-// TODO: Add description and comments
 // TODO: Add authors! (first and last name add the top of the method)
 public class Team implements Comparable<Team> {
 
@@ -36,6 +35,7 @@ public class Team implements Comparable<Team> {
     // The order of games matters, first 3 are group stage, followed by 16,quarters,semis,final/3rdPlace.
     private ArrayList<Game> games;
 
+    //The official selection logo
     private Image logo;
 
     /**
@@ -55,7 +55,7 @@ public class Team implements Comparable<Team> {
         games = new ArrayList<>();
         qualified = false;
 
-        //Set up image
+        //Set up image and logo
         flag.setFitHeight(30);
         flag.setFitWidth(45);
         flag.setImage(new Image("TeamFlags/" +countryCode.toLowerCase()+".png"));
@@ -90,6 +90,7 @@ public class Team implements Comparable<Team> {
         }
         return wins;
     }
+
     /**
      * @return Gets the number of wins in the group stage.
       @author Saif Masoud
@@ -166,15 +167,21 @@ public class Team implements Comparable<Team> {
         return 3 * getGroupWins() + 1 * getGroupDraws();
     }
 
+    /**
+     * Method to get team's logo
+     * @return the logo of the team
+     */
     public Image getLogo() {
         return logo;
     }
 
+    /**
+     * Method to set team's logo
+     * @param logo the logo of the team
+     */
     public void setLogo(Image logo) {
         this.logo = logo;
     }
-
-    //Getters and setters
 
     /**
      * Method to get team's ranking
@@ -216,46 +223,82 @@ public class Team implements Comparable<Team> {
         return totalPoints;
     }
 
+    /**
+     * Method to set team's points
+     * @param totalPoints the total points for the team
+     */
     public void setTotalPoints(double totalPoints) {
         this.totalPoints = totalPoints;
     }
 
+    /**
+     * Gets team's country code
+     * @return the code for the team
+     */
     public String getCountryCode() {
         return countryCode;
     }
 
+    /**
+     * Sets team's country code
+     * @param countryCode the code for the team
+     */
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
+    /**
+     * Gets team's confederation
+     * @return the confederation of the team
+     */
     public String getConfederation() {
         return confederation;
     }
 
+    /**
+     * Sets team's confederation
+     * @param confederation the confederation of the team
+     */
     public void setConfederation(String confederation) {
         this.confederation = confederation;
     }
 
+    /**
+     * Gets the games played by the team
+     * @return the games played by the team
+     */
     public ArrayList<Game> getGames() {
         return games;
     }
 
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
-    }
-
+    /**
+     * Gets the flag of the team's country
+     * @return image of country's flag
+     */
     public ImageView getFlag() {
         return flag;
     }
 
+    /**
+     * Sets the flag of the team's country
+     * @param flag the image of country's flag
+     */
     public void setFlag(ImageView flag) {
         this.flag = flag;
     }
 
+    /**
+     * Method to ask if a team is qualified or not
+     * @return true if qualified, else false.
+     */
     public boolean isQualified() {
         return qualified;
     }
 
+    /**
+     * Method to set if a team is qualified or not
+     * @param qualified wheter or not this team qualified
+     */
     public void setQualified(boolean qualified) {
         this.qualified = qualified;
     }
@@ -271,6 +314,10 @@ public class Team implements Comparable<Team> {
         return (this.getRanking().compareTo(o.getRanking()));
     }
 
+    /**
+     * Get the string representation of the team
+     * @return a string with info about the team
+     */
     @Override
     public String toString () {
         return "Country: " + country + "\nRNK: " + ranking + "\nTotal Points: "
@@ -278,6 +325,11 @@ public class Team implements Comparable<Team> {
                 + countryCode;
     }
 
+    /**
+     * Method checks whether or not an object is equal to this
+     * @param o the object to test for equality
+     * @return true if they are equal, else false.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -286,6 +338,10 @@ public class Team implements Comparable<Team> {
         return Objects.equals(country, team.country);
     }
 
+    /**
+     * Gets the hashcode for the team
+     * @return the hash code of team
+     */
     @Override
     public int hashCode() {
         return Objects.hash(country);
@@ -315,5 +371,7 @@ public class Team implements Comparable<Team> {
 
         return 1;
     };
+
+    //Remaining getters and setters do not make sense, so are not included on purpose.
 }
 
