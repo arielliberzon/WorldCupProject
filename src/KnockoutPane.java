@@ -1,5 +1,6 @@
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -26,7 +27,7 @@ import javafx.scene.text.Font;
 import java.util.Random;
 import java.util.ArrayList;
  /**
-  * @author Justin Valas, Shane Callahan, Ariel Liberzon
+  * @author Justin Valas, Shane Callahan, Ariel Liberzon, Harjit Singh
   * KnockoutPane creates a BorderPane to be displayed in WorldCupGUI. 
   * it uses Simulator, taken from WorldCupGUI to get the information
   * to display on the TeamButtons. KnockoutPane draws the lines, to
@@ -76,9 +77,15 @@ public class KnockoutPane extends BorderPane {
         quarterGames = sim.simulateQuarters();
         semiGames = sim.simulateSemis();
         finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
-        Image img = new Image("Images/grass.png");
-        this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
-        HBox buttonBox = new HBox();
+        // Try and catch added by Harjit Singh
+        try {
+            Image img = new Image("Images/grass.png");
+            this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
+            HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 10, 10, 10));
         buttonBox.setSpacing(10);
@@ -465,4 +472,26 @@ public class KnockoutPane extends BorderPane {
         this.addNamesToSemisGamesAndThirdPlacePlacements();
         this.addNamesToFinalsAndThirdPlace();
     }
+     /**
+      * @author Harjit Singh
+      * The Exception handler
+      * Displays a error message to the user
+      * and if the error is bad enough closes the program
+      * @param fatal true if the program should exit. false otherwise
+      */
+     private void showError(Exception e,boolean fatal){
+         String msg=e.getMessage();
+         if(fatal){
+             msg=msg+" \n\nthe program will now close";
+         }
+         Alert alert = new Alert(Alert.AlertType.ERROR,msg);
+         alert.setResizable(true);
+         alert.getDialogPane().setMinWidth(420);
+         alert.setTitle("Error");
+         alert.setHeaderText("something went wrong");
+         alert.showAndWait();
+         if(fatal){
+             System.exit(666);
+         }
+     }
 }

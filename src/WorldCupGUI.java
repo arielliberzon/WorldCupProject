@@ -34,7 +34,8 @@ public class WorldCupGUI extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("World Cup");
-        try { // Try and catch added by Harjit Singh
+        // Try and catch added by Harjit Singh
+        try {
             primaryStage.getIcons().add(new Image("Images/logo2.png"));
         }
         catch (Exception e) {
@@ -51,7 +52,8 @@ public class WorldCupGUI extends Application {
      * @param window
      */
     private void showIntroScene(Stage window) {
-        try { // Try and catch added by Harjit Singh
+        // Try and catch added by Harjit Singh
+        try {
             Image img = new Image("Images/two.jpg");
             starterPane.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         }
@@ -101,7 +103,8 @@ public class WorldCupGUI extends Application {
         HBox buttonBar = new HBox();
         buttonBar.setPadding(new Insets(5, 10, 5, 10));
         buttonBar.setSpacing(10);
-        try {  // Try and catch added by Harjit Singh
+        // Try and catch added by Harjit Singh
+        try {
             buttonBar.setBackground(new Background(new BackgroundImage(new Image("Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
         }
         catch (Exception e) {

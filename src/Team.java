@@ -1,3 +1,4 @@
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.ArrayList;
@@ -54,12 +55,17 @@ public class Team implements Comparable<Team> {
         this.confederation = confederation;
         games = new ArrayList<>();
         qualified = false;
-
-        //Set up image and logo
-        flag.setFitHeight(30);
-        flag.setFitWidth(45);
-        flag.setImage(new Image("TeamFlags/" +countryCode.toLowerCase()+".png"));
-        logo = new Image("TeamLogos/" +countryCode.toLowerCase()+".png");
+        // Try and catch added by Harjit Singh
+        try {
+            //Set up image and logo
+            flag.setFitHeight(30);
+            flag.setFitWidth(45);
+            flag.setImage(new Image("TeamFlags/" + countryCode.toLowerCase() + ".png"));
+            logo = new Image("TeamLogos/" + countryCode.toLowerCase() + ".png");
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
     }
 
     /**
@@ -372,7 +378,28 @@ public class Team implements Comparable<Team> {
 
         return 1;
     };
-
+    /**
+     * @author Harjit Singh
+     * The Exception handler
+     * Displays a error message to the user
+     * and if the error is bad enough closes the program
+     * @param fatal true if the program should exit. false otherwise
+     */
+    private void showError(Exception e,boolean fatal){
+        String msg=e.getMessage();
+        if(fatal){
+            msg=msg+" \n\nthe program will now close";
+        }
+        Alert alert = new Alert(Alert.AlertType.ERROR,msg);
+        alert.setResizable(true);
+        alert.getDialogPane().setMinWidth(420);
+        alert.setTitle("Error");
+        alert.setHeaderText("something went wrong");
+        alert.showAndWait();
+        if(fatal){
+            System.exit(666);
+        }
+    }
     //Remaining getters and setters do not make sense, so are not included on purpose.
 }
 
