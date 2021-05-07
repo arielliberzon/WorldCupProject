@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-/** @authors Saif Masoud, Alexander Tang, and Michael Skuncik
+/** @author Saif Masoud, Alexander Tang, Michael Skuncik
  * Team class represents each individual team from a country. The class main responsibility is holding the information
  * about each team and keeping track of the games that each team has played. It keeps track of goals scored and
  * received during the group stage and the points earned during group stage.
@@ -60,7 +60,6 @@ public class Team implements Comparable<Team> {
             //Set up image and logo
             flag.setFitHeight(30);
             flag.setFitWidth(45);
-            //TODO: Is message okay??
             flag.setImage(new Image("TeamFlags/" + countryCode.toLowerCase() + ".png"));
             logo = new Image("TeamLogos/" + countryCode.toLowerCase() + ".png");
         }
@@ -305,7 +304,7 @@ public class Team implements Comparable<Team> {
 
     /**
      * Method to set if a team is qualified or not
-     * @param qualified wheter or not this team qualified
+     * @param qualified whether or not this team qualified
      */
     public void setQualified(boolean qualified) {
         this.qualified = qualified;
@@ -356,9 +355,9 @@ public class Team implements Comparable<Team> {
     }
 
     /**
+     * @author Saif Masoud
      * Compares ordering of teams in the group-stage. Breaking ties with
      * Goal-Difference, Goals-For, and finally goals against.
-     * @author Saif Masoud
      */
     public static Comparator<Team> TeamGroupComparator
             = (team1, team2) -> {
@@ -387,9 +386,9 @@ public class Team implements Comparable<Team> {
      * @param fatal true if the program should exit. false otherwise
      */
     private void showError(Exception e,boolean fatal){
-        String msg=e.getMessage();
+        String msg = e.getMessage();
         if(fatal){
-            msg=msg+" \n\nthe program will now close";
+            msg = msg + " \n\nthe program will now close";
         }
         Alert alert = new Alert(Alert.AlertType.ERROR,msg);
         alert.setResizable(true);

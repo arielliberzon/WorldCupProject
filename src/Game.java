@@ -84,7 +84,7 @@ public class Game {
     public String getFinishType() {
         if (!overTimeUsed)
             return "Regular Time";
-        else if (overTimeUsed && !penaltyKicksReached)
+        else if (!penaltyKicksReached)
             return "Extra Time";
         else
             return "Penalties";
@@ -258,8 +258,7 @@ public class Game {
      * @author Ariel Liberzon, Samuel Hernandez
      */
     private void suddenDeathKicks(int teamOneScoreChance, int teamTwoScoreChance) {
-        boolean notDone = true;
-        while (notDone) {
+        while (true) {
             boolean t1Scored = shootPenalty(teamOneScoreChance);       //Team one shoots
             boolean t2Scored = shootPenalty(teamTwoScoreChance);       //Team two shoots
             if(t1Scored)                                                        //Add to score

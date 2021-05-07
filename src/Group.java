@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
- * @author TODO: Add authors! (first and last name add the top of the method)
+ * @author Saif Masoud
  * Groups class is used to represent groups (A,B,C,...) in group stage.
  * Each group has a list of teams that are going to be matched against each other in this stage.
  * Group class has the capability to simulate the group stage for this group.

@@ -18,7 +18,6 @@ import java.util.ArrayList;
  */
 public class GroupsPane extends GridPane {
         private Simulator simulator;
-        private GridPane mainPane = new GridPane();
         private GridPane centerPane = new GridPane();
         ScrollPane scrollPane;
         public GroupsPane(Double height, Double width, Simulator simulator) {
@@ -32,18 +31,19 @@ public class GroupsPane extends GridPane {
          * @author John Youte, Harjit Singh
          * Calls getGroups() from the similator class
          * Creates eight tableView with the group information.
-         * @return a
          */
-        public GridPane createMainStage(){
+        public void createMainStage(){
 
                 ArrayList<Group> groupList = simulator.getGroups();
                 int evenCount = 0;
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
-                        TableView groupTable = createGroupTable(group, i);
-                        VBox vBox = new VBox(createButtonBar(group , groupTable) , groupTable);
-                        vBox.setStyle(colorArrayList().get(i)); //calls the ColorArrayList method to color the backgroup of the Vbox.
-                        if (i % 2 == 0) { //Conditional statement to give the index for the gridPane, if Gridpane have 2 tableViews, it change to second index.
+                        TableView<Team> groupTable = createGroupTable(group, i);
+                        VBox vBox = new VBox(createButtonBar(group) , groupTable);
+                        // calls the ColorArrayList method to color the back group of the Vbox.
+                        vBox.setStyle(oddColorArrayList().get(i));
+                        //Conditional statement to give the index for the gridPane, if GridPane have 2 tableViews, it change to second index.
+                        if (i % 2 == 0) {
                                 centerPane.add(vBox, 1, evenCount);
                         } else {
                                 centerPane.add(vBox, 2, evenCount);
@@ -56,23 +56,41 @@ public class GroupsPane extends GridPane {
                 scrollPane = new ScrollPane(centerPane);//User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
                 this.getChildren().addAll(scrollPane);
-                return mainPane;
         }
 
         /**
          * @author John Youte, Harjit Singh
          * This method is made to give different background color for the vBox,
          * ArrayList of String which adds different colors to the Arraylist.
-         * @return colorArrayList
+         * @return oddColorArrayList
          */
-        public ArrayList<String> colorArrayList(){
+        public ArrayList<String> oddColorArrayList(){
+                ArrayList<String> colorArrayList= new ArrayList<>();
+                colorArrayList.add("-fx-background-color: #fdb092");
+                colorArrayList.add("-fx-background-color: LIGHTYELLOW");
+                colorArrayList.add("-fx-background-color: #fdc5cf");
+                colorArrayList.add("-fx-background-color: LIGHTCYAN");
+                colorArrayList.add("-fx-background-color: #e79e9e");
+                colorArrayList.add("-fx-background-color: #C1DE94");
+                colorArrayList.add("-fx-background-color: #9cc9fc");
+                colorArrayList.add("-fx-background-color: #eae7a6");
+                return colorArrayList;
+        }
+
+        /**
+         * @author John Youte, Harjit Singh
+         * This method is made to give different background color for the vBox,
+         * ArrayList of String which adds different colors to the Arraylist.
+         * @return oddColorArrayList
+         */
+        public ArrayList<String> evenColorArrayList(){
                 ArrayList<String> colorArrayList= new ArrayList<>();
                 colorArrayList.add("-fx-background-color: LIGHTSALMON");
-                colorArrayList.add("-fx-background-color: LIGHTGREY");
+                colorArrayList.add("-fx-background-color: #ffffcc");
                 colorArrayList.add("-fx-background-color: LIGHTPINK");
-                colorArrayList.add("-fx-background-color: LIGHTCYAN");
+                colorArrayList.add("-fx-background-color: #d1ffff");
                 colorArrayList.add("-fx-background-color: LIGHTCORAL");
-                colorArrayList.add("-fx-background-color: LIGHTYELLOW");
+                colorArrayList.add("-fx-background-color: C1DE82");
                 colorArrayList.add("-fx-background-color: LIGHTSKYBLUE");
                 colorArrayList.add("-fx-background-color: KHAKI");
                 return colorArrayList;
@@ -84,7 +102,7 @@ public class GroupsPane extends GridPane {
          * creating buttons and putting them on top of the tableView.
          * @return hBox
          */
-        private HBox createButtonBar(Group group,TableView table){
+        private HBox createButtonBar(Group group){
                 HBox hBox=new HBox();
                 for (int i = 0; i < group.getTeams().size(); i++) {
                         TeamButton teamButton = new TeamButton();
@@ -104,12 +122,12 @@ public class GroupsPane extends GridPane {
          * Create the tableveiw for groups each time methods is called.
          * and methods gets the info from the Team class.(country name, points,etc).
          * Tableview column are been created in TableViewHelper Class.
-         * @param group
-         * @param index
+         * @param group Any Group in the groups Stage
+         * @param index index for each group (ex: 0 - 7)
          * @return table
          */
-        private TableView createGroupTable(Group group, int index) {
-                TableView table = new TableView<>();
+        private TableView<Team> createGroupTable(Group group, int index) {
+                TableView<Team> table = new TableView<>();
                 TableColumn<Team, String> groupHeader = new TableColumn<>(group.toString());//Header of the Group on the Table
 
                 table.getItems().addAll(TableViewHelper.getGroupList(group));
@@ -126,16 +144,27 @@ public class GroupsPane extends GridPane {
                         Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                 table.setEditable(false);
-                table.setFocusTraversable(false);
+
                 table.setRowFactory(tableView -> new TableRow<Team>() {
+                        @Override
                         public void updateItem(Team item, boolean empty) {
                                 super.updateItem(item, empty);
-
-                                if (getIndex() % 1 == 0) {
-                                        setStyle(colorArrayList().get(index));// set the row color same as the vBox use the method colorArrayList().
+                                if (getIndex() % 2 == 0) {
+                                        setStyle(evenColorArrayList().get(index));
+                                } else {
+                                        setStyle(oddColorArrayList().get(index));
+                                }
+                        }
+                        @Override
+                        public void updateSelected(boolean empty) {
+                                super.updateSelected(empty);
+                                if (isSelected()) {
+                                        updateSelected(false);
                                 }
                         }
                 });
+
                 return table;
         }
+
 }

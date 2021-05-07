@@ -296,7 +296,6 @@ public class Simulator {
      * @author Alexander and Michael
      * This method is used to simulate the Qualifiers. Each confederation will have their respective number of group
      * stage slots. Each arraylist is filled up by the method getQualified().
-     * TODO: condense
      */
     public void setQualifiedTeams(TeamInfo teamInfo) {
 
