@@ -35,7 +35,7 @@ public class Group {
     public Group() {
     }
 
-    /**
+    /** @author Saif Masoud
      * Method simulates the games for all members in the group
      */
     private void simulate() {

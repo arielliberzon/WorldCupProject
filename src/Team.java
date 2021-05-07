@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-/**
+/** @authors Saif Masoud, Alexander Tang, and Michael Skuncik
  * Team class represents each individual team from a country. The class main responsibility is holding the information
  * about each team and keeping track of the games that each team has played. It keeps track of goals scored and
  * received during the group stage and the points earned during group stage.
  */
-// TODO: Add authors! (first and last name add the top of the method)
 public class Team implements Comparable<Team> {
 
     //The teams ranking in the FIFA world ranking
@@ -74,6 +73,7 @@ public class Team implements Comparable<Team> {
     /**
      * Adds a game to the games the team has played
      * @param game the game to add
+     * @author Saif Masoud
      */
     public void addGame (Game game) {
         games.add(game);
