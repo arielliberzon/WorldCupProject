@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -19,7 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * @author Shane Callahan, Justin Valas, Ariel Liberzon
+ * @author Shane Callahan, Justin Valas, Ariel Liberzon,Harjit Singh
  * TeamButton creates a special button that holds the Team object.
  * It holds a game object as well, but it's mostly used for team.
  * Sets the name and flag when setTeam() is called
@@ -229,12 +230,15 @@ public class TeamButton extends Button{
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
         stage.setTitle("Game History"); // come back to
-
         Pane pane = new Pane();
-
-
         pane.getChildren().add(paneToDisplay);
-        stage.getIcons().add(new Image("Images/logo2.png"));// added by Harjit Singh
+        // Try and catch added by Harjit Singh
+        try {
+            stage.getIcons().add(new Image("Images/logo2.png"));// added by Harjit Singh
+        }
+        catch (Exception e) {
+            showError(new Exception("Can't find "+e.getMessage(),e),true);
+        }
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
@@ -267,5 +271,27 @@ public class TeamButton extends Button{
         String s;
         s = "This button's team is: " + this.getTeam() + " and it's Game Order is: " + this.getGameOrder();
         return s;
+    }
+    /**
+     * @author Harjit Singh
+     * The Exception handler
+     * Displays a error message to the user
+     * and if the error is bad enough closes the program
+     * @param fatal true if the program should exit. false otherwise
+     */
+    private void showError(Exception e,boolean fatal){
+        String msg=e.getMessage();
+        if(fatal){
+            msg=msg+" \n\nthe program will now close";
+        }
+        Alert alert = new Alert(Alert.AlertType.ERROR,msg);
+        alert.setResizable(true);
+        alert.getDialogPane().setMinWidth(420);
+        alert.setTitle("Error");
+        alert.setHeaderText("something went wrong");
+        alert.showAndWait();
+        if(fatal){
+            System.exit(666);
+        }
     }
 }
