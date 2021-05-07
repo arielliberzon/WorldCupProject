@@ -129,17 +129,15 @@ public class Game {
             return;                                             //No need to go any further
         }
 
-        //If the game cannot be tied go to over time
-        if(!canBeDraw){
-            if(score[1][0] == score[1][1]) {                    //Overtime if the scores are tied after 90 minutes
-                overTimeUsed = true;
-                simulateSection(15,2);
-                simulateSection(15,3);
-                if(score[3][0] == score[3][1])                                 //If still tied go to penalty kicks
-                    simulatePenaltyKicks();
-                else                                                                   //Else: not tied anymore
-                    declareWinnerNLoser(score[3][0], score[3][1]);                    //Declare winner and loser
-            }
+        //If the game cannot be tied and it is tied, go to over time
+        if (score[1][0] == score[1][1]) {                    //Overtime if the scores are tied after 90 minutes
+            overTimeUsed = true;
+            simulateSection(15, 2);
+            simulateSection(15, 3);
+            if (score[3][0] == score[3][1])                                 //If still tied go to penalty kicks
+                simulatePenaltyKicks();
+            else                                                                   //Else: not tied anymore
+                declareWinnerNLoser(score[3][0], score[3][1]);                    //Declare winner and loser
         }
     }
 
@@ -295,7 +293,7 @@ public class Game {
         else if(maxScoreT2 < score[4][0])                   //Maximum score < rival current score
             return true;
 
-        //If possible to recover
+        //Else it is possible to recover
         return false;
     }
 
@@ -309,10 +307,7 @@ public class Game {
     private boolean shootPenalty(int teamChance) {
         Random randomNum = new Random();
         int randomChance = randomNum.nextInt(100) + 1;        //Score chance will be number from 1 to a 100
-        if (randomChance <= teamChance) {
-            return true;
-        }
-        return false;
+        return randomChance <= teamChance;
     }
 
     /**
