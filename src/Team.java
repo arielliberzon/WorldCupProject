@@ -60,6 +60,7 @@ public class Team implements Comparable<Team> {
             //Set up image and logo
             flag.setFitHeight(30);
             flag.setFitWidth(45);
+            //TODO: Is message okay??
             flag.setImage(new Image("TeamFlags/" + countryCode.toLowerCase() + ".png"));
             logo = new Image("TeamLogos/" + countryCode.toLowerCase() + ".png");
         }
