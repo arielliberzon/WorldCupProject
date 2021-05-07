@@ -109,7 +109,7 @@ public class Game {
         double sum = teamOne.getTotalPoints() + teamTwo.getTotalPoints();       //Total amount of points
         teamOneChance = teamOne.getTotalPoints() * 100/ sum;                    //Chance of team one of scoring per
 
-        //Update chance to show more realistic scores
+        //Update chance to show more realistic results
         if(Math.abs(teamOne.getRanking() - teamTwo.getRanking()) > 5)
             teamOneChance += teamOne.getTotalPoints() > teamTwo.getTotalPoints()? 25 : -25;
 
