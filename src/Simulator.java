@@ -112,9 +112,12 @@ public class Simulator {
      * Sets up the games by taking the winners of the first two round of sixteen winners, then the next two
      * and so on. (0 vs 1. 2 vs 3, 4 vs 5, 6 vs 7)
      * @return the array list of games that were played
+     * @throws UnsupportedOperationException if previous round was not called before
      * @author Samuel Hernandez and Saif Masoud
      */
     public ArrayList<Game> simulateQuarters() {
+        if(roundOf16Games == null)
+            throw  new UnsupportedOperationException("simulateRoundOfSixteen must be called before simulateQuarters");
         quartersGames = new ArrayList<>();
         int index = 0;
         for (int i = 0; i < 4; i++) {
@@ -133,9 +136,12 @@ public class Simulator {
      * Upon being called simulates the semi final games and returns the games that were played.
      * Winner of quarters game 0 vs game 1, 2 vs 3.
      * @return the array list of games that were played
+     * @throws UnsupportedOperationException if previous round was not called before
      * @author Samuel Hernandez and Saif Masoud
      */
     public ArrayList<Game> simulateSemis() {
+        if(quartersGames == null)
+            throw  new UnsupportedOperationException("simulateQuarters must be called before simulateSemis");
         semisGames = new ArrayList<>();
         Game game1 = new Game(quartersGames.get(0).getWinner(), quartersGames.get(2).getWinner(), false);
         Game game2 = new Game(quartersGames.get(1).getWinner(), quartersGames.get(3).getWinner(), false);
@@ -148,9 +154,12 @@ public class Simulator {
      * Upon being called simulates the final and third place games and returns the games that were played.
      * Winner of quarters game 0 vs game 1. Loser of game 0 vs game 1.
      * @return the array list of games that were played
+     * @throws UnsupportedOperationException if previous round was not called before
      * @author Samuel Hernandez and Saif Masoud
      */
     public ArrayList<Game> simulateFinalAndThirdPlace() {
+        if(semisGames == null)
+            throw  new UnsupportedOperationException("simulateSemis must be called before simulateFinalAndThirdPlace");
         finalAndThirdGames = new ArrayList<>();
         Game finalGame = new Game(semisGames.get(0).getWinner(), semisGames.get(1).getWinner(), false);
         Game third = new Game(semisGames.get(0).getLoser(), semisGames.get(1).getLoser(), false);
