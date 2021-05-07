@@ -193,9 +193,9 @@ public class WorldCupGUI extends Application {
      * @param fatal true if the program should exit. false otherwise
      */
     private void showError(Exception e,boolean fatal){
-        String msg=e.getMessage();
+        String msg = e.getMessage();
         if(fatal){
-            msg=msg+" \n\nthe program will now close";
+            msg = msg + " \n\nthe program will now close";
         }
         Alert alert = new Alert(Alert.AlertType.ERROR,msg);
         alert.setResizable(true);
