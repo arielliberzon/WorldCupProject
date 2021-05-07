@@ -6,7 +6,8 @@ import java.util.Objects;
 
 /**
  * Team class represents each individual team from a country. The class main responsibility is holding the information
- * about each team and keeping track of the games that each team has played.
+ * about each team and keeping track of the games that each team has played. It keeps track of goals scored and
+ * received during the group stage and the points earned during group stage.
  */
 // TODO: Add authors! (first and last name add the top of the method)
 public class Team implements Comparable<Team> {

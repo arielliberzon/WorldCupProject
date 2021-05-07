@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * @author Saif Masoud, Michael Skuncik, Ariel Liberzon, Alexader Tang, Samuel Hernandez
- * Simulator class is designed to simulate the world cup in phases so that they can be simulated by steps by the GUI
+ * Simulator class is designed to simulate the world cup in phases.
  * Upon simulator being constructed the group stage is simulated. After that, individuals methods should be called to
  * simulate each round in this order:
  * {@link #simulateRoundOfSixteen()}
