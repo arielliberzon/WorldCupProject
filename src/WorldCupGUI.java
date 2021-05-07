@@ -18,6 +18,7 @@ import javafx.stage.Stage;
  * has a "Help" button to quickly break down what each feature of the simulator. A
  * "Reset" button was added to relaunch the simulator without having to close the
  * application.
+ * @author Harjit Singh, Justin Valas, Samuel Hernandez, Ariel Liberzon
  */
 
 public class WorldCupGUI extends Application {
@@ -133,8 +134,7 @@ public class WorldCupGUI extends Application {
     }
 
     /**
-     * @author Harjit Singh
-     * @editor Justin Valas
+     * @author Harjit Singh, Justin Valas
      * Displays Alert message to Help the user and them
      * user-friendly experience
      * @return alert
