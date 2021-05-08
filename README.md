@@ -4,7 +4,7 @@
 
 ### What it does?
 
-**WHEN RUNNING THE JAR FILE** Have the teaminfo.txt in the same folder as the jar file. Also, if you come across an issue running it when clicking
+**WHEN RUNNING THE JAR FILE** have the teaminfo.txt in the same folder as the jar file. Also, if you come across an issue running it when clicking
 		Open your terminal, type "java --module-path "(YOUR PATH TO YOUR JAVAFX INSTALLED)" --add-modules javafx.controls,javafx.fxml -jar WorldCupProject.jar"
 
 
