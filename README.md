@@ -4,6 +4,10 @@
 
 ### What it does?
 
+**WHEN RUNNING THE JAR FILE** if you come across an issue running it when clicking
+		Open your terminal, type "java --module-path "(YOUR PATH TO YOUR JAVAFX INSTALLED)" --add-modules javafx.controls,javafx.fxml -jar WorldCupProject.jar"
+
+
 **In This application**  All the world’s 207 national teams are split up into six regions. Over a roughly two-year period, they compete in regional qualifying tournaments to earn one of the 32 spots at the World Cup. The host of the tournament receives an automatic spot, even if it does not have a particularly good team. 
 FIFA, football's (soccer) governing body, is made up of six semi-autonomous regional bodies that help govern their respective areas. These regional bodies administer the qualifying tournaments for the World Cup. FIFA gives regions with more and better national teams a greater number of spots. That is why the tournament has fewer teams from Asia or Africa than Europe.
 - Display Gui.
