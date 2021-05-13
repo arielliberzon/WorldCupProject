@@ -71,12 +71,12 @@ public class KnockoutPane extends BorderPane {
      * @param sim the simulator object, to be the same through out the whole project
      */
     public KnockoutPane(Double height, Double width, Simulator sim){
-        //this.sim = sim;
         sixteenTeams = sim.getTeamsInOrderInRoundOfSixteen();
         eightGames = sim.simulateRoundOfSixteen();
         quarterGames = sim.simulateQuarters();
         semiGames = sim.simulateSemis();
         finalAndThirdPlaceGame = sim.simulateFinalAndThirdPlace();
+
         // Try and catch added by Harjit Singh
         try {
             Image img = new Image("Images/grass.png");
@@ -85,7 +85,8 @@ public class KnockoutPane extends BorderPane {
         catch (Exception e) {
             WorldCupGUI.showError(new Exception("Can't find "+e.getMessage(),e),true);
         }
-            HBox buttonBox = new HBox();
+
+        HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 10, 10, 10));
         buttonBox.setSpacing(10);
@@ -94,20 +95,21 @@ public class KnockoutPane extends BorderPane {
         simulateAll.setAlignment(Pos.CENTER);
         verticalButtonBox.getChildren().addAll(buttonBox,simulateAll);
         verticalButtonBox.setAlignment(Pos.CENTER);
+        verticalButtonBox.setStyle("");
         this.setTop(verticalButtonBox);
         this.setCenter(this.createBracket());
 
-        int counter = 0;
-        char c = 65;
+        int count = 0;
+        char asciiChar = 65;
         for(int i = 0; i < 16; i +=4){   
-            buttonList.get(counter).setText("Group " +  c + " Winner ");
-            c++;
-            buttonList.get(counter+1).setText("Group " + c + " Runner Up");
-            buttonList.get(counter+23).setText("Group " + c + " Winner");
-            c--;
-            buttonList.get(counter+23+1).setText("Group " + c + " Runner Up");
-            c +=2;
-            counter +=2;
+            buttonList.get(count).setText("Group " +  asciiChar + " Winner ");
+            asciiChar++;
+            buttonList.get(count+1).setText("Group " + asciiChar + " Runner Up");
+            buttonList.get(count+23).setText("Group " + asciiChar + " Winner");
+            asciiChar--;
+            buttonList.get(count+23+1).setText("Group " + asciiChar + " Runner Up");
+            asciiChar +=2;
+            count +=2;
         }
 
         displaySixteenTeams.setOnAction(e -> addNamesOfSixteenTeams());
@@ -182,11 +184,31 @@ public class KnockoutPane extends BorderPane {
             TeamButton button = new TeamButton();
             button.setMinSize(buttonSizeX, buttonSizeY);
             button.setMaxSize(buttonSizeX, buttonSizeY);
-            //
+
             button.setFont(Font.font("Arial Condensed",scalingFactor * 3 / 10));
             button.setTextFill(Color.WHITE);
-            button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80), CornerRadii.EMPTY, Insets.EMPTY)));
-            button.setBorder(new Border(new BorderStroke(Color.WHITE,BorderStrokeStyle.SOLID, new CornerRadii(0),BorderStroke.THIN)));
+            button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80),
+                    CornerRadii.EMPTY, Insets.EMPTY)));
+            button.setBorder(new Border(new BorderStroke(Color.WHITE,BorderStrokeStyle.SOLID,
+                    new CornerRadii(0),BorderStroke.THIN)));
+
+            button.hoverProperty().addListener((ov, oldValue, newValue) -> {
+                if (newValue) {
+                    button.setTextFill(Color.rgb(69,113,80));
+                    button.setBackground(new Background(new BackgroundFill(Color.WHITE,
+                            CornerRadii.EMPTY, Insets.EMPTY)));
+                    button.setBorder(new Border(new BorderStroke(Color.rgb(69,113,80),
+                            BorderStrokeStyle.SOLID, new CornerRadii(0),BorderStroke.THIN)));
+
+                } else {
+                    button.setTextFill(Color.WHITE);
+                    button.setBackground(new Background(new BackgroundFill(Color.rgb(69,113,80),
+                            CornerRadii.EMPTY, Insets.EMPTY)));
+                    button.setBorder(new Border(new BorderStroke(Color.WHITE,BorderStrokeStyle.SOLID,
+                            new CornerRadii(0),BorderStroke.THIN)));
+
+                }
+            });
 
             if(i < 15){
                 button.setLayoutX(buttonX);
@@ -304,6 +326,7 @@ public class KnockoutPane extends BorderPane {
         }
         masterKnockoutPane.add(knockoutPane, 0, 0);
         masterKnockoutPane.setAlignment(Pos.CENTER);
+
         return masterKnockoutPane;
     }
 

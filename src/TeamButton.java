@@ -171,6 +171,13 @@ public class TeamButton extends Button{
         this.setStyle("-fx-background-color: TRANSPARENT");
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(0,0,0,0));
+        this.hoverProperty().addListener((ov, oldValue, newValue) -> {
+            if (newValue) {
+                this.setStyle("-fx-text-fill: DIMGREY; -fx-background-color: TRANSPARENT;");
+            } else {
+                this.setStyle("-fx-background-color: TRANSPARENT");
+            }
+        });
     }
     
 
