@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -274,4 +275,16 @@ public class TableViewHelper {
         return totalPointsColumn;
     }
 
+    public static TableColumn<Team, TeamButton> getButtonColumn() {
+        TableColumn<Team, TeamButton> buttonColumn = new TableColumn<>("Country");
+        buttonColumn.setCellValueFactory(data -> {
+            TeamButton teamButton = new TeamButton();
+            teamButton.setTeam(data.getValue());
+            teamButton.changeToGroupButton();
+            return new SimpleObjectProperty<TeamButton>(teamButton);
+        }
+                );
+        buttonColumn.setMinWidth(100);
+        return buttonColumn;
+    }
 }

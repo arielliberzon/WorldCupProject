@@ -83,7 +83,7 @@ public class KnockoutPane extends BorderPane {
             this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT))); //new BackgroundSize(width, height,true,true,true,true)
         }
         catch (Exception e) {
-            showError(new Exception("Can't find "+e.getMessage(),e),true);
+            WorldCupGUI.showError(new Exception("Can't find "+e.getMessage(),e),true);
         }
             HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
@@ -472,26 +472,4 @@ public class KnockoutPane extends BorderPane {
         this.addNamesToSemisGamesAndThirdPlacePlacements();
         this.addNamesToFinalsAndThirdPlace();
     }
-     /**
-      * @author Harjit Singh
-      * The Exception handler
-      * Displays a error message to the user
-      * and if the error is bad enough closes the program
-      * @param fatal true if the program should exit. false otherwise
-      */
-     private void showError(Exception e, boolean fatal){
-         String msg = e.getMessage();
-         if(fatal){
-             msg = msg + " \n\nthe program will now close";
-         }
-         Alert alert = new Alert(Alert.AlertType.ERROR,msg);
-         alert.setResizable(true);
-         alert.getDialogPane().setMinWidth(420);
-         alert.setTitle("Error");
-         alert.setHeaderText("something went wrong");
-         alert.showAndWait();
-         if(fatal){
-             System.exit(666);
-         }
-     }
 }

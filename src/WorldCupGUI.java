@@ -192,7 +192,7 @@ public class WorldCupGUI extends Application {
      * and if the error is bad enough closes the program
      * @param fatal true if the program should exit. false otherwise
      */
-    private void showError(Exception e,boolean fatal){
+    public static void showError(Exception e,boolean fatal){
         String msg = e.getMessage();
         if(fatal){
             msg = msg + " \n\nthe program will now close";

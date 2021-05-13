@@ -5,6 +5,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
  * stage tab. it take information from the similator class and put these informations in a tableView.
  */
 public class GroupsPane extends GridPane {
-        private Simulator simulator;
-        private GridPane centerPane = new GridPane();
+        private final Simulator simulator;
+        private final GridPane centerPane = new GridPane();
         ScrollPane scrollPane;
         public GroupsPane(Double height, Double width, Simulator simulator) {
                 this.simulator = simulator;
@@ -39,23 +40,32 @@ public class GroupsPane extends GridPane {
                 for (int i = 0; i < groupList.size(); i++) {
                         Group group = groupList.get(i);
                         TableView<Team> groupTable = createGroupTable(group, i);
-                        VBox vBox = new VBox(createButtonBar(group) , groupTable);
+                        //HBox hBox = new HBox(createButtonBar(group) , groupTable);
                         // calls the ColorArrayList method to color the back group of the Vbox.
-                        vBox.setStyle(oddColorArrayList().get(i));
+                        //hBox.setStyle(oddColorArrayList().get(i));
                         //Conditional statement to give the index for the gridPane, if GridPane have 2 tableViews, it change to second index.
                         if (i % 2 == 0) {
-                                centerPane.add(vBox, 1, evenCount);
+                                centerPane.add(groupTable, 1, evenCount);
                         } else {
-                                centerPane.add(vBox, 2, evenCount);
+                                centerPane.add(groupTable, 2, evenCount);
                                 evenCount++;
                         }
                 }
-                centerPane.setHgap(9); //horizontal gap in pixels => that's what you are asking for
-                centerPane.setVgap(7); //vertical gap in pixels
+                centerPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+                centerPane.setVgap(10); //vertical gap in pixels
                 centerPane.setPadding(new Insets(10, 10, 10, 10));
                 scrollPane = new ScrollPane(centerPane);//User friendly pane, for the users with a small screen resolution.
                 this.setAlignment(Pos.CENTER);
                 this.getChildren().addAll(scrollPane);
+                try {
+                        this.setBackground(new Background(new BackgroundImage(new Image(
+                                "Images/grass.png"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
+                                BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                        //new BackgroundSize(width, height,true,true,true,true)
+                }
+                catch (Exception e) {
+                        WorldCupGUI.showError(new Exception("Can't find "+e.getMessage(),e),true);
+                }
         }
 
         /**
@@ -102,19 +112,19 @@ public class GroupsPane extends GridPane {
          * creating buttons and putting them on top of the tableView.
          * @return hBox
          */
-        private HBox createButtonBar(Group group){
-                HBox hBox=new HBox();
+        private Pane createButtonBar(Group group){
+                VBox vBox=new VBox();
                 for (int i = 0; i < group.getTeams().size(); i++) {
                         TeamButton teamButton = new TeamButton();
                         teamButton.setTeam(group.getTeams().get(i));
-                        teamButton.removeName();
-                        hBox.getChildren().add(teamButton);
-                        hBox.setPrefWidth(5);
+                        teamButton.changeToGroupButton();
+                        teamButton.setMaxHeight(30);
+                        teamButton.setStyle("-fx-background-color: Transparent");
+                        vBox.getChildren().add(teamButton);
+                        //vBox.setPrefWidth(5);
                 }
-                hBox.setSpacing(50);
-                hBox.setAlignment(Pos.CENTER);
-
-                return hBox;
+                vBox.setAlignment(Pos.BOTTOM_CENTER);
+                return vBox;
         }
 
         /**
@@ -132,14 +142,15 @@ public class GroupsPane extends GridPane {
 
                 table.getItems().addAll(TableViewHelper.getGroupList(group));
 
-                groupHeader.getColumns().addAll(TableViewHelper.getGroupCountry(),//Tableview  use the columns from the TableViewHelper class
+                groupHeader.getColumns().addAll(TableViewHelper.getButtonColumn(),
+                        //Tableview  use the columns from the TableViewHelper class
                         TableViewHelper.getGroupWinsColumn(), TableViewHelper.getGroupDrawsColumn(),
                         TableViewHelper.getGroupLossesColumn(), TableViewHelper.getGAColumn(),
                         TableViewHelper.getGFColumn(), TableViewHelper.getGDColumn(),
                         TableViewHelper.getPointsColumn());
 
                 table.getColumns().addAll(groupHeader);
-                 table.setFixedCellSize(25);//cell size
+                table.setFixedCellSize(30);//cell size
                 table.prefHeightProperty().bind(
                         Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(55));
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

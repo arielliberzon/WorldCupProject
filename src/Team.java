@@ -64,7 +64,7 @@ public class Team implements Comparable<Team> {
             logo = new Image("TeamLogos/" + countryCode.toLowerCase() + ".png");
         }
         catch (Exception e) {
-            showError(new Exception("Can't find "+e.getMessage(),e),true);
+            WorldCupGUI.showError(new Exception("Can't find "+e.getMessage(),e),true);
         }
     }
 
@@ -378,28 +378,6 @@ public class Team implements Comparable<Team> {
 
         return 1;
     };
-    /**
-     * @author Harjit Singh
-     * The Exception handler
-     * Displays a error message to the user
-     * and if the error is bad enough closes the program
-     * @param fatal true if the program should exit. false otherwise
-     */
-    private void showError(Exception e,boolean fatal){
-        String msg = e.getMessage();
-        if(fatal){
-            msg = msg + " \n\nthe program will now close";
-        }
-        Alert alert = new Alert(Alert.AlertType.ERROR,msg);
-        alert.setResizable(true);
-        alert.getDialogPane().setMinWidth(420);
-        alert.setTitle("Error");
-        alert.setHeaderText("something went wrong");
-        alert.showAndWait();
-        if(fatal){
-            System.exit(666);
-        }
-    }
     //Remaining getters and setters do not make sense, so are not included on purpose.
 }
 

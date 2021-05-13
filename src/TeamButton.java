@@ -1,6 +1,7 @@
 import java.util.Objects;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -166,15 +167,20 @@ public class TeamButton extends Button{
         return flag;
     }
 
-    public void removeName(){
-        this.setText("");
+    public void changeToGroupButton(){
+        this.setStyle("-fx-background-color: TRANSPARENT");
+        this.setAlignment(Pos.CENTER);
+        this.setPadding(new Insets(0,0,0,0));
     }
     
 
     /**
      * @author Shane Callahan
-     * Displays the teams that the team has done, also uses getGameOrder, ticking down to display the teams in the proper order, top being "most recent" game
-     * Displays it using the method showMessageDialog, which opens up another stage, displaying the beatiful Pane that Ariel made
+     * Displays the teams that the team has done, also uses getGameOrder,
+     * ticking down to display the teams in the proper order, top being
+     * "most recent" game. Displays it using the method showMessageDialog,
+     * which opens up another stage, displaying the beatiful Pane that
+     * Ariel made
      */
     private final EventHandler<MouseEvent> displayTheGames = mouseEvent -> {
         TeamButton button = (TeamButton) mouseEvent.getSource();
