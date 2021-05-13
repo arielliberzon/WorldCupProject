@@ -19,8 +19,8 @@ public class Simulator {
     // The 32 participating teams.
     private ArrayList<Team> worldCupTeams;
 
-    //TeamInfo object to get the teams info
-    private TeamInfo teamInfo;
+    //TournamentInfo object to get the teams info
+    private TournamentInfo teamInfo;
 
     //List of games played in the round of 16
     private ArrayList<Game> roundOf16Games;
@@ -38,7 +38,7 @@ public class Simulator {
      * Default constructor: Constructs a simulator, gets the world cup teams, and simulates the group stage
      */
     public Simulator() {
-        teamInfo = new TeamInfo();
+        teamInfo = new TournamentInfo();
         worldCupTeams = new ArrayList<>();
         setQualifiedTeams(teamInfo);                    // This loads  worldCupTeams field.
         simulateGroups();
@@ -297,7 +297,7 @@ public class Simulator {
      * This method is used to simulate the Qualifiers. Each confederation will have their respective number of group
      * stage slots. Each arraylist is filled up by the method getQualified().
      */
-    public void setQualifiedTeams(TeamInfo teamInfo) {
+    public void setQualifiedTeams(TournamentInfo teamInfo) {
 
         ArrayList<Team> output = new ArrayList<>();
 

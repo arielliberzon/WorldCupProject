@@ -21,7 +21,9 @@ public class JsoupTester {
             System.out.println(teamRank.get(i).text());
             System.out.println(teamNames.get(i).child(0).text());
             System.out.println(teamNames.get(i).child(1).text());
-            System.out.println(teamConf.get(i).text());
+            String confederation = teamConf.get(i).text();
+            confederation = confederation.substring(1, confederation.length() - 1);
+            System.out.println(confederation);
             System.out.println(teamPoints.get(i).text()+"\n");
         }
 
